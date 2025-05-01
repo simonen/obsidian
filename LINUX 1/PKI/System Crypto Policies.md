@@ -9,11 +9,11 @@ tags:
 Manage the policies available to the various cryptographic back-ends.
 
 FILES
-`/etc/crypto-policies/config`
-`/etc/crypto-policies/back-ends`
-`/etc/crypto-policies/local.d`
-`/etc/crypto-policies/state/current`
-`/etc/crypto-policies/state/CURRENT.pol`
+- `/etc/crypto-policies/config`
+- `/etc/crypto-policies/back-ends`
+- `/etc/crypto-policies/local.d`
+- `/etc/crypto-policies/state/current`
+- `/etc/crypto-policies/state/CURRENT.pol`
 
 To check the current system wide cryptographic policy profile
 
