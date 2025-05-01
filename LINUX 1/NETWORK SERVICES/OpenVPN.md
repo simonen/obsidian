@@ -26,12 +26,12 @@ Virtual network interfaces built into the Linux Kernel. Specified in the client 
 #### Installing Server and Client OpenVPN
 
 Packages:
-`epel-release` (repo)
-`openvpn`: provides client and server functionality
-`NetworkManager-openvpn-gnome`: for GNOME systems
+- `epel-release` (repo)
+- `openvpn`: provides client and server functionality
+- `NetworkManager-openvpn-gnome`: for GNOME systems
 
 Sample configurations:
-`/usr/share/doc/openvpn/sample`
+* `/usr/share/doc/openvpn/sample`
 
 #### Setting up a Connection Test
 
@@ -112,8 +112,8 @@ cipher AES-256-CBC
 ```
 
 Start the connection on both, server and client
-`openvpn /etc/openvpn/server.conf`
-`openvpn /etc/openvpn/client.conf`
+- `openvpn /etc/openvpn/server.conf`
+- `openvpn /etc/openvpn/client.conf`
 
 This type of connection is limited to two hosts only
 
@@ -189,17 +189,10 @@ The location of the certificates on the machines is not strict and is defined in
 The .req files are no longer necessary
 
 **HBAC**: verifies the integrity of messages
-.**req**: signing requests
-.**crt**: public keys
-**.key**: private keys
-
-`certificate`: a signed request by a CA, contains public key and CA's digital signature
-`signing request`: contains a public key and the digital signature of the private key
-
 #### Creating and Testing Server and Client Connections
 
 Sample conf files:
-`/usr/share/doc/openvpn/sample/sample-config-files`
+- `/usr/share/doc/openvpn/sample/sample-config-files`
 
 >No `openvpn` daemons should be running
 
@@ -277,17 +270,16 @@ tls-auth /etc/openvpn/ta.key 1
 cipher AES-256-GCM
 ```
 
-`server NETWORK MASK`: server will take the first address of the network pool and assign the rest to incoming VPN connections
-`tls-auth`: 0 for the server, 1 for the client
-`keepalive`: (ping every N seconds) (wait for response seconds)
-`verb [0-11]` : verbosity level, 0 = no logging
-`user/group [USER]`: user/group to run openvp as. 
-`persist [tun/key]`: allow OpenVPN to retain sufficient privileges to work with the network and SSL after the privilege drop.
+- `server NETWORK MASK`: server will take the first address of the network pool and assign the rest to incoming VPN connections
+- `tls-auth`: 0 for the server, 1 for the client
+- `keepalive`: (ping every N seconds) (wait for response seconds)
+- `verb [0-11]` : verbosity level, 0 = no logging
+- `user/group [USER]`: user/group to run openvp as. 
+- `persist [tun/key]`: allow OpenVPN to retain sufficient privileges to work with the network and SSL after the privilege drop.
 
 To stat the VPN connection on both, server and client
 
-`openvpn /etc/openvpn/server.conf `
-`openvpn /etc/openvpn/client.conf`
+- `openvpn /etc/openvpn/{server|client}.conf `
 #### Routing
 
 Route traffic from one internal network to another through the tunnel
@@ -494,14 +486,14 @@ openvpn --show-curves
 openssl ecparam -list_curves
 ```
 
-`opt-verify`: ( server ) checks for compatibility between server and client settings, and disconnects clients that do not match. Checks:
+- `opt-verify`: ( server ) checks for compatibility between server and client settings, and disconnects clients that do not match. Checks:
 	`dev-type, link-mtu, tun-mtu, proto, ifconfig, comp-lzo, fragment, keydir, cipher, auth, keysize, secret, no-replay, no-iv, tls-auth, key-method, tls-server, tls-client`
-`tls-server`: on the server, works with `tls-client` on the client
-`remote-cert-tls server` : ( client ) Ensures the server's certificate is properly validated. Adds an extra layer of security by ensuring the OpenVPN client connects only to legitimate server. During handshake. Requires critical key usage extensions in the certificate. NOT TESTED!
-`remote-cert-tls client`: used in the OpenVPN server to ensure that the client certificates have the correct key usage during the handshake.  Requires critical key usage extensions in the certificate.
-`ecdh-curve secp384r1`: Explicitly set an elliptic curve
-`dh none`: Disable DH for handshake negotiation. Use ECDHE instead.
-`verify-client-cert require`
+- `tls-server`: on the server, works with `tls-client` on the client
+- `remote-cert-tls server` : ( client ) Ensures the server's certificate is properly validated. Adds an extra layer of security by ensuring the OpenVPN client connects only to legitimate server. During handshake. Requires critical key usage extensions in the certificate. NOT TESTED!
+- `remote-cert-tls client`: used in the OpenVPN server to ensure that the client certificates have the correct key usage during the handshake.  Requires critical key usage extensions in the certificate.
+- `ecdh-curve secp384r1`: Explicitly set an elliptic curve
+- `dh none`: Disable DH for handshake negotiation. Use ECDHE instead.
+- `verify-client-cert require`
 `auth sha[128|256|512]`:   bit message hash 'SHA256' for HMAC authentication
 
 [Man-in-the-middle attacks and client-server verifications](https://openvpn.net/community-resources/how-to/#mitm)
@@ -542,19 +534,19 @@ Users can be disallowed from saving passwords, SELinux, chroot
 To specify a subnet that should not be routed through the VPN, in the client profile.
 
 ```
-route NETWORK SUBNET_MASK net_gateway
+route NETWORK MASK net_gateway
 ```
 
 `port-share localhost 80`: allows requests coming in on port 1194 to be redirected to port 80 on the localhost. This only works with tcp
 
 #### Other Configuration Directives
 
-`client-to-client`: allows VPN endpoints to "see" each other.
-`resolv-retry infinite`
-`ifconfig-pool-persist ipp.txt [refresh interval]` : used to persistently assign IP addresses to VPN clients.
+- `client-to-client`: allows VPN endpoints to "see" each other.
+- `resolv-retry infinite`
+- `ifconfig-pool-persist ipp.txt [refresh interval]` : used to persistently assign IP addresses to VPN clients.
 	When a client connects, the VPN server assigns it an IP address from the predefined pool in the `server` directive. The `ipp.txt` OpenVPN manages IP-to-client mapping automatically in this file. NOT WORKING!
-`float`:  ( in server conf only ) allows clients to roam on different networks without losing connection, as long as they pass authentication tests
-`mute 20`: limits the number of repetitive log messages. Suppress the first N occurrences of the same msg
-`explicit-exit-notify 1`: ensures proper connection cleanup, helping the server recognize the client has intentionally disconnected, allowing it to manage resources more efficiently
-`nobind`: prevents the client from binding to a specific local port, allowing the system to assign a random, available port for outgoing traffic. Good for avoiding port conflicts, when running multiple VPN connections or when network conf is dynamic
-`comp-lzo`: deprecated. Compression is discouraged
+- `float`:  ( in server conf only ) allows clients to roam on different networks without losing connection, as long as they pass authentication tests
+- `mute 20`: limits the number of repetitive log messages. Suppress the first N occurrences of the same msg
+- `explicit-exit-notify 1`: ensures proper connection cleanup, helping the server recognize the client has intentionally disconnected, allowing it to manage resources more efficiently
+- `nobind`: prevents the client from binding to a specific local port, allowing the system to assign a random, available port for outgoing traffic. Good for avoiding port conflicts, when running multiple VPN connections or when network conf is dynamic
+- `comp-lzo`: deprecated. Compression is discouraged
