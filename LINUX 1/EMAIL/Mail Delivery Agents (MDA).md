@@ -102,8 +102,7 @@ chmod 0600 /home/'USER'/mail/'MAILBOX'
 
 Change the mailbox hierarchy separator. Adding mailboxes here will create them by default for each user.
 
-In `/etc/dovecot/conf.d/10-mail.conf` 
-
+`/etc/dovecot/conf.d/10-mail.conf` 
 ```
 namespace inbox {
 	inbox = yes
