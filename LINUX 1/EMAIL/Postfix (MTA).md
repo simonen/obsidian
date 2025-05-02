@@ -13,18 +13,17 @@ Postfix is a Mail Transport Agent (MTA), supporting LDAP, SMTP AUTH (SASL), TLS
 Package
 **postfix**
 
-Ports 25, 465, 587
+Ports: 25, 465, 587
 
 #### Files and Directories
 
 Configuration files
-**/etc/postfix/main.cf** - postfix parameters
-**/etc/postfix/master.cf** - conf file the master postfix process uses to find out which services are used for specific tasks. Controls how clients connect to the mail server.
+- `/etc/postfix/main.cf` - postfix parameters
+- `/etc/postfix/master.cf` - conf file the master postfix process uses to find out which services are used for specific tasks. Controls how clients connect to the mail server.
 
-**/var/spool/postfix**: queue directory
-
-/usr/share/doc/postfix-2.10.1/samples
-/var/log/maillog: postfix logs
+- `/var/spool/postfix`: queue directory
+- `/usr/share/doc/postfix-2.10.1/samples`
+- `/var/log/maillog`: postfix logs
 ##### Processes
 
 - **smtpd:** Receives emails from the network.
@@ -208,15 +207,15 @@ By default, local users can exchange emails on the same postfix server only, as 
 
 Minimal postfix setup
 
-> [!NOTE]+ /etc/postfix/main.cf
-> ```
-> mydomain = 'DOMAIN'
-> myorigin = $mydomain
-> inet_interfaces = localhost | IP address | loopback-only | all
-> inet_protocols = [ipv4 | ipv6 | all] 
-> mydestination = \$myhostname, localhost.$mydomain, localhost, $mydomain
-> my_networks = "NET1" "NET2" - to include client networks if not on the same net as server
-> ```
+`/etc/postfix/main.cf`
+```
+mydomain = 'DOMAIN'
+myorigin = $mydomain
+inet_interfaces = localhost | IP address | loopback-only | all
+inet_protocols = [ipv4 | ipv6 | all] 
+mydestination = \$myhostname, localhost.$mydomain, localhost, $mydomain
+my_networks = "NET1" "NET2" - to include client networks if not on the same net as server
+```
 
 #### Testing connectivity to an SNMP Server
 
@@ -256,7 +255,7 @@ openssl s_client -starttls smtp -connect smtp.6circles.cc:25 < smtp-commands.txt
 #### Basic Mail Troubleshooting
 
 Postfix and Dovecot log files
-**/var/log/maillog**
+- `/var/log/maillog`
 
 To check the mail queue
 
@@ -291,43 +290,50 @@ postconf -a
 
 In this case SASL can be configured with cyrus or dovecot. The SASL plug-in type is selected with the `smtpd_sasl_type` configuration parameter
 
-> [!NOTE]+ /etc/postfix/main.cf
-> ```
-> smtpd_sasl_auth_enable = yes 
-> smtpd_sasl_type = dovecot 
-> smtpd_sasl_path = private/auth !! local auth socket. inet:DOVECOT_SERVER if dovecot is remote
-> smtpd_sasl_security_options = noanonymous 
-> smtpd_sasl_local_domain = 
-> broken_sasl_auth_clients = yes
-> # use authentication only if tls is enabled
-> smtpd_tls_auth_only = yes 
-> ```
+`/etc/postfix/main.cf`
+```
+smtpd_sasl_auth_enable = yes 
+smtpd_sasl_type = dovecot
+# local auth socket !
+smtpd_sasl_path = private/auth
+# if dovecot is remote
+smtpd_sasl_path = inet:DOVECOT_SERVER
 
-> [!NOTE] /etc/dovecot/conf.d/10-auth.conf
-> ```
-> auth_mechanisms = plain login
-> ```
+smtpd_sasl_security_options = noanonymous 
+smtpd_sasl_local_domain = 
+broken_sasl_auth_clients = yes
+# use authentication only if tls is enabled
+smtpd_tls_auth_only = yes 
+```
 
-> [!NOTE]+ /etc/dovecot/conf.d/10-master.conf
-> ```
-> service auth {
-> 
->   # Postfix smtp-auth
->     unix_listener /var/spool/postfix/private/auth {
->     mode = 0666
->     user = postfix
->     group = postfix
->   }
-> }
-> ```
+
+`/etc/dovecot/conf.d/10-auth.conf`
+```
+auth_mechanisms = plain login
+```
+
+`/etc/dovecot/conf.d/10-master.conf`
+```
+service auth {
+
+   # Postfix smtp-auth
+     unix_listener /var/spool/postfix/private/auth {
+     mode = 0666
+     user = postfix
+     group = postfix
+   }
+ }
+```
 
 `unix-listener`: the socket that provides the connection between **postfix** and **dovecot**. The user and group directives set the ownership of the socket. Defaults to root if not specified.
 
 ``` bash
-[root@smtp private]# ls -l /var/spool/postfix/private/auth
-srw-rw-rw-. 1 postfix postfix 0 Sep  9 15:07 /var/spool/postfix/private/auth
+ls -l /var/spool/postfix/private/auth
 ```
 
+```
+srw-rw-rw-. 1 postfix postfix 0 Sep  9 15:07 /var/spool/postfix/private/auth
+```
 Testing SASL-enabled SMTP connections requiring starttls
 
 ``` bash
@@ -406,31 +412,30 @@ The following shows an unsuccessful authentication attempt.
  mail postfix/smtpd[4891]: disconnect from smtp.6circles.cc[192.168.137.2] ehlo=2 starttls=1 auth=0/1 quit=1 commands=4/5
 ```
 
-`ehlo=2`: The client issued the **EHLO** command twice
-``starttls=1``: The client issued the **STARTTLS** command once and successfully upgraded the connection to use TLS.
-``auth=0/1``: The client attempted to authenticate but did **not successfully complete authentication**. The format `auth=0/1` means zero successful attempts out of one authentication
+- `ehlo=2`: The client issued the **EHLO** command twice
+- ``starttls=1``: The client issued the **STARTTLS** command once and successfully upgraded the connection to use TLS.
+- ``auth=0/1``: The client attempted to authenticate but did **not successfully complete authentication**. The format `auth=0/1` means zero successful attempts out of one authentication
 #### Secure SMTP with Encryption
 
 https://www.postfix.org/TLS_README.html
-
 
 S/MIME - content-based encryption solution. PGP, GnuPG
 
 [[LINUX/PKI/OpenSSL#Generate a Self-Signed Certificate]] 
 
-> [!NOTE]+ /etc/postfix/main.cf
-> ```
-> smtpd_use_tls = yes
-> smtp_use_tls = yes
-> smtpd_tls_cert_file = /etc/postfix/ssl-cert-snakeoil.pem
-> smtpd_tls_key_file = /etc/postfix/ssl-cert-snakeoil.key
-> 
-> smtpd_tls_security_level = may
-> smtpd_tls_loglevel = 1
-> smtp_tls_loglevel = 1
-> smtpd_tls_received_header = yes
-> smtpd_tls_protocols = TLSv1.2 TLSv1.3
-> ```
+`/etc/postfix/main.cf`
+```
+smtpd_use_tls = yes
+smtp_use_tls = yes
+smtpd_tls_cert_file = /etc/postfix/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/postfix/ssl-cert-snakeoil.key
+
+smtpd_tls_security_level = may
+smtpd_tls_loglevel = 1
+smtp_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_protocols = TLSv1.2 TLSv1.3
+```
 
 Check the server's supported TLS protocol versions with nmap and adjust the `smtpd_tls_procols` directive accordingly.
 #### Test SASL with TLS
@@ -485,10 +490,10 @@ postmaster
 
 `Maildir` - stores emails in different files in a directory. This allows multiple processes to interact with the mailbox without risking conflicts and corruption.
 
-> [!NOTE]+ /etc/postfix/main.cf
-> ```
+`/etc/postfix/main.cf`
+```
 home_mailbox = Maildir/
-> ```
+```
 
 This creates a Maildir/ dir in the user's home dir with the following structure
 
@@ -512,15 +517,15 @@ Custom folders like *Sent* for example are created with a . prefix.
 
 Dovecot side. Enable the stack
 
-> [!NOTE] /etc/dovecot/dovecot.conf
-> ```
+`/etc/dovecot/dovecot.conf`
+```
 protocols = lmtp imap pop3 submission
-> ```
+```
 
 Configure the Socket. Can be bound to INET and Unix sockets. 
 
-> [!NOTE] /etc/dovecot/conf.d/10-master.conf
-> ```
+`/etc/dovecot/conf.d/10-master.conf`
+```
 service lmtp {
   unix_listener /var/spool/postfix/private/dovecot-lmtp {
   mode = 0600
@@ -528,7 +533,7 @@ service lmtp {
   group = postfix
   }
 }
-> ```
+```
 
 LMTP uses the LHLO verb. To test the LMTP socket
 
@@ -546,19 +551,21 @@ LHLO localhost@domain.com
 
 Postfix side
 
-> [!NOTE] /etc/postfix/master.cf
-> ```
+`etc/postfix/master.cf`
+```
 lmtp      unix  -       -       n       -       -       lmtp
-> ```
+```
 
-Configure Postfix to use the lmtp socket for final delivery
+Configure Postfix to use the *lmtp* socket for final delivery
 
-> [!NOTE] /etc/postfix/main.cf
-> ```
-> mailbox_transport = lmtp:unix:/var/spool/postfix/private/dovecot-lmtp
-> or
-> virtual_transport = lmtp:unix:private/dovecot-lmtp
-> ```
+`/etc/postfix/main.cf`
+```
+mailbox_transport = lmtp:unix:/var/spool/postfix/private/dovecot-lmtp
+```
+or
+```
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+```
 
 [[gitea/LINUX 1/EMAIL/Mail Delivery Agents (MDA)#Mail Location]] - how to set up mail location
 
@@ -573,31 +580,32 @@ A **smarthost** is a relay server that receives and forwards email. Two types:
 * authenticated
 * unauthenticated
 
-> [!NOTE] /etc/postfix/main.cf
-> ```
-> relayhost = 'SMARTHOST_HOSTNAME'
-> ```
+`/etc/postfix/main.cf`
+```
+relayhost = 'SMARTHOST_HOSTNAME'
+```
 
-This tells postfix to send all outgoing e-mail to the smarthost (relayhost), assuming that the smarthost is configured to accept e-mail from you.
+This tells postfix to send all outgoing e-mail to the *smarthost* (relayhost), assuming that the *smarthost* is configured to accept e-mail from you.
 
 ##### Smarthost authentication
 
-The relayhost acts as a client, therefore the configuration options are as follows:
+The *relayhost* acts as a client, therefore the configuration options are as follows:
 
-> [!NOTE] /etc/postfix/main.cf
-> ```
-> smtp_sasl_password_maps = hash:/etc/postfix/smtp_sasl_passwd 
-> smtp_sasl_auth_enable = yes 
-> smtp_sasl_mechanism_filter = plain, login 
-> smtp_sasl_security_options = noanonymous
-> ```
+`/etc/postfix/main.cf`
+```
+smtp_sasl_password_maps = hash:/etc/postfix/smtp_sasl_passwd 
+smtp_sasl_auth_enable = yes 
+smtp_sasl_mechanism_filter = plain, login 
+smtp_sasl_security_options = noanonymous
+```
 
-`smtp_sasl_password_maps` : specifies a database file containing a list of smarthosts and their required credentials
 
-> [!NOTE] /etc/postfix/smtp_sasl_passwd
-> ```
-> 'SMARTHOST'    username:password
-> ```
+`smtp_sasl_password_maps` : specifies a database file containing a list of *smarthosts* and their required credentials
+
+`/etc/postfix/smtp_sasl_passwd`
+```
+'SMARTHOST'    username:password
+```
 
 This must be readable only by the root.
 
@@ -613,28 +621,27 @@ postmap /etc/postfix/smtp_sasl_passwd
 
 The smtp server can be configured to be the final destination of multiple domains by using the `mydestination` configuration. This means that mail destined for user@example.com user@example.id and user@example.net will end up in the same Linux user's mailbox. This can be fixed by mapping `virtual domains` to users
 
-`mydestination = mail.example.com example.net example.id example.com`
-
-`canonical domains`: domains configured to be the final destination that include the hostname and often the domain of the postfix that runs on.
-`hosted domains`: the final destination of any other domains that are not directly associated with the name of the machine that Postfix runs on. Hosted domains are implemented with:
-* `virtual_alias_domain` class and/or
-* `virtual_mailbox_domain` address class
+- `mydestination = mail.example.com example.net example.id example.com`
+- `canonical domains`: domains configured to be the final destination that include the hostname and often the domain of the postfix that runs on.
+- `hosted domains`: the final destination of any other domains that are not directly associated with the name of the machine that Postfix runs on. Hosted domains are implemented with:
+	* `virtual_alias_domain` class and/or
+	* `virtual_mailbox_domain` address class
 
 If postfix gets email for the example.net, .id, .com, it should use an indexed file `/etc/postfix/virtual`, which contains the virtual domain:user mappings.
 
-> [!NOTE] /etc/postfix/main.cf
-> ```
-> virtual_alias_domains = example.net example.id example.com 
-> virtual_alias_maps = hash:/etc/postfix/virtual
-> ```
+`/etc/postfix/main.cf`
+```
+virtual_alias_domains = example.net example.id example.com 
+virtual_alias_maps = hash:/etc/postfix/virtual
+```
 
-> [!NOTE] /etc/postfix/virtual
-> ```
->gligana@6circles.cc gligana
+`etc/postfix/virtual`
+```
+gligana@6circles.cc gligana
 kimchen@6circles.cc kimchen
 kimchen@6circles.id taylor
 gligana@6circles.id chuguna
-> ```
+```
 
 Create the indexed file
 
@@ -685,31 +692,32 @@ chmod -R 700 /var/mail/vhosts
 
 > The virtual mailbox domain path is where Postfix delivers mail.
 
-Make sure to use the Maildir/ mailbox format.
+Make sure to use the `Maildir/` mailbox format.
 
-> [!NOTE] /etc/postfix/main.cf
-> ```
+`/etc/postfix/main.cf`
+```
 home_mailbox = Maildir/
-> ```
+```
+
 
 Configure Postfix to deliver the mail to the virtual boxes
 
-> [!NOTE] /etc/postfix/main.cf
-> ```
-> virtual_mailbox_domains = DOMAIN1 DOMAIN2
+`/etc/postfix/main.cf`
+```
+virtual_mailbox_domains = DOMAIN1 DOMAIN2
 virtual_mailbox_base = /var/mail/vhosts
 virtual_mailbox_maps = hash:/etc/postfix/vmailbox
 virtual_minimum_uid = 100
 virtual_uid_maps = static:5000
 virtual_gid_maps = static:5000
-> ```
+```
 
 Map the email address to the virtual mailbox. Do not forget tne '/' otherwise postfix will look for a Maildir file. This is the place postfix delivers mail to
 
-> [!NOTE] /etc/postfix/vmailbox
-> ```
+`/etc/postfix/vmailbox`
+```
 USER@DOMAIN      DOMAIN/USER/Maildir/
-> ```
+```
 
 Create the indexed file
 
@@ -728,13 +736,13 @@ As virtual users, rather than Unix users, are gonna be used, disable PAM authent
 
 > The mail location on the MDA side is where Dovecot retrieves mail from
 
-> [!NOTE] /etc/dovecot/conf.d/10-mail.conf
-> ```
+`/etc/dovecot/conf.d/10-mail.conf`
+```
 mail_location = maildir:/var/mail/vhosts/%d/%n/Maildir
-> ```
+```
 
-%d: the domain part of the email address
-%n: the user part of the email address
+- `%d`: the domain part of the email address
+- `%n`: the user part of the email address
 
 > For the % variables to work, use the `user@domain` format for user authentications
 
@@ -742,18 +750,19 @@ Create the per-domain user and pass databases (stores) [passwd-file](https://doc
 
 Selinux context of the passwd file
 
-> [!NOTE] /var/mail/vhosts/DOMAIN/passwd
-> ```
-> imap_user:{SCHEME}user_password:5000:5000::/home/user::userdb_mail=maildir:/var/mail/vhosts/DOMAIN/Maildir allow_nets=192.168.0.0/24
+`/var/mail/vhosts/DOMAIN/passwd`
+```
+imap_user:{SCHEME}user_password:5000:5000::/home/user::userdb_mail=maildir:/var/mail/vhosts/DOMAIN/Maildir allow_nets=192.168.0.0/24
 smtp_user2:{SCHEME}user_password2:5001:5001::/home/smtp_user2
-> ```
+```
+
 
 The password scheme can be set to {plain}plain_password or hashed. For example {MD5}hashed_pa
 
 Configure Dovecot to use the new passwd db files for each domain dynamically. Due to SELinux blocking access to the passwd file, put them in /etc/dovecot/DOMAIN.passwd as a workaround
 
-> [!NOTE] /etc/dovecot/conf.d/auth-passwd.conf.ext
-> ```
+`/etc/dovecot/conf.d/auth-passwd.conf.ext`
+```
 passdb {
   driver = passwd-file
   args = /var/mail/vhosts/%d/passwd
@@ -764,7 +773,7 @@ userdb {
   args = /var/mail/vhosts/%d/passwd
   args = /etc/dovecot/%domain.passwd
   }
-> ```
+```
 
 Additional userdb args can be included
 
@@ -838,8 +847,8 @@ Sep 22 13:02:19 mail dovecot[3064]: auth: Debug: passwd-file(postuser@ohio.net,1
 #### SQL and Virtual Domains and Users
 
 **Packages:**
-postfix-mysql
-dovecot-mysql
+`postfix-mysql`
+`dovecot-mysql`
 
 The data-base driven virtual mailbox domains work similarly to the standard indexed (hash) lookup tables, which in this case act as SQL query constructors that retrieve info from the SQL db.
 
