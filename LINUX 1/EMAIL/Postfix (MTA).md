@@ -148,18 +148,18 @@ Sep 18 15:22:55 smtp postfix/local[17382]: B43F91075DF8: to=<kimchen@ohio.cc>, r
 
 ##### Essential Postfix Parameters 
 
-* **myorigin**: defines the domain that will be appended to any mail sent from the server where only the local part (username) is specified and the domain part is not. MAIL FROM: 'USERNAME' and RCPT TO: 'USERNAME' will result in email addresses USERNAME@$MYORIGIN. If the full email address is specified 'USER@DOMAIN', $myorigin is ignored. 
+* `myorigin`: defines the domain that will be appended to any mail sent from the server where only the local part (username) is specified and the domain part is not. MAIL FROM: 'USERNAME' and RCPT TO: 'USERNAME' will result in email addresses USERNAME@$MYORIGIN. If the full email address is specified 'USER@DOMAIN', $myorigin is ignored. 
 	* `$myhostname`: default options. Includes the hostname of the server. 
 	* `$mydomain`: uses the domain part of the server only which is the correct way.
-* **mydestination**: domains handled by this server. The mail server will only accept mail that is configured for the domains listed here. Mail addressed to a domain not listed in mydestination is rejected. Important for receiving messages. 
-* **relayhost**: specifies which central email server to forward messages to. Central mail server with advanced security.
+* `mydestination`: domains handled by this server. The mail server will only accept mail that is configured for the domains listed here. Mail addressed to a domain not listed in mydestination is rejected. Important for receiving messages. 
+* `relayhost`: specifies which central email server to forward messages to. Central mail server with advanced security.
 * `local_transport`: specifies what to use for local mail delivery. 
-* **inet_protocols**: specifies which protocol to use to offer services. Defaults to IPv6.
-* **mynetworks**: space-separated list of networks allowed to relay messages to server
-* **inet_interfaces**: interface on which Postfix will offer services. By default is set to localhost. Set to **all** or a specific listening interface.
+* `inet_protocols`: specifies which protocol to use to offer services. Defaults to IPv6.
+* `mynetworks`: space-separated list of networks allowed to relay messages to server
+* `inet_interfaces`: interface on which Postfix will offer services. By default is set to localhost. Set to **all** or a specific listening interface.
 ##### Configuring Postfix
 
-Alternatively to editing the main.cf file, the **postconf** command can be used to change parameters.
+Alternatively to editing the `main.cf` file, the `postconf` command can be used to change parameters.
 
 List the parameters in **/etc/postfix/main.cf**
 

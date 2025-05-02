@@ -10,16 +10,16 @@ www.doc.dovecot.org - Official documentation
 
 Dovecot is a secure IMAP and POP3 server
 
-Packages
+Packages: 
 **dovecot**
 
 Ports **110**: POP3, **995**: POPS3, **143**: IMAP, **993**: IMAPS
 
 Main config file
-**/etc/dovecot/dovecot.conf**
+- `/etc/dovecot/dovecot.conf`
 
 Various config files
-**/etc/dovecot/conf.d**
+- `/etc/dovecot/conf.d`
 
 ##### Basic Dovecot Configuration
 
@@ -27,43 +27,41 @@ https://doc.dovecot.org/2.3/configuration_manual/authentication/
 
 Authentication mechanisms are controlled by
 
->[!NOTE] /etc/dovecot/conf.d/10-auth.conf
->```
->disable_plaintext_auth = no
->auth_mechanisms = plain login
->!include auth-system.conf.ext
->```
+`/etc/dovecot/conf.d/10-auth.conf`
+```
+disable_plaintext_auth = no
+auth_mechanisms = plain login
+!include auth-system.conf.ext
+```
 
 PLAIN should be used only when paired with TLS. 
 `auth-system.conf.ext` : specify authentication service (store). This is for Unix users authentication using the passwd db.
 
->[!NOTE] /etc/dovecot/conf.d/auth-system.conf.ext
->```
->passdb {
->	driver = pam
->	#args = dovecot
->}
->userdb {
->	driver = passwd
->}
->```
+`/etc/dovecot/conf.d/auth-system.conf.ext`
+```
+passdb {
+	driver = pam
+	#args = dovecot
+}
+userdb {
+	driver = passwd
+}
+```
 
-Dovecot looks for a PAM service definition 'dovecot' in /etc/pam.d/ dir.
+Dovecot looks for a PAM service definition 'dovecot' in `/etc/pam.d/` dir.
 
-> [!NOTE] /etc/pam.d/dovecot
-> 
-> ```
-> auth       required     pam_nologin.so
-> auth       include      password-auth
-> account    include      password-auth
-> session    include      password-auth
-> ```
-> 
+`/etc/pam.d/dovecot`
+```
+auth       required     pam_nologin.so
+auth       include      password-auth
+account    include      password-auth
+session    include      password-auth
+```
 
-> [!NOTE] /etc/dovecot/conf.d/10-ssl.conf
-> ```
-> ssl = yes # enabled but not required
-> ```
+`/etc/dovecot/conf.d/10-ssl.conf`
+```
+ssl = yes # enabled but not required
+```
 
 Test the dovecot configuration. Works similarly to the `postconf` command
 
@@ -73,8 +71,7 @@ doveconf
 
 #### Mail Location and Mailboxes
 
-In /etc/dovecot/conf.d/10-mail.conf
-
+`/etc/dovecot/conf.d/10-mail.conf`
 ```
 mail_location = mbox:~/mbox:INBOX=/var/mail/%u
 mail_access_groups = mail
@@ -121,8 +118,11 @@ namespace inbox {
 
 `auto = subscribe` = automatically show the custom mailbox folder under **Inbox** in the mail client
 
+```bash
+doveadm mailbox list -u kimchen
 ```
-[kimchen@smtp mail]$ doveadm mailbox list -u kimchen
+
+```
 INBOX
 INBOX/Spam
 INBOX/Junk
@@ -141,19 +141,19 @@ Post Office Protocol downloads emails from the server (MTA). It is configured as
 
 The Postfix is an outgoing connection server.
 
-POP3 is enabled by the protocols setting in /etc/dovecot/dovecot.conf
+Enable POP3
 
-> [!NOTE] /etc/dovecot/dovecot.conf
-> ```
-> protocols = pop3 imap lmtp
-> ```
+`/etc/dovecot/dovecot.conf`
+```
+protocols = pop3 imap lmtp
+```
 
 Allow only one POP3 session to run simultaneously for the same user.
 
-> [!NOTE] /etc/dovecot/conf.d/20-pop3.conf
-> ```
-> pop3_lock_session = yes
-> ```
+`/etc/dovecot/conf.d/20-pop3.conf`
+```
+pop3_lock_session = yes
+```
 
 Test the POP3 connection with telnet
 
@@ -225,10 +225,10 @@ Test IMAP connection with telnet
 
 Make sure IMAP is enabled and port 143 is allowed through the firewall
 
-> [!NOTE] /etc/dovecot/dovecot.conf
-> ```
-> protocols = imap lmtp
-> ```
+`/etc/dovecot/dovecot.conf`
+```
+protocols = imap lmtp
+```
 
 ```
 telnet IMAP_SERVER 143
@@ -276,11 +276,11 @@ Port 993
 
 To encrypt incoming messages, the IMAPS is used
 
-> [!NOTE]+ /etc/dovecot/conf.d/10-ssl.conf
-> ```
-> ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
-> ssl_key = </etc/pki/dovecot/private/dovecot.pem
-> ```
+`/etc/dovecot/conf.d/10-ssl.conf`
+```
+ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
+ssl_key = </etc/pki/dovecot/private/dovecot.pem
+```
 
 Test IMAPS over TLS
 
@@ -296,12 +296,12 @@ dovecot: imap-login: Login: user=<kimchen>, method=PLAIN, rip=10.0.3.82, lip=10.
 
 In case of problems, disable weak ciphers
 
-```
+```bash
 openssl s_client -connect smtp.6circles.cc:993 -cipher 'HIGH:!aNULL:!MD5' -tls1_2 -CAfile /path/to/certificate.pem
 ```
 #### Dovecot Administration with doveadm
 
-man **doveadm**
+man doveadm
 
 Test a virtual user authentication
 
@@ -355,5 +355,5 @@ mail    maildir:/var/mail/vhosts/ohio.net/kibuna/Maildir
 #### Troubleshooting
 
 Authentication debugging
-`/etc/dovecot/conf.d/10-logging.conf`
+- `/etc/dovecot/conf.d/10-logging.conf`
 
