@@ -494,7 +494,7 @@ openssl ecparam -list_curves
 - `ecdh-curve secp384r1`: Explicitly set an elliptic curve
 - `dh none`: Disable DH for handshake negotiation. Use ECDHE instead.
 - `verify-client-cert require`
-`auth sha[128|256|512]`:   bit message hash 'SHA256' for HMAC authentication
+- `auth sha[128|256|512]`:   bit message hash 'SHA256' for HMAC authentication
 
 [Man-in-the-middle attacks and client-server verifications](https://openvpn.net/community-resources/how-to/#mitm)
 

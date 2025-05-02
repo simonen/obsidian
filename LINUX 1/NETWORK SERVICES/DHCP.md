@@ -7,26 +7,27 @@ tags:
 Dynamic Host Configuration Protocol
 
 Packages
-`dhcp-server`
+- `dhcp-server`
 
 Service
-`dhcpd` (CentOS)
-`isc-dhcps-server` (Ubuntu)
+- `dhcpd` (CentOS)
+- `isc-dhcps-server` (Ubuntu)
 
 Ports **67, 68 UDP** for IPv4
+
 Ports **547 UDPv6** for IPv6
 
 #### Files and Directories
 
 Main configuration files
-`/etc/dhcp/dhcpd.conf`
-`/etc/dhcp/dhcpd6.conf`
+- `/etc/dhcp/dhcpd.conf`
+- `/etc/dhcp/dhcpd6.conf`
 
 Sample configuration files
-**/usr/share/doc/dhcp-4.2.5/**
+- `/usr/share/doc/dhcp-4.2.5/`
 
 Leases file
-**/var/lib/dhcpd/dhcpd.leases**
+- `/var/lib/dhcpd/dhcpd.leases`
 
 Before starting the **dhcpd.service**, the server must have at least one configured subnet to lease IP addresses to and an active interface in that subnet. The server will automatically start listening on any interface if its IP address fall within the defined subnets in the conf file.
 
@@ -94,13 +95,12 @@ subnet ... {
 	max-lease-time SECONDS;
 	}
 }
-
 ```
 #### DHCP Clients
 
 man dhclient
 
-/etc/dhcp/dhclient.conf
+`/etc/dhcp/dhclient.conf``
 
 To release an a DHCP configuration. No interface applies the command on all interfaces.
 
@@ -126,10 +126,10 @@ dhclient -v -H "HOSTNAME" "INTERFACE"
 
 Another way
 
-> [!NOTE]+ /etc/dhcp/dhclient.conf
-> ```
-> send host-name "HOSTNAME";
-> ```
+`/etc/dhcp/dhclient.conf`
+```
+send host-name "HOSTNAME";
+```
 
 Another way
 
@@ -150,15 +150,13 @@ May 13 21:05:44 delphos.olympus.local named[18937]: client @0x7f5fdee53160 10.0.
 #### DHCP and DNS Dynamic Update
 
 Package
-**bind-utils** 
+- `bind-utils `
 
 man **nsupdate**
 
 **nsupdate** - Dynamic DNS update utility
 
 DHCP servers must be able to update the DNS records when changing IP addresses. 
-
-
 
 Requirements
 1. `ddns-update-style interim | standard`
@@ -195,10 +193,10 @@ Requirements
 > ```
 
 **ddns-update-style**
-* interim: uses TXT records as DHCID associated with dns records
-* standard: uses RR as DHCID
+* `interim`: uses TXT records as DHCID associated with dns records
+* `standard`: uses RR as DHCID
 
-**ignore client-updates**: will not update existing records. 
+`ignore client-updates:` will not update existing records. 
 
 Changing DNS records can be achieved remotely by the **nsupdate** command. 
 

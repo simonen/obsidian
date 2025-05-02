@@ -16,15 +16,15 @@ TLS Security Guide: [SSL Labs](https://www.ssllabs.com/)
 
 **Key algorithm**
 
-`DSA`: Obsolete
-`EdDSA`: Not yet widely supported
-`RSA`: Good
-`ECDSA`: Good
+- `DSA`: Obsolete
+- `EdDSA`: Not yet widely supported
+- `RSA`: Good
+- `ECDSA`: Even better
 
 **Key size**
 
-`RSA 2048 bits`: Secure
-`ECDSA 256 bits`: Secure
+- `RSA 2048 bits`: Secure
+- `ECDSA 256 bits`: Secure
 
 **Passphrase**
 
@@ -517,68 +517,68 @@ Cipher suite *keywords* are the basic building block of cipher suite configurati
 
 **Group Keywords**
 
-**DEFAULT**: The default cipher list. Determined at compile time.
-**COMPLETEMENTOFDEFAULT**: 
-**ALL**: All cipher suites except the eNULL ciphers, which must be explicitly enabled.
-**COMPLEMENTOFALL**: The cipher suites not enabled by ALL, currently eNULL
-**HIGH**: Cipher suites with key lengths equal or larger than 128 bits
-**MEDIUM**: Some of the cipher suites using 128-bit encryption
-**LOW**: 64 or 56-bit encryption. Insecure
-**EXP, EXPORT**: 40 and 56-bit. Insecure
-**EXPORT40, EXPORT56**: Insecure
-**TLSv1.2, TLSv1.0, TLSv1. SSLv3, SSLv2**: These keywords do not affect protocol configuration. just the suites. 
+- **DEFAULT**: The default cipher list. Determined at compile time.
+- **COMPLETEMENTOFDEFAULT**: 
+- **ALL**: All cipher suites except the eNULL ciphers, which must be explicitly enabled.
+- **COMPLEMENTOFALL**: The cipher suites not enabled by ALL, currently eNULL
+- **HIGH**: Cipher suites with key lengths equal or larger than 128 bits
+- **MEDIUM**: Some of the cipher suites using 128-bit encryption
+- **LOW**: 64 or 56-bit encryption. Insecure
+- **EXP, EXPORT**: 40 and 56-bit. Insecure
+- **EXPORT40, EXPORT56**: Insecure
+- **TLSv1.2, TLSv1.0, TLSv1. SSLv3, SSLv2**: These keywords do not affect protocol configuration. just the suites. 
 
 Digest keywords select suites that use a particular digest algorithm. SHA256 selects all suites that rely on SHA256 
 
 **Digest Algorithm Keywords**
 
-**MD5**: Obsolete and Insecure
-**SHA, SHA1**: Insecure
-**SHA256, 384**
+- **MD5**: Obsolete and Insecure
+- **SHA, SHA1**: Insecure
+- **SHA256, 384**: Good enough
 
 **Authentication Keywords**
 
 **RSA** is widely used. **ECDSA** quickly catching up
 
-**aDH**: CSs using DH authentication. Obsolete
-**aDSS,DSS**: 
-**aECDH**: Removed in 1.1.0
-**aECDSA, ECDSA**
-**aNULL**: Cipher suites offering no authentication. Anonymous DH. Insecure
-**aRSA**: The certificates carry RSA keys
-**aPSK**: (Pre-Shared Key) authentication
-**aSRP**: (Secure Remote Password) authentication
+- **aDH**: CSs using DH authentication. Obsolete
+- **aDSS,DSS**: 
+- **aECDH**: Removed in 1.1.0
+- **aECDSA, ECDSA**
+- **aNULL**: Cipher suites offering no authentication. Anonymous DH. Insecure
+- **aRSA**: The certificates carry RSA keys
+- **aPSK**: (Pre-Shared Key) authentication
+- **aSRP**: (Secure Remote Password) authentication
 
 **Key Exchange Keywords**
 
 Key exchange keywords select suites based on the key exchange algorithm. Preferred names today are **DHE** and **ECDHE**. Other keywords are for backward compatibility
 
-**ADH**: Anonymous DH. Insecure
-**AECDH**: Anonymous ECDH. Insecure
-**DHE, EDH**: Cipher suites using ephemeral DH key agreement only
-**ECDHE, EECDH**: Cipher suites using ephemeral ECDH
-**kDHE, kEDH, DH**: Ephemeral DH key agreement + anonymous DH
-**kECDHE, kEECDH, ECDH**: Ephemeral ECDH key agreement + anonymous ECDH
-**kRSA, RSA**
-**kPSK, kECDHEPSK, kDHEPSK, kRSAPSK**: Suites using PSK key exchange
+- **ADH**: Anonymous DH. Insecure
+- **AECDH**: Anonymous ECDH. Insecure
+- **DHE, EDH**: Cipher suites using ephemeral DH key agreement only
+- **ECDHE, EECDH**: Cipher suites using ephemeral ECDH
+- **kDHE, kEDH, DH**: Ephemeral DH key agreement + anonymous DH
+- **kECDHE, kEECDH, ECDH**: Ephemeral ECDH key agreement + anonymous ECDH
+- **kRSA, RSA**
+- **kPSK, kECDHEPSK, kDHEPSK, kRSAPSK**: Suites using PSK key exchange
 
 **Cipher Keywords**
 
-**AES, AESCCM, AESCCM8, AESGCM**
-**ARIA, ARIA128, ARIA256**
-**CAMELIA CAMELIA128,256**: Obsolete
-**CHACHA20**
-**eNULL, NULL**: Insecure
-**IDEA**: Obsolete
-**SEED**: Obsolete
-**3DES, DES, IDEA, RC2, RC4**: Obsolete and Insecure
+- **AES, AESCCM, AESCCM8, AESGCM**
+- **ARIA, ARIA128, ARIA256**
+- **CAMELIA CAMELIA128,256**: Obsolete
+- **CHACHA20**
+- **eNULL, NULL**: Insecure
+- **IDEA**: Obsolete
+- **SEED**: Obsolete
+- **3DES, DES, IDEA, RC2, RC4**: Obsolete and Insecure
 
 GOST standard - relevant to the former Soviet countries
 
 **Miscellaneous Keywords**
 
-**@SECLEVEL**
-**@STRENGTH**
+- **@SECLEVEL**
+- **@STRENGTH**
 
 #### Building Cipher Suite Lists
 
@@ -624,9 +624,9 @@ OpenSSL comes with a benchmark tool
 openssl speed [-evp] [-multi '# of CORES'] [algo] [algo]
 ```
 
-`algo` can be more specific:
-`aes-128-cbc`: CBC is obsolete. use GCM
-`-evp`: enable hardware acceleration
+- `algo` can be more specific:
+- `aes-128-cbc`: CBC is obsolete. use GCM
+- `-evp`: enable hardware acceleration
 
 ```
                   sign    verify    sign/s verify/s
@@ -731,8 +731,8 @@ subjectKeyIdentifier   = hash
 
 Subordinate CAs need to be constrained, i.e., issue certificates for a subset of domain names and restricted uses.
 
-`pathlen`: specifies the maximum number of CAs that can appear below this one in a chain. A `pathlen` of zero means the CA cannot sign any sub-CA's, and can only sign end-entity certificates.
-`critical`: Reject the certificate if usage does not meet expectation.
+- `pathlen`: specifies the maximum number of CAs that can appear below this one in a chain. A `pathlen` of zero means the CA cannot sign any sub-CA's, and can only sign end-entity certificates.
+- `critical`: Reject the certificate if usage does not meet expectation.
 ##### Directory Structure
 
 ```
@@ -745,9 +745,9 @@ Subordinate CAs need to be constrained, i.e., issue certificates for a subset of
 └── private
 ```
 
-`certs`: New certificates will be placed here
-`private`: Stores the private keys, one for the CA and the other for the OCSP responder.
-`db`: Used for certificate database (index) and the files that hold the next certificate and CRL serial numbers
+- `certs`: New certificates will be placed here
+- `private`: Stores the private keys, one for the CA and the other for the OCSP responder.
+- `db`: Used for certificate database (index) and the files that hold the next certificate and CRL serial numbers
 
 > Initialize the certificate serial numbers with a random number generator. Useful when creating and deploying multiple CA certificates with the same dn
 
@@ -1082,8 +1082,8 @@ openssl s_client -connect www.feistyduck.com:443 -'PROTOCOL VERSION'
 ```
 
 Protocol versions:
-`tls1_2`, `tls1_3`, `ssl1...
-`-no_tls1`: To exclude a protocol
+- `tls1_2`, `tls1_3`, `ssl1...
+- `-no_tls1`: To exclude a protocol
 
 #### Testing Cipher Suite Configuration
 
@@ -1211,8 +1211,8 @@ Responder Error: unauthorized (6)
 **Nonce**: OpenSSL requests to use nonce as a protection against replay attacks, but the server did not reply with one. This might be disabled to increase performance of the OCSP responders. OCSP responses in this case can be produced in batch, cached and reused.
 
 Options:
-`-no_nonce`: Do not request a nonce 
-`-header Host 'OCSP.FQDN'`: Specify the hostname of the OCSP responder in the **Host** header if you encounter an error message that includes HTTP error code
+- `-no_nonce`: Do not request a nonce 
+- `-header Host 'OCSP.FQDN'`: Specify the hostname of the OCSP responder in the **Host** header if you encounter an error message that includes HTTP error code
 
 Final command
 
@@ -1366,4 +1366,3 @@ The command should fail if the server is configured correctly
 Call to SSL_CONF_cmd(-cipher, kEDH+EXPORT) failed
 00AE9300937F0000:error:0A0000B9:SSL routines:SSL_CTX_set_cipher_list:no cipher match:ssl/ssl_lib.c:3329:
 ```
-
