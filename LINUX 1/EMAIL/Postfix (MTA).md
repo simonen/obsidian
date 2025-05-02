@@ -10,7 +10,7 @@ tags:
 
 Postfix is a Mail Transport Agent (MTA), supporting LDAP, SMTP AUTH (SASL), TLS
 
-Package
+Packages: 
 **postfix**
 
 Ports: 25, 465, 587
@@ -153,7 +153,7 @@ Sep 18 15:22:55 smtp postfix/local[17382]: B43F91075DF8: to=<kimchen@ohio.cc>, r
 	* `$mydomain`: uses the domain part of the server only which is the correct way.
 * **mydestination**: domains handled by this server. The mail server will only accept mail that is configured for the domains listed here. Mail addressed to a domain not listed in mydestination is rejected. Important for receiving messages. 
 * **relayhost**: specifies which central email server to forward messages to. Central mail server with advanced security.
-* **local_transport**: specifies what to use for local mail delivery. 
+* `local_transport`: specifies what to use for local mail delivery. 
 * **inet_protocols**: specifies which protocol to use to offer services. Defaults to IPv6.
 * **mynetworks**: space-separated list of networks allowed to relay messages to server
 * **inet_interfaces**: interface on which Postfix will offer services. By default is set to localhost. Set to **all** or a specific listening interface.
