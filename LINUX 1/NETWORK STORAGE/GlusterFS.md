@@ -141,7 +141,7 @@ gluster volume start 'vol1'
 
 #### Mounting GlusterFS volumes
 
-Package
+Package: 
 `glusterfs-fuse`
 
 `man mount.glusterfs` (for mount options)
@@ -216,4 +216,3 @@ Brick rocky.ohio.cc:/data/brick1_r1/vol1    49152     0          Y       1472
 Brick vm1.ohio.cc:/data/brick1_r1/vol1      49152     0          Y       1803
 Brick vm1.ohio.cc:/data/brick1_r2/vol1      N/A       N/A        N       N/A
 ```
-

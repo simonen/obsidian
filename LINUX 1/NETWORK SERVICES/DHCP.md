@@ -29,32 +29,32 @@ Sample configuration files
 Leases file
 - `/var/lib/dhcpd/dhcpd.leases`
 
-Before starting the **dhcpd.service**, the server must have at least one configured subnet to lease IP addresses to and an active interface in that subnet. The server will automatically start listening on any interface if its IP address fall within the defined subnets in the conf file.
+Before starting the `dhcpd.service`, the server must have at least one configured subnet to lease IP addresses to and an active interface in that subnet. The server will automatically start listening on any interface if its IP address fall within the defined subnets in the conf file.
 
 Minimal configuration. The clients will get IP and subnet mask only.
 
-> [!NOTE]+  /etc/dhcp/dhcpd.conf
-> ```
-> subnet 10.0.3.64 netmask 255.255.255.192 {
->   range 10.0.3.80 10.0.3.92;
-> ```
+`/etc/dhcp/dhcpd.conf`
+```
+subnet 10.0.3.64 netmask 255.255.255.192 {
+  range 10.0.3.80 10.0.3.92;
+```
 
 Ubuntu: INTERFACE=*INTERFACE*. Listening interface must be declared for the service to start
 CentOS: Will listen on any interface associated with a subnet declaration in the .conf file
 
 More options. Use double quotes for strings.
-* option domain-name-servers: DNSERVER1, DNSERVER2;
-* option routers: DEFAULT_GATEWAY_ADDR;
-* option domain-name "DOMAIN_NAME";
-* option broadcast-address: 
-* option subnet-mask "SUBNET_MASK"
+* `option domain-name-servers DNSERVER1, DNSERVER2`: ;
+* `option routers DEFAULT_GATEWAY_ADDR` ;
+* `option domain-name "DOMAIN_NAME"`;
+* `option broadcast-address`: 
+* `option subnet-mask "SUBNET_MASK"`
 
 #### Static Lease Configurations
 
 > Statically assigned IP addresses must be outside defined IP ranges!
 
 Static configurations could be done by:
-1. binding a static IP address to a specified MAC address of the requesting client
+1. Binding a static IP address to a specified MAC address of the requesting client
 2. If a resolvable FQDN is given, the IP address is taken from its A record 
 
 Groups of hosts can be defined within a subnet
@@ -98,7 +98,7 @@ subnet ... {
 ```
 #### DHCP Clients
 
-man dhclient
+man `dhclient`
 
 `/etc/dhcp/dhclient.conf``
 
@@ -161,44 +161,44 @@ DHCP servers must be able to update the DNS records when changing IP addresses.
 Requirements
 1. `ddns-update-style interim | standard`
 2. Generate the keys with `dnssec-keygen`
-3. Add the DNS zone in the dhcpd.conf
-4. Add the key in dhcpd.conf
-5. Add the key in named.conf
-6. `allow-update` to the zone block in named.conf
+3. Add the DNS zone in the `dhcpd.conf`
+4. Add the key in `dhcpd.conf`
+5. Add the key in `named.conf`
+6. `allow-update` to the zone block in `named.conf`
 
-> [!NOTE]+ **/etc/named.conf**
-> ``` bash
-> options {
-> 	...
-> };
-> zone "ZONE" {
-> 	...
-> 	allow-update { "REMOTE OR LOCALHOST"; };
-> }
-> ```
+`/etc/named.conf`
+```
+options {
+	...
+};
+zone "ZONE" {
+	...
+	allow-update { "REMOTE OR LOCALHOST"; };
+}
+```
 
-> [!NOTE]+ /etc/dhcp/dhcpd.conf
-> ```
-> ddns-update-style interim;
-> ignore client-updates;
-> 
-> # Add the zones that should be updated by dhcpd
-> 
-> zone "ZONE" {
-> 	primary "DNS_SERVER";
-> }
-> zone "REVERSE_ZONE" {
-> 	primary "DNS_SERVER";
-> }
-> ```
+`/etc/dhcp/dhcpd.conf`
+```
+ddns-update-style interim;
+ignore client-updates;
 
-**ddns-update-style**
-* `interim`: uses TXT records as DHCID associated with dns records
+# Add the zones that should be updated by dhcpd
+
+zone "ZONE" {
+	primary "DNS_SERVER";
+}
+zone "REVERSE_ZONE" {
+	primary "DNS_SERVER";
+}
+```
+
+`ddns-update-style`
+* `interim`: uses TXT records as DHCID associated with DNS records
 * `standard`: uses RR as DHCID
 
 `ignore client-updates:` will not update existing records. 
 
-Changing DNS records can be achieved remotely by the **nsupdate** command. 
+Changing DNS records can be achieved remotely by the `nsupdate` command. 
 
 To delete remotely a DNS record
 
@@ -259,39 +259,39 @@ dnssec-keygen -a HMAC-MD5 -b 128 -n HOST "DHCP_HOSTNAME"
 ```
 
  Extract the shared secret and put it in 
+ 
+`/etc/named.conf <- DNS server`
+```
+key "DHCP_HOSTNAME" {
+	algorithm HMAC-MD5;
+	secret "SECRET"
+	 };
 
-> [!NOTE]+ /etc/named.conf <- DNS server
->  ```
->  key "DHCP_HOSTNAME" {
-> 	algorithm HMAC-MD5;
-> 	secret "SECRET"
-> 	 };
-> 
-> zone "ZONE" {
-> 	allow-update { key "DHCP_HOSTNAME"; }
-> 	};
-> zone "REVERSE_ZONE" {
-> 	allow-update { key "DHCP_HOSTNAME"; }
-> 	};
-> ```
+zone "ZONE" {
+	allow-update { key "DHCP_HOSTNAME"; }
+	};
+zone "REVERSE_ZONE" {
+	allow-update { key "DHCP_HOSTNAME"; }
+	};
+```
 
-> [!NOTE] /etc/dhcp/dhcpd.conf
-> ```
-> key DHCP_HOSTNAME {
->        algorithm HMAC-MD5;
->        secret "SECRET";
->        }
-> 
-> zone ZONE {
->        primary SERVER_IP;
->        key "DHCP_HOSTNAME";
->        }
->        
-> zone "REVERSE_ZONE" {
-> 	primary "DNS_SERVER";
-> 	key "DHCP_HOSTNAME";
-> 	}
-> ```
+`/etc/dhcp/dhcpd.conf`
+```
+key DHCP_HOSTNAME {
+       algorithm HMAC-MD5;
+       secret "SECRET";
+       }
+
+zone ZONE {
+       primary SERVER_IP;
+       key "DHCP_HOSTNAME";
+       }
+       
+zone "REVERSE_ZONE" {
+	primary "DNS_SERVER";
+	key "DHCP_HOSTNAME";
+	}
+```
 
 If successful
 

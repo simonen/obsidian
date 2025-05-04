@@ -4,31 +4,31 @@ tags:
   - centos
 ---
 [[gitea/LINUX 1/NETWORK SERVICES/DNS/DNS]]
-Apress – Learn Centos Linux Network Services - Antonio Vazquez
+`Apress – Learn Centos Linux Network Services - Antonio Vazquez`
 
-Berkley Internet Name Domain. DNS server
+Berkley Internet Name Domain
 
 Package
-bind (CentOS)
-bind9 (Ubuntu)
+- `bind` (CentOS)
+- `bind9` (Ubuntu)
 
 Service
-named (CentOS)
-bind (Ubuntu)
+- `named` (CentOS)
+- `bind` (Ubuntu)
 
 man **named**
 #### Files and Directories
 
-**/etc/named.conf** : main conf file
-**/var/named/** : zone files (CentOS)
-**/var/cache/bind**: zone files (Ubuntu)
-**/usr/share/doc/bind-9.11.4/sample/** : sample config files
+- `/etc/named.conf` : main conf file
+- `/var/named/` : zone files (CentOS)
+- `/var/cache/bind`: zone files (Ubuntu)
+- `/usr/share/doc/bind-9.11.4/sample/` : sample config files
 
 ##### Related System Files
 
-`/etc/hosts`
-`/etc/nsswitch.conf`
-`/etc/resolv.conf`
+- `/etc/hosts`
+- `/etc/nsswitch.conf`
+- `/etc/resolv.conf`
 
 The `named.service` runs as the `named` user. Should NOT run as root
 
@@ -52,18 +52,18 @@ options {
      }
 ```
 
-1. **listen-on port 53: { 127.0.0.1; }** : Assign an IP of a network interface, otherwise the service will be unreachable by network devices. Or 'any'.
-2. **directory**: default directory for zone files
-3. **allow-query**: Remote networks or computers allowed to query the server.
+1. `listen-on port` 53: { 127.0.0.1; }** : Assign an IP of a network interface, otherwise the service will be unreachable by network devices. Or 'any'.
+2. `directory`: default directory for zone files
+3. `allow-query`: Remote networks or computers allowed to query the server.
 	**any**; *NETWORK/MASK*; *IP_ADDRESS*; Avoid **any** if possible.
 
 `recursive`
-* yes: the DNS server will perform recursive queries for clients to other DNS servers
-* no: the DNS server will not perform recursive queries and will only answer queries for which it has authoritative information 
+* `yes`: the DNS server will perform recursive queries for clients to other DNS servers
+* `no`: the DNS server will not perform recursive queries and will only answer queries for which it has authoritative information 
 
 #### Lookup Zones
 
-The default zone "." is configured in **/var/named/named.ca**. Contains ip addresses of internet root servers. 
+The default zone "." is configured in `/var/named/named.ca`. Contains IP addresses of internet root servers. 
 
 `/etc/named.conf`
 ```
@@ -125,7 +125,7 @@ ns1                 IN  CNAME   delphos
                         TXT     "313ca80f6a3edb16931ded49de08ba24be"
 ```
 ; comments
-**serial**: every zone must have an associated serial number. Used when replicating information between DNS servers to determine if there is a newer version of a zone file
+`serial`: every zone must have an associated serial number. Used when replicating information between DNS servers to determine if there is a newer version of a zone file
 olympus.local. 
 
 Check the syntax of a zone file
@@ -163,25 +163,25 @@ zone "2.0.10.in-addr.arpa" IN {
 2.0.10: the network portion in reverse.
 `in-addr`: Second level `.arpa` domain used for mapping IPv4 addresses to Internet domain names
 
-Create the reverse zone file /var/named/NETWORK.zone
+Create the reverse zone file `/var/named/NETWORK.zone`
 
 Minimal reverse look configuration
 
-> [!NOTE]+ /var/named/10.0.2.zone header
->  ```
-> $ORIGIN 2.0.10.in-addr.arpa.
-> $TTL 2D
-> @        IN SOA delphos.olympus.local. admin.olympus.local. (
->                 0               ; serial
->                 259200          ; refresh (3 days)
->                 14400           ; retry (4 hours)
->                 18140           ; expire (3 weeks)
->                 604800)         ; minimum (1 week)
-> 
->        NS delphos.olympus.local.
-> 67       PTR delphos.olympus.local.
-> ```
-> 
+`/var/named/10.0.2.zone header`
+```
+$ORIGIN 2.0.10.in-addr.arpa.
+$TTL 2D
+@        IN SOA delphos.olympus.local. admin.olympus.local. (
+               0               ; serial
+               259200          ; refresh (3 days)
+               14400           ; retry (4 hours)
+               18140           ; expire (3 weeks)
+               604800)         ; minimum (1 week)
+
+         NS delphos.olympus.local.
+67       PTR delphos.olympus.local.
+```
+
 
 ```
 23       PTR prometheus.olympus.local
@@ -231,44 +231,43 @@ delphos.olympus.local.
 
 If a DNS server does not have info about a record, it can forward the query to an upstream DNS server. Insert the code block in the general options block. 
 
-> [!NOTE]+ /etc/named.conf
-> ```
-> options {
-> 	recursion yes;
-> 	forward only;
-> 	forwarders { FORWARDER_IP; FORWARD_IP; }
-> }
-> ```
-
+`/etc/named.conf`
+```
+options {
+	recursion yes;
+	forward only;
+	forwarders { FORWARDER_IP; FORWARD_IP; }
+}
+```
 #### Slave Servers and Zone Transfers
 
 Slave servers hold a read-only copy of the DNS records of the master server. It serves to share the workload and act as a fail-over in case the main service becomes unavailable.
 
-As the slaves do not change data in the zone files, they only need to define slave status and masters within the zone in the /etc/named.conf
+As the slaves do not change data in the zone files, they only need to define slave status and masters within the zone in the `/etc/named.conf`
 
 Define the zone and the master(s) it should be transferred from.
 
-> [!NOTE]+  /etc/named.conf on the slave
-> ```
-> zone "olympus.local" IN {
-> 	type slave;
-> 	file "/slaves/olympus.local.zone";
-> 	masters { 10.0.2.7; };
-> }
-> ```
+`/etc/named.conf` -> slave
+```
+zone "olympus.local" IN {
+	type slave;
+	file "/slaves/olympus.local.zone";
+	masters { 10.0.2.7; };
+}
+```
 
 Same applies to the reverse zones. 
 
 Add a NS record of the slave server to the zone file on the master
 
-> [!NOTE] /var/named/olympus.local and also in /10.0.2.zone on the master
+`/var/named/olympus.local and also in /10.0.2.zone on the master`
 ```
 IN      NS      slave-server.olympus.local.
 ```
 
 The slaves should be notified whenever a zone has been changed. 
 
-> [!NOTE] /etc/named.conf on the master
+`/etc/named.conf` -> master
 ```
 zone "olympus.local" IN {
         type master;
@@ -277,14 +276,14 @@ zone "olympus.local" IN {
 };
 ```
 
-The **/var/named/slaves** directory on the slaves must be writable by the named user
+The `/var/named/slaves` directory on the slaves must be writable by the named user
 
 ```
 drwxrwx---. 2 named named 4096 Apr  7 21:30 slaves/
 ```
 
 Restart the named services on the servers
-The master should now transfer the shared zone file to the **/var/slaves/** dir on the slave.
+The master should now transfer the shared zone file to the `/var/slaves/` dir on the slave.
 
 ```
 named[18338]: client @0x7fd5dc0d4f30 10.0.2.9#58196 (olympus.local): transfer of 'olympus.local/IN': AXFR started
@@ -318,12 +317,14 @@ The **named** user must have read and write permissions over the files and dirs 
 Port **53 TCP**: used for zone transfers
 Port **53 UDP**: used for DNS queries
 
-By default bind transfers zones to any computer. To dump the contents of a zone
+By default BIND transfers zones to any computer. To dump the contents of a zone
 
 ``` bash
 dig axfr @'DNS_SERVER' 'ZONE'
 ```
+
 [[gitea/LINUX 1/NETWORK SERVICES/DNS/files/dig%axfr#AXFR]]
+
 ```
 [root@prometheus ~]# dig axfr @10.0.2.7 olympus.local
 
@@ -347,7 +348,7 @@ olympus.local.          10800   IN      SOA     olympus.local. root.olympus.loca
 
 To protect the DNS db, restrict zone transfers to specific computers or networks. Add allow-transfer { SLAVE_IP; }; to a zone
 
-> [!NOTE] /etc/named.conf -> master
+`/etc/named.conf` -> master
 ```
 zone "olympus.local" IN {
         type master;
@@ -359,8 +360,7 @@ zone "olympus.local" IN {
 
 Now addresses outside of the scope will be denied transfers
 
-> /etc/named.conf
-
+`/etc/named.conf`
 ```
 [root@prometheus ~]# dig axfr @10.0.2.7 olympus.local
 
@@ -370,7 +370,7 @@ Now addresses outside of the scope will be denied transfers
 ; Transfer failed.
 ```
 
-##### Selinux
+##### SELinux
 
 [[LINUX/SELINUX/SELinux Working Modes]]
 
@@ -382,7 +382,7 @@ named_tcp_bind_http_port --> off
 named_write_master_zones --> on
 ```
 
-**named_write_master_zones** should be on for the named user to be able to write zone files
+`named_write_master_zones` should be on for the named user to be able to write zone files
 
 ##### DNSSEC and TSIG
 
@@ -415,7 +415,7 @@ The two key pairs
 
 The .key files contain the public portion of the DNSKEY record
 
-> [!NOTE]- Kolympus.local.+005+53451.key
+`Kolympus.local.+005+53451.key`
 ```
 olympus.local. IN DNSKEY 256 3 5 AwEAAd1RzPufq4TFiNYrRD/deenr8YdPnQXRnOwYajJW T6YiOIF/MJvI7jMG6LwcDyI7G8=
 
@@ -484,9 +484,9 @@ olympus.local.          10800 IN DNSKEY 256 3 5 (
 ;; MSG SIZE  rcvd: 658
 ```
 
-The keys should be put in /etc/named.conf in the trusted-keys section. Omit 'IN DNSKEY'
+The keys should be put in `/etc/named.conf` in the trusted-keys section. Omit 'IN DNSKEY'
 
-> [!NOTE] /etc/named.conf <- master
+`/etc/named.conf` -> master
 ```
 options {
 ...

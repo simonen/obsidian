@@ -27,7 +27,6 @@
 	],
 	"edges":[
 		{"id":"05cf60ad47b32b20","fromNode":"107f9d742a73dd6b","fromSide":"top","toNode":"fbd95c72f020a991","toSide":"bottom","label":"what is the mail server for domainB"},
-		{"id":"05f567c8ec934cb0","fromNode":"fbd95c72f020a991","fromSide":"right","toNode":"107f9d742a73dd6b","toSide":"right","label":"mail server IP"},
 		{"id":"172bf300ed846aad","fromNode":"107f9d742a73dd6b","fromSide":"right","toNode":"f75c7acbd764d55e","toSide":"left","label":"relays mail to"},
 		{"id":"ac1a83d374599b00","fromNode":"9d58367a11f79cb7","fromSide":"bottom","toNode":"8c80ec8966c01043","toSide":"top","label":"email"},
 		{"id":"bb2efb0a7e4c72aa","fromNode":"107f9d742a73dd6b","fromSide":"bottom","toNode":"35ea569affa281d6","toSide":"right"},

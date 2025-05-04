@@ -8,11 +8,10 @@ OpenLDAP was forked from the original project designed by the University of Mich
 
 `overlays`: give OpenLDAP advanced functionality to alter or extend normal LDAP behavior.
 
+Packages: 
+`openldap` `openldap-servers` `openldap-clients`
 
-Packages
-`openldap openldap-servers openldap-clients`
-
-Service
+Service: 
 `slapd` (the LDAP server)
 
 #### Setting up an LDAP Directory
@@ -28,17 +27,17 @@ Service
 
 #### Files and Directories
 
-`/etc/openldap/:` LDAP server root dir
-`/etc/openldap/schema/`: Available schemata. Contains `.ldif` files with schema definition to extend the core schema`
-`/etc/openldap/certs/`:  certs and passwords are stored here
-`/etc/openldap/slapd.d/`: files comprising the `slapd` DIT (Directory Information Tree)
-`/usr/share/openldap-servers/slapd.ldif`: 
+- `/etc/openldap/:` LDAP server root dir
+- `/etc/openldap/schema/`: Available schemata. Contains `.ldif` files with schema definition to extend the core schema`
+- `/etc/openldap/certs/`:  certs and passwords are stored here
+- `/etc/openldap/slapd.d/`: files comprising the `slapd` DIT (Directory Information Tree)
+- `/usr/share/openldap-servers/slapd.ldif`: 
 #### Databases
 
-`{-1}frontend`: applies global configurations to other databases
-`{0}config`: it represents the **dynamic configuration (cn=config)** itself. The `cn=config` database allows for runtime configuration changes without the need to stop or restart the OpenLDAP server. LDAP server-specific configurations go here. Accessed via the `EXTERNAL` mech, user mapped to Unix root
-`{1}monitor`: **monitoring database**. This database provides real-time statistical information about the running OpenLDAP server, such as connection data, operation counts, backend statistics, and more.
-`{2}hbd`: **HDB (Hierarchical Database, DEPRECATED for mdb)** backend. Used for storing LDAP entries, and it is a variant of the BDB (Berkeley DB) backend. 
+- `{-1}frontend`: applies global configurations to other databases
+- `{0}config`: it represents the **dynamic configuration (cn=config)** itself. The `cn=config` database allows for runtime configuration changes without the need to stop or restart the OpenLDAP server. LDAP server-specific configurations go here. Accessed via the `EXTERNAL` mech, user mapped to Unix root
+- `{1}monitor`: **monitoring database**. This database provides real-time statistical information about the running OpenLDAP server, such as connection data, operation counts, backend statistics, and more.
+- `{2}hbd`: **HDB (Hierarchical Database, DEPRECATED for mdb)** backend. Used for storing LDAP entries, and it is a variant of the BDB (Berkeley DB) backend. 
 
 #### LDAP Querying
 
@@ -60,15 +59,15 @@ Show the current configuration of the `{2}hdb` database
 ldapsearch -Y EXTERNAL -H ldapi:/// -b "olcDatabase={2}hdb,cn=config"
 ```
 
-`-Y EXTERNAL`: Specifies the SASL auth mechanism. In this case `EXTERNAL` mechanism, the client authenticates to the server based on its operating system credentials, usually using certificates.
-`-H ldapi:///` : The ldap URI to connect to. In this case, it is the local LDAP UNIX domain socket (ldapi://) connecting to the ldap server, running on the local machine
-`-b cn=config`: The base DN for the search operation. The `cn=config` subtree contains server configuration
-`-s <scope>`: The scope of the search query. Can be `base`, `one`, `sub` or `children`.
-`-Z`: Tries using TLS to make the connection. `-ZZ`: TLS must be successful before continuing
-`-LLL`: print responses in LDIF format without comments
-`-W`: Prompt for password
-`-w <password>`: Include password in the cli
-`olcAccess=*`:  The filter used for the search operation. Specifies that the search should include all entries in the `olcAccess` subtree. `olcAccess` entries represent the access control rules configured for the LDAP sever. Determines who can have what access to which resources.
+- `-Y EXTERNAL`: Specifies the SASL auth mechanism. In this case `EXTERNAL` mechanism, the client authenticates to the server based on its operating system credentials, usually using certificates.
+- `-H ldapi:///` : The ldap URI to connect to. In this case, it is the local LDAP UNIX domain socket (ldapi://) connecting to the ldap server, running on the local machine
+- `-b cn=config`: The base DN for the search operation. The `cn=config` subtree contains server configuration
+- `-s <scope>`: The scope of the search query. Can be `base`, `one`, `sub` or `children`.
+- `-Z`: Tries using TLS to make the connection. `-ZZ`: TLS must be successful before continuing
+- `-LLL`: print responses in LDIF format without comments
+- `-W`: Prompt for password
+- `-w <password>`: Include password in the cli
+- `olcAccess=*`:  The filter used for the search operation. Specifies that the search should include all entries in the `olcAccess` subtree. `olcAccess` entries represent the access control rules configured for the LDAP sever. Determines who can have what access to which resources.
 
 To query the LDAP directory externally. This will list all user objects
 
@@ -299,17 +298,17 @@ attributeTypes: ( 2.5.4.3
   SINGLE-VALUE )
 ```
 
-`EQUALITY`: matching rule for equality searches
-`SUBSTR`: matching rule for substring searches
-`SYNTAX`: Specifies the data type or format for the attribute
-`SINGLE-VALUE`: Indicates that this attribute can only have one value (e.g., passwords)
+- `EQUALITY`: matching rule for equality searches
+- `SUBSTR`: matching rule for substring searches
+- `SYNTAX`: Specifies the data type or format for the attribute
+- `SINGLE-VALUE`: Indicates that this attribute can only have one value (e.g., passwords)
 
 Attributes must be declared in the schema, and one attribute can be included in one or more object classes. By default are MULTI-VALUE (e.g., email addresses). Attributes can be hierarchical
 * They are not terminated with a top
 * The absence of the SUP definition indicates the end of the hierarchy. 
 
 Example of attribute inheritance:
-`name`: parent of the `cn`, `gn`, and `sn`
+- `name`: parent of the `cn`, `gn`, and `sn`
 ##### Common Schemas 
 
 OpenLDAP comes with several default schema that provide basic object classes and attributes. Most common are
@@ -321,7 +320,7 @@ OpenLDAP comes with several default schema that provide basic object classes and
 5. `ppolicy.schema`: Adds password policy features
 6. `ldapns.schema`: Contains attributes and object classes used by LDAP servers for naming services.
 
-`/etc/openldap/schema/` directory contains available schemata 
+`/etc/openldap/schema/`: contains available schemata 
 
 View the currently loaded schemata
 
@@ -546,17 +545,17 @@ objectclass ( 1.3.6.1.4.1.1466.344 NAME 'dcObject' DESC 'RFC2247: domain compone
 Because the `dcObject` is an AUXILIARY object class, it cannot be used to create an entry.
 The `organization` is a STRUCTURAL object class (allows to create entries) and must be included. It requires the `o` attribute.
 
-To check what attributes must be defined when adding an object of particular class, we must consult the `schema` located in **/etc/openldap/slapd.d/cn=config/cn=schema**
+To check what attributes must be defined when adding an object of particular class, we must consult the `schema` located in `/etc/openldap/slapd.d/cn=config/cn=schema`
 
-> [!NOTE]+ /etc/openldap/slapd.d/cn=config/cn=schema/cn={0}core.ldif
-> ```
-> olcObjectClasses: {2}( 2.5.6.4 NAME 'organization' 
-> 	DESC 'RFC2256: an organization' 
-> 	SUP top STRUCTURAL 
-> 	MUST o 
-> 	MAY ( userPassword $ searchGuide $ seeAlso $ businessCategory 
-> 		$ physicalDeliveryOfficeName $ st $ l $ description ) )
-> ```
+`/etc/openldap/slapd.d/cn=config/cn=schema/cn={0}core.ldif`
+```
+olcObjectClasses: {2}( 2.5.6.4 NAME 'organization' 
+	DESC 'RFC2256: an organization' 
+	SUP top STRUCTURAL 
+	MUST o 
+	MAY ( userPassword $ searchGuide $ seeAlso $ businessCategory 
+		$ physicalDeliveryOfficeName $ st $ l $ description ) )
+```
 
 `base_dn.ldif`
 ```
@@ -567,11 +566,11 @@ dc: ohio
 o: ohio
 ```
 
-`dn: dc=ohio,dc=cc`: The distinguished name (DN) of the base entry, which becomes the root of the directory tree
-`dc`: domain component. This attribute is mandatory for the `dcObject` object class.
-`o`: organization. This attribute is mandatory for the `organization` object class
-`objectClass: dcObject` : Provides the domain component `dc` attribute
-`objectClass: organization` : Provides the STRUCTURAL organization attribute `o`
+- `dn: dc=ohio,dc=cc`: The distinguished name (DN) of the base entry, which becomes the root of the directory tree
+- `dc`: domain component. This attribute is mandatory for the `dcObject` object class.
+- `o`: organization. This attribute is mandatory for the `organization` object class
+- `objectClass: dcObject` : Provides the domain component `dc` attribute
+- `objectClass: organization` : Provides the STRUCTURAL organization attribute `o`
 
 Create the basedn entry. For domain-related tasks we authenticate as LDAP database admin, not external user.
 
@@ -805,7 +804,6 @@ olcModulePath: /usr/lib64/openldap
 olcModuleLoad: {0}ppolicy.la
 ```
 
-
 Create a default policy object
 
 ```
@@ -917,7 +915,7 @@ ldapsearch -H ldapi:/// -Y EXTERNAL -b "" -s base -LLL supportedSASLMechanisms
 
 Linux Pluggable Authentication Modules is a suite of libraries that allow a Linux system administrator to configure methods to authenticate users. It provides a flexible and centralized way to switch authentication methods for secured applications by using configuration files instead of changing application code
 
-Modules location
+Modules location: 
 `/etc/pam.d/`
 
 The `sssd-ldap` packages provides the **pam_sss.so** PAM shared object, necessary for remote authentications
@@ -931,16 +929,16 @@ https://sssd.io/
 
 Provides a set of daemons to manage access to remote directories and authentication mechanism, an NSS and PAM interface toward to the system and a pluggable back end to connect to multiple different account sources
 
-**Packages**
+**Packages**: 
 `sssd`
 `sssd-client `
 `sssd-ldap`
 `openldap-clients` (optional)
 `oddjob-mkhomedir` (optional). Auto create user homedirs on login
 
-**Files and Directories**
-`/etc/sssd/sssd.conf `
-`/usr/lib64/sssd/conf/sssd.conf `- sample config file
+**Files and Directories** 
+- `/etc/sssd/sssd.conf `
+- `/usr/lib64/sssd/conf/sssd.conf `- sample config file
 
 > The `sssd.conf` must have `0600` permissions for the daemon to start
 

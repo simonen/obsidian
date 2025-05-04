@@ -6,12 +6,11 @@ tags:
 ---
 #### Securing Postfix
 
-
-smtpd_client_restrictions = permit_sasl_authenticated, reject
+- `smtpd_client_restrictions = permit_sasl_authenticated, reject`
 554 5.7.1 <unknown[192.168.137.10]>: Client host rejected: Access denied
-smtpd_sender_restrictions = permit_sasl_authenticated, reject
+- `smtpd_sender_restrictions = permit_sasl_authenticated, reject`
 554 5.7.1 <4u4un>: Sender address rejected: Access denied
-smtpd_recipient_restrictions = permit_sasl_authenticated, reject
+- `smtpd_recipient_restrictions = permit_sasl_authenticated, reject`
 554 5.7.1 <kibuna@ohio.net>: Recipient address rejected: Access denied
 
 Rules act much like ACL's - first to match, wins.

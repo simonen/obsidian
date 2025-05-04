@@ -9,7 +9,7 @@ tags:
 Open Virtual Private Networks
 
 Opens an SSL/TLS encrypted tunnel between two networks at separate physical locations
-Dependent on openSSL
+Dependent on OpenSSL
 
 **Certificate Authority**
 
@@ -55,9 +55,9 @@ Create a VPN tunnel from Host2 to Host1
 openvpn --remote 'Host1' --dev tun0 --ifconfig 10.0.0.2 10.0.0.1 [--daemon]
 ```
 
-`--dev tun`: creates a layer 3 VPN tunnel
-`--ifconfig <local VPN endpoint> <remote VPN endpoint>`
-`--daemon`: sends the job to the background
+- `--dev tun`: creates a layer 3 VPN tunnel
+- `--ifconfig <local VPN endpoint> <remote VPN endpoint>`
+- `--daemon`: sends the job to the background
 
 This will set up a tunnel between the hosts. Their current sessions will be taken by the tunneling, so open new sessions to use the hosts.
 

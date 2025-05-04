@@ -1,6 +1,6 @@
-Resources
-Wiley - DNS Security Management 2017
-Apress – Pro Linux System Administration 2nd 2017
+Resources: 
+`Wiley - DNS Security Management 2017`
+`Apress – Pro Linux System Administration 2nd 2017`
 www.cloudflare.com/dnssec/root-signing-ceremony/
 www.cloudflare.com/dnssec/how-dnssec-works/
  
@@ -18,10 +18,10 @@ Zone Signing Key, ZSK:
 Key Signing Key, KSK:
 #### DNSSEC Record Types
 
-`DNSKEY`: the public key of the zone signing key pair. Used to validate the RRSIG signature to verify the authenticity of the RRset
-`NSEC` - Next
-`DS` - Delegation Signer Record. Contains the hash of a DNSKEY record. Used by the resolver to validate the authenticity of the public key signing key. Performs a hash on the pk sk and compares that to the DS record.
-`RRSIG`: Resource Record Signature
+- `DNSKEY`: the public key of the zone signing key pair. Used to validate the RRSIG signature to verify the authenticity of the RRset
+- `NSEC` - Next
+- `DS` - Delegation Signer Record. Contains the hash of a DNSKEY record. Used by the resolver to validate the authenticity of the public key signing key. Performs a hash on the pk sk and compares that to the DS record.
+- `RRSIG`: Resource Record Signature
 
 ##### The DS Records
 
@@ -53,8 +53,8 @@ Kolympus.local.+005+53451.private
 
 #### BIND-CHROOT
 
-Packages
-**bind-chroot**
+Packages: 
+`bind-chroot`
 
 The **bind-chroot** will replicate the normal named environment under a new root directory **/var/named/chroot**, transferring existing zone and conf files and preserving their paths.
 
@@ -85,4 +85,3 @@ The chrooted name process
 ```
 named    11702  Ssl  /usr/sbin/named -u named -c /etc/named.conf -t /var/named/chroot
 ```
-

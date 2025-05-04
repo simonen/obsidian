@@ -2,7 +2,6 @@
 tags:
   - "#centos"
 ---
-
 File Transfer Protocol
 
 Package
@@ -35,14 +34,13 @@ chmod 0730 /var/ftp/uploads
 chown :ftp /var/ftp/uploads
 ```
 
-> [!NOTE] **/etc/vsftpd/vsftpd.conf**
-> ``` py
-> anon_upload_enable=YES
-> anon_mkdir_write_enable=YES
-> chown_uploads=YES
-> chown_username="USERNAME" # change ownership of anon uploaded files to USER
-> ```
-
+`/etc/vsftpd/vsftpd.conf`
+```
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+chown_uploads=YES
+chown_username="USERNAME" # change ownership of anon uploaded files to USER
+```
 #### SELinux
 
 [[LINUX/SELINUX/SELinux Working Modes]]
@@ -69,10 +67,10 @@ setsebool -P ftpd_anon_write on
 
 #### Connecting to FTP
 
-man **lftp**
+man `lftp`
 
-Packages
-ftp or lftp
+Packages: 
+`ftp` or `lftp`
 
 When connecting with the ftp client, the session is binary mode. This allows to download binary files. To download text files, switch to ascii mode by typing ascii and ENTER
 
@@ -83,15 +81,15 @@ To connect to an FTP server
 ```
 
 When connecting with ftp anonymously - user: anonymous, pass: BLANK
-**lftp** connects as anonymous user by default
+`lftp` connects as anonymous user by default
 
 ftp commands:
-* ls: lists folder contents
-* put FILE: uploads a file to the current ftp folder
-* get FILE: downloads a file
-* pwd: print working dir in the ftp space
-* lpwd: print local working dir
-* cd: changes directory
+* `ls`: lists folder contents
+* `put` FILE: uploads a file to the current ftp folder
+* `get` FILE: downloads a file
+* `pwd`: print working dir in the ftp space
+* `lpwd`: print local working dir
+* `cd`: changes directory
 ##### Connecting as Local User
 
 `local_enable=YES` must be present in the main conf file
@@ -99,24 +97,22 @@ ftp commands:
 
 #### Secure FTP
 
-Configure vsftp over TLS
+Configure `vsftp` over TLS
 
 Generate the certificate pair: .crt and .key
 
-> [!NOTE]+ /etc/vsftpd/vsftpd.conf
-> ```
-> ssl_enable=YES
-> allow_anon_ssl=YES
-> ssl_tlsv1=YES
-> ssl_sslv2=NO
-> ssl_sslv3=NO
-> rsa_cert_file=CERTIFICATE.CRT
-> rsa_private_key_file=PRIVATE_KEY.key
-> ssl_ciphers=HIGH
-> 
-> pasv_enable=YES
-> pasv_max_port=10100
-> pasv_min_port=10090
-> ```
+`/etc/vsftpd/vsftpd.conf`
+```
+ssl_enable=YES
+allow_anon_ssl=YES
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+rsa_cert_file=CERTIFICATE.CRT
+rsa_private_key_file=PRIVATE_KEY.key
+ssl_ciphers=HIGH
 
-
+pasv_enable=YES
+pasv_max_port=10100
+pasv_min_port=10090
+```

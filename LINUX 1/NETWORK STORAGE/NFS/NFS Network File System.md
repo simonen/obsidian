@@ -36,8 +36,8 @@ Export options:
 * `hide`: Prevents clients from accessing or viewing files that exist below the mount point of a subdirectory.
 #### Setting up NFS
 
-Packages
-nfs-utils.x86_64
+Packages: 
+`nfs-utils.x86_64`
 
 Install and start NFS Server
 
@@ -66,7 +66,7 @@ Important **SELinux** context labels:
 
 #### Export shares:
 
-man exportfs
+man `exportfs`
 man 5 exports (export options)
 
 ``` bash
@@ -135,16 +135,22 @@ WantedBy=multi-user.target
 ```
 ##### **Automount**
 
-Package:
-autofs
+Package: 
+`autofs`
 
-**autofs**: mounts a share on demand when access is requested, not permanently. Works in user space, no root permissions are required
+`autofs`: mounts a share on demand when access is requested, not permanently. Works in user space, no root permissions are required
 
-Install and start **autofs**
-**$ dnf install -y autofs**
+Install and start `autofs`
+
+```bash
+dnf install -y autofs
+```
 
 Discover NFS shares on a server
-**$ shoumount -e ***SERVER*
+
+```bash
+shoumount -e 'SERVER'
+```
 
 ```
 [kimchen@rhel81 files]$ showmount -e server1
@@ -153,39 +159,57 @@ Export list for server1:
 /nfsdata *
 ```
 
-1. In the **/etc/auto.master** add /*LOCAL MOUNT_POINT ROOT_DIR* **/etc/auto**.*EXPORT*
-2. In **/etc/auto**.*EXPORT* add *LOCAL MOUNTPOINT DIR NAME* -rw(options) *server*:/*EXPORT*
+ `/etc/auto.master`
+```
+ /LOCAL MOUNT_POINT ROOT_DIR /etc/auto.'EXPORT'
+```
+
+`/etc/auto.'EXPORT'`
+```
+LOCAL_MOUNTPOINT_DIR -rw(options) 'SERVER':/'EXPORT'
+```
 
 EXAMPLE:
-Directory nfsserver:/data is exported
-in auto.master:
-`/exported /etc/auto.exported`
 
-in auto.exported:
-`nfs -rw nfsserver:/data`
+Directory `nfsserver:/data` is exported
 
-on the client
-/exported/nfs will be the mountpoint  of nfsserver:/data
+`/etc/auto.master`:
+```
+/exported /etc/auto.exported
+```
+
+`/etc/auto.exported`
+```
+nfs -rw nfsserver:/data
+```
+
+On the client:
+
+`/exported/nfs` will be the mountpoint  of `nfsserver:/data`
 
 The export is mounted automatically upon accessing, not mounted explicitly.
-##### Wildcards in autofs
+##### Wildcards in `autofs`
 
 It is a good practice to have the user home directories stored in a central NFS server, not locally, and have them automounted when the user logs in.
 
-In /etc/auto.master:
+`/etc/auto.master`
 ```
 /LOCAL_MOUNT_POINT /etc/auto.EXPORT
 ```
 
-In /etc/auto.*EXPORT*
+`/etc/auto.'EXPORT'`
+```
+* -rw server:/'EXPORT'/&
+```
 
-`* -rw server:/EXPORT/&`
+`*` : arbitrary local mount point
+`&`: matching item on the remote server
 
-\* : local mount point
-&: matching item on the remote server
+Restart the `autofs` daemon after configuring the files
 
-Restart the autofs daemon after configuring the files
-**$ systemctl restart autofs**
+```bash
+systemctl restart autofs
+```
 
 #### NFSv4 SELinux Transparency
 
@@ -197,9 +221,15 @@ For NFS v4.1 and prior the context type can be define as a mount option:
 mount -o context="system_u,object_r:public_content_rw_t:s0" 'NFSERVER':/'EXPORT' /'MOUNTPOINT'
 ```
 
-To make the SELinux context of the share on the server transparent to the client for **NFSv4.2** **RPCNFSDARGS**="**-V 4.2**" **in /etc/sysconfig/nfs** on the server
+To make the SELinux context of the share on the server transparent to the client for NFSv4.2
+
+`/etc/sysconfig/nfs` on the server
+```
+RPCNFSDARGS="-V 4.2"
+```
 
 On the client:
-\# **mount -o v4.2** *NFSSERVER*:/*EXPORT* /*MOUNTPOINT*
 
-
+```bash
+mount -o v4.2 'NFSSERVER':/'EXPORT' /'MOUNTPOINT'
+```

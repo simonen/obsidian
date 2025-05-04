@@ -10,13 +10,13 @@ packages to configure DNS cache servers:
 yum install -y unbound ; systemctl enable --now unbound
 ```
 
-main config file
-**/etc/unbound/unbound.conf**
+Main config file: 
+`/etc/unbound/unbound.conf`
 
 Unbound listens on localhost by default.
 Unbound does not accept client connections by default
 
-To accept incoming connections on any interface (in **unbound.conf**):
+To accept incoming connections on any interface (in `unbound.conf`):
 `interface: 0.0.0.0` 
 
 To accept incoming client connections:
@@ -34,8 +34,11 @@ forward-zone:
 	forward-addr: IP_ADDRESS
 ```
 
-To check the unbound.conf for errors:
-**\$ unbound-checkconf**
+To check the `unbound.conf` for errors:
+
+```bash
+unbound-checkconf
+```
 
 To bypass validation for a domain:
 

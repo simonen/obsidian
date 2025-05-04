@@ -12,8 +12,8 @@ Packages:
 `httpd php php-gd php-zip php-gmp
 `
 Configuration files:
-`/usr/share/ldap-account-manager/config`
-`/etc/httpd/conf.d/lam.apache.conf`
+- `/usr/share/ldap-account-manager/config`
+- `/etc/httpd/conf.d/lam.apache.conf`
 
 Object classes:
 `person, posixAccount, posixGroup`, `inetOrgPerson`, `shadowAccount`

@@ -5,17 +5,17 @@ tags:
   - centos
 ---
 Packages:
-* **samba**: samba daemons and conf files
-* **cifs-utils**: Utilities for mounting and managing CIFS mounts
-* **samba-client**: utilities required to set up SMB shares
+* `samba`: samba daemons and conf files
+* `cifs-utils`: Utilities for mounting and managing CIFS mounts
+* `samba-client`: utilities required to set up SMB shares
 
 V3: emulating NT4. Supports LDAP
 V4: emulating Active Directory with forest level up to Windows Server 2008. 4.19 support for higher forest level is experimental. LDAP experimental.
 
 ### Samba Configuration
 
-Configuration file:
-**/etc/samba/smb.conf**
+Configuration file: 
+`/etc/samba/smb.conf`
 
 ##### Samba Services
 
@@ -64,7 +64,7 @@ Windows clients do not need the corresponding Unix users for logins, therefore t
 > smbpasswd is obsolete
 
 Tools: 
-samba-tool, wbinfo, smbpasswd, pdbedit
+`samba-tool`, `wbinfo`, `smbpasswd`, `pdbedit`
 
 Create a Samba user, optionally with a custom UID
 
@@ -162,8 +162,8 @@ smbstatus
 ps aux | grep smbd
 ```
 
-Package
-samba-client
+Package: 
+`samba-client`
 
 To list samba shares
 
@@ -173,8 +173,8 @@ smbclient -L 'HOST' [-U 'SAMBA USER']
 
 #### Mounting Samba Shares
 
-Package
-cifs-utils
+Package: 
+`cifs-utils`
 
 man mount.cifs for all mount options
 
@@ -182,7 +182,7 @@ man mount.cifs for all mount options
 mount -t cifs -o username='SMB_USER' //'SMB_SERVER'/'[SMB_SHARE]'
 ```
 
-User credentials can be stored in a file (root:root, 400). Good for single desktop access, not shared environments
+User credentials can be stored in a file (`root:root, 400`). Good for single desktop access, not shared environments
 
 `/home/user/.creds`
 ```
@@ -297,15 +297,25 @@ sambashare   3353    192.168.137.10 Wed Oct  2 05:47:34 PM 2024 EEST -
 
 ###### Automounting Samba Shares with autofs
 
-Install the **autofs** package on the client
+Install the `autofs` package on the client
 
-On the client in **/etc/auto.master**
-`/LOCAL_ROOT_MOUNTPOINT /etc/auto.samba` 
-In **/etc/auto.samba**:
-`LOCAL_MOUNTPOINT_DIR_NAME -fstype=cifs,username=USERNAME,password=PASSWORD ://SAMBASERVER/SHARE`
+On the client in 
 
-Protect the **/etc/auto.samba** file because of the crendentials
-\# **chmod 400** /etc/auto.samba
+`/etc/auto.master` -> client
+```
+/LOCAL_ROOT_MOUNTPOINT /etc/auto.samba
+```
+
+`/etc/auto.samba`
+```
+LOCAL_MOUNTPOINT_DIR_NAME -fstype=cifs,username=USERNAME,password=PASSWORD ://SAMBASERVER/SHARE
+```
+
+Protect the `/etc/auto.samba` file because of the crendentials
+
+```bash
+chmod 400 /etc/auto.samba
+```
 ####  Samba Security
 
 ##### SELinux
@@ -345,16 +355,26 @@ firewall-cmd --add-service=samba --permanent ; firewall-cmd --reload
 ```
 #### Kerberized Samba Server
 
-Join the samba server to the domain. 
-Create the service:
-**\# ipa service-add cifs**/*SMBSERVER*
+1. Join the samba server to the domain. 
+2. Create the service:
 
-**\# kinit -k**
-**\# ipa-getkeytab -s *IPA_SERVER* -k /etc/krb5.keytab -p cifs/***SMB_SERVERFQDN*
+```bash
+ipa service-add cifs/'SMBSERVER'
+```
 
-To verify the list of active shares with kerberos:
+```bash
+kinit -k
+```
 
-**\# smbclient -k -L** //*SMB_SERVER_FQDN*
+```bash
+ipa-getkeytab -s 'IPA_SERVER' -k /etc/krb5.keytab -p cifs/SMB_SERVER_FQDN
+```
+
+To verify the list of active shares with Kerberos:
+
+```bash
+smbclient -k -L //'SMB_SERVER_FQDN'
+```
 
 ##### Access Control Lists
 
@@ -364,17 +384,15 @@ Windows clients use ACLs to manage permissions. When files are created on a Samb
 -rwxrwx---+ 1 3000000 users  7 Sep 30 14:39 gina.rtf
 ```
 
-
-
 #### Troubleshooting SAMBA
 
 ##### Problem: Inconsistent UID and GIDs 
 
-> Samba clients use the winbind mappings
+> Samba clients use the `winbind` mappings
 
-**`wbinfo`**: This command is part of the **Winbind** service, which is responsible for resolving names (users/groups) from Windows domains or Active Directory environments and mapping them to Unix UIDs and GIDs. Winbind maintains its own mappings of user/group SIDs to UIDs/GIDs, which might differ from local Unix accounts.
+**`wbinfo`**: This command is part of the `Winbind` service, which is responsible for resolving names (users/groups) from Windows domains or Active Directory environments and mapping them to Unix UIDs and GIDs. Winbind maintains its own mappings of user/group SIDs to UIDs/GIDs, which might differ from local Unix accounts.
 
-**`pdbedit`**: This command manipulates the Samba user database (passdb). It will list users stored in the Samba database, including any Unix-to-Samba user mappings (from `/etc/passwd` or Winbind).
+**`pdbedit`**: This command manipulates the Samba user database (`passdb`). It will list users stored in the Samba database, including any Unix-to-Samba user mappings (from `/etc/passwd` or `Winbind`).
 
 Creating Samba users with `smbpasswd` will use the UID of an existing Unix user with the same login name, while `wbinfo` will use its own mapping, which are used for authentication. 
 
@@ -389,7 +407,7 @@ Indicates that the Samba process (`smbd`) is unable to change directories to `/s
 
 Windows 
 
-List open smb server sessions (CMD)
+List open SMB server sessions (CMD)
 
 ``` bash
 net use

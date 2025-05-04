@@ -1,6 +1,6 @@
 
 https://adafruit.com
-#### Using ss
+#### Using `ss`
 
 To search for specific connections (established ssh for example)
 
@@ -107,8 +107,8 @@ logserver (192.168.137.23)                 : [0], 64 bytes, 1.14 ms (1.14 avg, 0
 
 **man arping**
 
-Package:
-**iptuils**
+Package:: 
+`iptuils`
 
 To scan a network duplicate IP addresses
 
@@ -120,25 +120,26 @@ arping -I 'INTERFACE' -c 4 'IP_ADDRESS'
 
 `httping` tells how long it takes for a server to respond to a HEAD request
 
-Package
+Package: 
 `httping`
 
 man httping
 
 ``` bash
-httping -c4 -l -Gg 'WEBSITE'
+httping -c4 -l -rGg 'WEBSITE'
 ```
 
-**httping -c4 -l -rGg** *WEBSITE*
--r: resolves hostname only once. Minimizes DNS latency
+`-r`: resolves hostname only once. Minimizes DNS latency
 
 If minimizing DNS latency makes a huge difference, check nameservers
 
 Test an alternate port
-\# **httping -c4 -l -rGg** *WEBSITE*:*PORT*
 
-\# **httping -c4 -l -srGg** *WEBSITE*
--s: displays return code, such as 200 OK.
+```bash
+httping -c4 -l -rsGg WEBSITE:PORT
+```
+
+`-s`: displays return code, such as 200 OK.
 
 ```
 root@server15:~# httping -c4 -l -srGg www.oreilly.com
@@ -152,11 +153,11 @@ connected to 23.209.22.105:443 (1709 bytes), seq=3 time= 81.99 ms 200 OK
 round-trip min/avg/max = 82.0/88.9/106.7 ms
 ```
 
-#### Finding Troublesome Routers with mtr
+#### Finding Troublesome Routers with `mtr`
 
 mtr: My Traceroute
 
-Package
+Package: 
 `mtr`
 
 man mtr
@@ -188,8 +189,8 @@ HOST: server15                             Loss%   Snt   Rcv   Avg  Best  Wrst
 
 **man iftop**
 
-Packages
-**iftop**
+Packages: 
+`iftop`
 
 ``` bash
 iftop -i 'INTERFACE'
@@ -199,8 +200,8 @@ iftop -i 'INTERFACE'
 
 https://netbeez.net/blog/how-to-use-the-linux-traffic-control/
 
-Packages
-**iproute**
+Packages: 
+`iproute`
 
 **man tc**
 
@@ -227,7 +228,10 @@ qdisc netem 8001: root refcnt 2 limit 1000 delay 100.0ms
 ```
 
 To clear the rules
-\# **tc qdisc del dev** *DEVICE* **root**
+
+```bash
+tc qdisc del dev 'DEVICE' root
+```
 
 In order to limit the egress bandwidth we can use the following command:
 

@@ -1,12 +1,11 @@
 
 `/etc/samba/smb.conf`
 
-- **[global]** for server-wide settings.
-- 
-- **[homes]** for user home directories.
-- **[netlogon]** and **[sysvol]** for domain services in Samba AD/DC setups.
-- **[printers]** and **[print$]** for printer sharing.
-- **[public]** for guest-access file shares.
+- `[global]` for server-wide settings.
+- `[homes]` for user home directories.
+- `[netlogon]` and `[sysvol]` for domain services in Samba AD/DC setups.
+- `[printers]` and `[print$]` for printer sharing.
+- `[public]`: for guest-access file shares.
 
 ##### Global directives
 

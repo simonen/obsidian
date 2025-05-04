@@ -1,6 +1,6 @@
 
-/etc/passwd - contains account information
-/etc/shadow - contains authentication information
+- `/etc/passwd` - contains account information
+- `/etc/shadow` - contains authentication information
 
 **LDAP**: Lightweight Directory Access Protocol: started as a protocol to get information from hierarchical directory servers
 **Kerberos**: A service that can be used on top of an LDAP directory for authorization
@@ -78,11 +78,3 @@ CONF FILES:
 * **/etc/sysconfig/authconfig**: contains variables that specify how authconfig utilities should work
 
 #### Using nslcd and sssd as Authentication Back-end Services
-
-
-
-
-
-
-
-

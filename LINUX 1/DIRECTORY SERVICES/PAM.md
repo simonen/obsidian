@@ -2,7 +2,7 @@ Pluggable Authentication Module
 
 [Chapter 5 PAM Apress - Pro Linux System Administration 2nd]
 
-/etc/pam.d/
+`/etc/pam.d/`
 
 `so`: shared object
 

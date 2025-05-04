@@ -61,10 +61,10 @@ AD Values
 	 
 ##### Routing Updates
 
-Incremental Update - only changes are sent in the routing update
-Full Update - RIP uses.
-Periodic Update - Sent in the specified time interval
-Triggered Update - Sent whenever change is detected
+- Incremental Update - only changes are sent in the routing update
+- Full Update - RIP uses.
+- Periodic Update - Sent in the specified time interval
+- Triggered Update - Sent whenever change is detected
 
 #### Static Routes and Routing Tables
 
@@ -177,4 +177,3 @@ To allow incoming connection to 192.168.0.1 on port 22
 ``` bash
 firewall-cmd --permanent --add-forward-port=port=22:proto=tcp:toaddr=192.168.0.1:22
 ```
-

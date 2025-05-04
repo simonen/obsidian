@@ -98,7 +98,7 @@ If BIND had been installed prior to the domain provisioning, the `samba-tool` wi
 chown -R :named /usr/local/samba/bind-dns
 ```
 
-Because BIND needs to read a file that is outside of /etc, SELinux will block access to the `/usr/local/samba/bind-dns/named.conf` file. Turn it of temporarily
+Because BIND needs to read a file that is outside of `/etc`, SELinux will block access to the `/usr/local/samba/bind-dns/named.conf` file. Turn it off temporarily
 
 Run BIND 
 
@@ -148,7 +148,7 @@ dc1.samba.ohio.cc.      900     IN      A       192.168.137.10
 
 Testing Kerberos
 
-The samba-generated krb5.conf file looks like this:
+The samba-generated `krb5.conf` file looks like this:
 
 `/usr/local/samba/private/krb5.conf`
 ```

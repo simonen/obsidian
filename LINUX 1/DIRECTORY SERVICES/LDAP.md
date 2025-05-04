@@ -24,7 +24,6 @@ Main `ou`s in LDAP:
 * Groups. ou=groups
 * Machines
 
-
 #### Distinguished Names DN
 
 A dn is an unique entry under the root.  

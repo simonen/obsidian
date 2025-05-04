@@ -3,7 +3,7 @@ tags:
   - dns
 ---
 
-The **named** user must own and have read and write permissions over the named-related files and directories. 
+The `named` user must own and have read and write permissions over the named-related files and directories. 
 
 ```
 /etc/named.conf
@@ -14,21 +14,21 @@ Access: (1770/drwxrwx--T)  Uid: (    25/    named)   Gid: (   25/   named)
 
 #### rndc 
 
-**rndc** - Name Server control utility. Front end to named
+`rndc` - Name Server control utility. Front end to named
 
-Files required for the rndc command
-**/etc/rndc.conf**
-**/etc/rndc.key**
+Files required for the `rndc` command: 
+- `/etc/rndc.conf`
+- `/etc/rndc.key`
 
 Port 953
 
-To generate a sample **rndc.conf** and a key for **rndc.key** conf
+To generate a sample `rndc.conf` and a key for `rndc.key` conf
 
 ``` bash
 rndc-confgen
 ```
 
-Create the **/etc/rndc.conf** file with the output from the rndc-confgen
+Create the `/etc/rndc.conf` file with the output from the rndc-confgen
 
 ```
 key "rndc-key" {
@@ -57,10 +57,10 @@ rndc retransfer "ZONE"
 
 #### host - DNS lookup utility
 
-The host utility is a replacement for the old nslookup utility
+The host utility is a replacement for the old `nslookup` utility
 
-Package
-bind-utils
+Packages: 
+`bind-utils`
 
 To do a nameserver lookup for a domain
 
@@ -102,9 +102,9 @@ journalctl _COMM=named
 
 #### dig and delv for queries
 
-dig - Domain Information Groper
+`dig` - Domain Information Groper
 
-dig searches /etc/resolv.conf by default for nameservers
+dig searches `/etc/resolv.conf` by default for nameservers
 
 ```
 [root@prometheus ~]# dig -t MX google.com

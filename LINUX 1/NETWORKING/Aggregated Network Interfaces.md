@@ -6,12 +6,12 @@
 
 ##### Bonding
 
-man ifenslave
+man `ifenslave`
 
-Info
-/usr/share/doc/iputils/README.bonding
+Info: 
+`/usr/share/doc/iputils/README.bonding`
 
-Use **nmtui** or **nmcli** to configure **bonding**
+Use `nmtui` or `nmcli` to configure **bonding**
 
 Create the master bond interface:
 
@@ -82,7 +82,7 @@ To load the bonding mode manually
 modprobe bonding
 ```
 
-The ifenslave utility can also be used to attach or detach slave network devices to a bonding device
+The `ifenslave` utility can also be used to attach or detach slave network devices to a bonding device
 ##### NIC Teaming
 
 man teamd

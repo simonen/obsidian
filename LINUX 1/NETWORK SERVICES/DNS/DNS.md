@@ -42,8 +42,8 @@ hosts:      files dns myhostname
 ```
 
 In order of appearance:
-1. **files:** /etc/hosts
-2. **dns**: available DNS servers (resolv.conf)
+1. **`files`:** `/etc/hosts`
+2. **dns**: available DNS servers (`resolv.conf`)
 3. myhostname
 
 `myhostname` : this will resolve the ip address to the host's own hostname without the need to be included in the `hosts` file.
@@ -63,15 +63,15 @@ Domains are described as zones, that are defined in zone files. Zone files conta
 
 #### DNS Lookups
 
-Utilities
-dig, host, whois
+Utilities: 
+`dig`, `host`, `whois`
 
 Each device connected to the Internet is configured with a DNS resolver, containing the IP addresses of up to three DNS name servers
 
 If a DNS server cannot be reach, another one in the list is contacted.
 If a DNS server can be reached and it does NOT have the wanted record, it does NOT look further for it within the other name servers
 
-**/etc/resolv.conf**: **DNS** resolvers on a Linux system. If managed by the NetworkManager, any direct modifications will be undone after the NetworkManager service is reset.
+`/etc/resolv.conf`: **DNS** resolvers on a Linux system. If managed by the `NetworkManager`, any direct modifications will be undone after the `NetworkManager` service is reset.
 
 * **Authoritative answer**: comes from a nameserver that is responsible for a zone
 * **Local Authoritative Data**:  The answer is provided by a DNS server, responsible for the requested data. The answer is in resource records in a local zone
@@ -115,16 +115,16 @@ dig @"DNS_SERVER" ["RESOURCE"]
 ```
 
 Dig status information indicators:
-* **NOERROR**: DNS resolving successful
-* **NXDOMAIN**: (Non-Existent Domain) Requested DNS info not found
-* **SERVFAIL**: Error contacting a vital DNS server
-* **REFUSED**: The query is coming from a network or address that is not allowed by the server
+* `NOERROR`: DNS resolving successful
+* `NXDOMAIN`: (Non-Existent Domain) Requested DNS info not found
+* `SERVFAIL`: Error contacting a vital DNS server
+* `REFUSED`: The query is coming from a network or address that is not allowed by the server
 
 flags:
-* **qr** (Query / Response): 
-* **aa** (Authoritative Answer): This flag indicates whether the responding DNS server is **authoritative** for the domain being queried. This is relevant when the DNS server itself holds the zone records for the domain being queried
-* **rd** (Recursion Desired): The client requested recursion (`rd` = 1). When set, the client is asking the DNS server to perform the entire lookup process, including contacting other DNS servers, if necessary.
-* ra (Recursion Available): The server supports recursion (`ra` = 1). This flag is set in the response and indicates whether the DNS server supports **recursion**.
+* `qr` (Query / Response): 
+* `aa` (Authoritative Answer): This flag indicates whether the responding DNS server is **authoritative** for the domain being queried. This is relevant when the DNS server itself holds the zone records for the domain being queried
+* `rd` (Recursion Desired): The client requested recursion (`rd` = 1). When set, the client is asking the DNS server to perform the entire lookup process, including contacting other DNS servers, if necessary.
+* `ra` (Recursion Available): The server supports recursion (`ra` = 1). This flag is set in the response and indicates whether the DNS server supports **recursion**.
 * `ad` (Authenticated Data): Indicates whether the data in the response has been **cryptographically verified**.
 
 To query for a specific resource record in a domain
@@ -160,14 +160,14 @@ to prevent authoritative nameservers from performing continuous lookups for a ho
 
 Resource records contain different types of data:
 * **Type**: 
-	* **A**: maps a hostname to an IPv4 address
-	* **AAAA**: maps a hostname to an IPv6 address
-	* **CNAME** (Canonical Name): An alias for one name to another name 
-	* **PTR** (Pointer): Maps an IP address to a hostname
-	* **NS** (Name Server): maps a domain name to a name server that is authoritative for the DNS zone
-	* **SOA** (Start of Authority): Contains info about who is responsible for administration of the domain
-	* **MX** @(Mail Exchange): indicates which MTA mail servers are used in a domain
-	* **TXT** (Text): Maps a name to human readable text. Used to verify the name of the domain the mail message was received from
+	* `A`: maps a hostname to an IPv4 address
+	* `AAAA`: maps a hostname to an IPv6 address
+	* `CNAME` (Canonical Name): An alias for one name to another name 
+	* `PTR` (Pointer): Maps an IP address to a hostname
+	* `NS` (Name Server): maps a domain name to a name server that is authoritative for the DNS zone
+	* `SOA` (Start of Authority): Contains info about who is responsible for administration of the domain
+	* `MX` @(Mail Exchange): indicates which MTA mail servers are used in a domain
+	* `TXT` (Text): Maps a name to human readable text. Used to verify the name of the domain the mail message was received from
 	* **SRV** (Service): indicates which host to contact for specific services such as LDAP or Kerberos
 * **Data**
 * **Class**: the class tells the DNS server what type of network the resource is for.

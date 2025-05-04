@@ -3,7 +3,7 @@ tags:
   - dns
   - dhcp
 ---
-**dnsmasq** is a lightweight DHCP/caching DNS server. Provides DHCP, BOOTP, PXE, TFTP services. Dnsmasq reads entries from the **/etc/hosts** file
+**`dnsmasq`** is a lightweight DHCP/caching DNS server. Provides DHCP, BOOTP, PXE, TFTP services. Dnsmasq reads entries from the **/etc/hosts** file
 
 Package
 **dnsmasq**
@@ -48,7 +48,7 @@ server=<NS1_IP>
 server=<NS2_IP>
 ```
 
-Check the dnsmasq.conf syntax
+Check the `dnsmasq.conf` syntax
 
 ``` bash
 dnsmasq --test
@@ -70,16 +70,16 @@ dig @"DNS_SERVER" ["DOMAIN"]
 
 [[LINUX/NETWORK SERVICES/DHCP]]
 
-**dhclient** : provides DHCP client daemon
+`dhclient` : provides DHCP client daemon
 
->**DHCP** clients must not exist in the **/etc/hosts** file! They will be rejected a lease
+>**DHCP** clients must not exist in the `/etc/hosts` file! They will be rejected a lease!
 
-Historical DHCP connections in **/var/lib/NetworkManager**
+Historical DHCP connections in `/var/lib/NetworkManager`
 
-To define a DHCP pool of IP addresses, add these lines to the **/etc/dnsmasq.conf**
+To define a DHCP pool of IP addresses, add these lines to the 
 
+`/etc/dnsmasq.conf`
 ```
-# /etc/dnsmasq.conf
 # DHCP Server
 dhcp-range=START_IP,END_IP,LEASETIME (ex. 12h)
 dhcp-lease-max=25
@@ -126,8 +126,8 @@ ipconfig /renew
 
 Apart from offering IP addresses, **DHCP** can offer other network configuration settings, such as subnet masks, def GW, DNS servers, NTP servers, etc
 
-In dnsmasq.conf, different services are specified by a code. To get a list of service codes:
-\# **dnsmasq --help dhcp**
+In `dnsmasq.conf`, different services are specified by a code. To get a list of service codes:
+
 ```
 [root@dnsserver ~]# dnsmasq --help dhcp
 Known DHCP options:
@@ -141,10 +141,8 @@ Known DHCP options:
  15 domain-name
 ```
 
-**In /etc/dnsmasq.conf**
-
+`/etc/dnsmasq.conf`
 ```
-# /etc/dnsmasq.conf
 # DHCP Server
 dhcp-range=START_IP,END_IP,LEASETIME (ex. 12h)
 dhcp-lease-max=25 # max num of leases at a time
@@ -163,8 +161,8 @@ dhcp-option=69,SMPT_SERVER_IP_ADDR
 
 Different zones can be configured for different subnets. Names are arbitrary, like *zone1, zone2*
 
+`/etc/dnsmasq.conf`
 ```
-# /etc/dnsmasq.conf
 dhcp-range=zone1,192.168.137.100,192.168.137.200
 dhcp-range=zone2,10.106.0.20,10.106.0.100
 # default gateways for different zones
@@ -175,7 +173,7 @@ dhcp-options=ZONE_NAME,SERVICE_CODE,IP_ADDRESS
 
 #### Assigning Static IP Addresses with DHCP
 
-The static ip addresses must fall within the range of the already defined dhcp-range
+The static IP addresses must fall within the range of the already defined `dhcp-range`
 
 ```
 dhcp-host=CLIENT_HOSTNAME_OR_MAC,IP_ADDRESS
@@ -184,42 +182,49 @@ dhcp-host=...
 
 #### Configuring DHCP Clients for Automatic DNS Entry
 
-To automatically put a client's record in the **/etc/hosts** on the **dnsmasq** server, the dhcp client must send its hostname to the server.
+To automatically put a client's record in the `/etc/hosts` on the `dnsmasq` server, the DHCP client must send its hostname to the server.
 
-In **/etc/dhcp/dhclient.conf**
+`/etc/dhcp/dhclient.conf`
 ```
 send host-name = gethostname(); # working
 or
 send host-name = <MYHOSTNAME>
 ```
 
-If the **dhclient** does not exist on the client machine, **DHCP** is handled by the **NetworkManager**
+If the `dhclient` does not exist on the client machine, **DHCP** is handled by the `NetworkManager`
 
 #### Managing dnsmasq Logging
 
-**dnsmasq** uses syslog and **journalctl** for logging
+`dnsmasq` uses `syslog` and `journalctl` for logging
 
-Create a dnsmasq folder in **/var/log**. In **/etc/dnsmasq.conf** add
+Create a `dnsmasq` folder in `/var/log`. 
 
+`/etc/dnsmasq.conf`
 ```
 log-facility=/var/log/dnsmasq/dnsmasq.log
 ```
+
 Restart the service
 
-> [!NOTE]- Configure log rotation. In **/etc/logrotate.d/dnsmasq**
-> ```
-> /var/log/dnsmasq/dnsmasq.log {
-> missingok
-> compress
-> notifempty
-> rotate 4
-> weekly
-> create
-> }
-> ```
+Configure log rotation. 
 
-Test the logrotation
-\# **logrotate dnsmasq --debug**
+`/etc/logrotate.d/dnsmasq`
+```
+/var/log/dnsmasq/dnsmasq.log {
+missingok
+compress
+notifempty
+rotate 4
+weekly
+create
+}
+```
+
+Test the log rotation
+
+```bash
+logrotate dnsmasq --debug
+```
 
 ```
 [root@dnsserver logrotate.d]# logrotate dnsmasq --debug
@@ -245,7 +250,7 @@ considering log /var/log/dnsmasq/dnsmasq.log
 Subdomains are resolved without manually adding them to DNS. Useful when working with complex Kubernetes environment
 Make sure to use address ranges that are different from the ranges on your LAN’s name server, and are available only to LAN clients
 
-In **/etc/dnsmasq.conf**
+`/etc/dnsmasq.conf`
 ```
 address=/DOMAIN/IP_ADDRESS
 # address=/example.com/192.168.137.59
@@ -266,4 +271,3 @@ Address:        127.0.0.1#53
 Name:   server33.example.com
 Address: 192.168.137.59
 ```
-

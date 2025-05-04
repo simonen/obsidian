@@ -9,8 +9,6 @@ Hardware **iSCSI SAN** could offer better performance over software **iSCSI SAN*
 
 Hardware SAN could require licensing for additional feature that could add up to cost as compared to a software SAN which is free.
 
-
-
 **iSCSI shared storage devices**: typically **LVM logical volumes**. Could be **entire disks**, **partitions** or even **image files** (empty file that acts as the storage backend)
 
 iSCSI is used with a dedicated network with redundancy. iSCSI traffic only.
@@ -28,7 +26,7 @@ Terminology
 * **Portal**: or **node**. The IP and port address that targets and initiators use to establish connections
 * **TPG**: **Target Portal Group.** A collection of IP addresses and ports a specific iSCSI target listens to
 * **Discovery**: the initiator finds a target and saves information about it locally for future reference. Done by the **iscsiadm** command
-* **Login**: Authentication that gives the initiator access to the target LUN. Done with the **iscsiadm** command
+* **Login**: Authentication that gives the initiator access to the target LUN. Done with the `iscsiadm` command
 
 
 #### Setting Up an iSCSI Target
@@ -39,7 +37,10 @@ Terminology
 ##### Create the iSCSI Target
 
 Start the target service
-**\# systemctl enable --now target**
+
+```
+systemctl enable --now target
+```
 
 **IQN** convention
 iqn.yyyy-mm.inverteddomain:target
@@ -75,30 +76,40 @@ Steps to create a target:
 ##### Firewall
 
 Open port 3260
-**\# firewall-cmd --add-port=3260/tcp --permanent ; firewall-cmd --reload**
+
+```bash
+firewall-cmd --add-port=3260/tcp --permanent ; firewall-cmd --reload
+```
 
 #### iSCSI Initiator
 
-/etc/iscsi/initiatorname.iscsi: initiator name is specified
-**iscsid**: the main service that accesses all config files
-**iscsi**: the service that establishes iSCSI connections
+Package: `iscsi-initiator-utils` (provides `iscsiadmin`)
 
-**iscsiadm** is used to discover iSCSI targets and connect to them
+`/etc/iscsi/initiatorname.iscsi`: initiator name is specified
+`iscsid`: the main service that accesses all config files
+`iscsi`: the service that establishes iSCSI connections
+`iscsiadm` is used to discover iSCSI targets and connect to them
 
-Install the **iscsi-initiator-utils** that provide **iscsiadmin**
-Start the iscsid service:
-**\# systemctl enable --now iscsid**
+Start the `iscsid` service:
+
+```bash
+systemctl enable --now iscsid
+```
 
 Perform a target discovery:
-**\# iscsiadm -m discovery -t sendtargets --portal** *TARGET_IP:PORT* --discover
+
+```bash
+iscsiadm -m discovery -t sendtargets --portal 'TARGET_IP:PORT' --discover
+```
 
 if successful
+
 ```
 192.168.137.13:3260,1 iqn.2024-01.lab.lsaa:target
 ```
 ##### Establish a connection
 
-The initiator name in **/etc/iscsi/initiatorname.iscsi** must be the same as specified in the ACL on the target
+The initiator name in `/etc/iscsi/initiatorname.iscsi` must be the same as specified in the ACL on the target
 
 
 ```
@@ -111,17 +122,24 @@ o- acls
 InitiatorName=iqn.2024-01.lab.lsaa:server1
 ```
 
-\# **iscsiadm -m node -t** *TARGET_IQN* **--portal** *TARGET_IP:PORT* **--login**
+```bash
+iscsiadm -m node -t 'TARGET_IQN' --portal 'TARGET_IP:PORT' --login
+```
 
-**--mode node**: the mode in which an actual connection to the target can be established
-**--login**: this authenticates to the target and keeps the connection after a reboot
+`--mode node`: the mode in which an actual connection to the target can be established
+`--login`: this authenticates to the target and keeps the connection after a reboot
+
 ```
 Logging in to [iface: default, target: iqn.2024-01.lab.lsaa:target, portal: 192.168.137.13,3260] (multiple)
 Login to [iface: default, target: iqn.2024-01.lab.lsaa:target, portal: 192.168.137.13,3260] successful.
 ```
 
 To list scsi devices:
-**$ lsscsi**
+
+```bash
+lsscsi
+```
+
 ```
 [root@server1 ~]# lsscsi
 [0:0:0:0]    disk    VBOX     HARDDISK         1.0   /dev/sda
@@ -132,26 +150,35 @@ To list scsi devices:
 ```
 
 To get info about the current session
-**$ iscsiadm -m session -P \[0-3]**
+
+```bash
+iscsiadm -m session -P \[0-3]
+```
 
 ##### Making connections persistent
 
 After connecting to the target, connections are persistent by default
 
-**/var/lib/iscsi**: Relevant iSCSI conf information is stored here 
-**/var/lib/iscsi/nodes**: contains info about previous **iSCSI** connections. Contains dirs named after the target IQNs/Portals/default. The default file contains session information. This dir has to have at least one node for the **iscsi.service** to be able to start
+- `/var/lib/iscsi`: Relevant iSCSI conf information is stored here 
+- `/var/lib/iscsi/nodes`: contains info about previous **iSCSI** connections. Contains dirs named after the target IQNs/Portals/default. The default file contains session information. This dir has to have at least one node for the `iscsi.service` to be able to start
 
 To make sure a connection is not stored after a reboot:
-1. To close an iSCSI session:
-	\# **iscsiadm -m node --targetname** *TARGET_IQN* **--logout**
-2.  Delete the corresponding IQN dir in **/var/lib/iscsi/nodes**
-3. or
-4. \# **iscsiadm -m node --targetname** *TARGET_IQN* **--op=delete** 
+1. Close an iSCSI session:
 
+```bash
+iscsiadm -m node --targetname 'TARGET_IQN' --logout
+```
+
+```bash
+iscsiadm -m node --targetname 'TARGET_IQN' --op=delete 
+```
+
+or delete the corresponding IQN dir in `/var/lib/iscsi/nodes`
 ##### Mounting iSCSI devices
 
-The fstab file gets processes before the network is available.
+The `fstab` file gets processes before the network is available.
 It should looke like this:
+
 ```
 UUID=XXXXX /MOUNTPOINT FILESYSTEM _netdev 0 2
 ```

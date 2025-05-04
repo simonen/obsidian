@@ -7,7 +7,7 @@ ip route
 ip link
 ```
 
-The **ifconfig** utility is outdated and should not be used in modern Linux distros
+The `ifconfig` utility is outdated and should not be used in modern Linux distros
 
 ```
 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
@@ -18,9 +18,9 @@ The **ifconfig** utility is outdated and should not be used in modern Linux dist
 ```
 
 `mtu`: maximum transmission unit. Max packet size
-**qdisc**: queue discipline
-**fq_codel**: qdisc type
-**qlen**: ethernet buffer transmit queue length or simply put - max speed 1000 mbit.
+`qdisc`: queue discipline
+`fq_codel`: qdisc type
+`qlen`: ethernet buffer transmit queue length or simply put - max speed 1000 mbit.
 
 #### Default Route
 
@@ -38,14 +38,14 @@ metric 100
 linkdown
 ```
 
-**default**: gateway goes through (via) IP address 192.168.4.2 (router IP) on device ens33
-**metric** - when multiple routes are available with the same destination, the lowest value is used.
+`default`: gateway goes through (via) IP address 192.168.4.2 (router IP) on device ens33
+`metric` - when multiple routes are available with the same destination, the lowest value is used.
 **192.168.4.0/24**: local connected network
-**src**: the preferred source address when sending to the destinations covered by the route prefix
-**dev**: output device
-proto:
+`src`: the preferred source address when sending to the destinations covered by the route prefix
+`dev`: output device
+`proto`:
 * `kernel` - connected
-* `boot` - dhcp obtained
+* `boot` - DHCP obtained
 * `static` - manually added
 
 Dump the contents of the routing table

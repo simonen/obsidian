@@ -26,20 +26,20 @@ Configuration files
 - `/var/log/maillog`: postfix logs
 ##### Processes
 
-- **smtpd:** Receives emails from the network.
-- **cleanup:** Prepares and sanitizes email for internal handling.
-- **qmgr:** Manages the flow of messages and directs them for delivery.
-- **smtp:** Sends messages to external destinations.
-- **local/virtual:** Delivers emails to local or virtual mailboxes.
-- **pickup:** Collects locally submitted emails.
-- **bounce:** Handles failed delivery notifications.
+- `smtpd`: Receives emails from the network.
+- `cleanup`: Prepares and sanitizes email for internal handling.
+- `qmgr`: Manages the flow of messages and directs them for delivery.
+- `smtp`: Sends messages to external destinations.
+- `local/virtual`: Delivers emails to local or virtual mailboxes.
+- `pickup`: Collects locally submitted emails.
+- `bounce`: Handles failed delivery notifications.
 
 #### Postfix Processes (Daemons) and Basic Email Flow
 
 Sequence: 
-smtpd -> cleanup -> qmgr -> {local, smtp}
+`smtpd` -> `cleanup` -> `qmgr` -> `{local, smtp}`
 
-##### SMTP Daemon (smtpd)
+##### SMTP Daemon (`smtpd`)
 
 **Function**: Receives mail from MUA or other mail servers (MTA) over SMTP (port 25 or 587)
 * Listens on the SMTP port for incoming connections
@@ -57,7 +57,7 @@ Prepares incoming mails for further processing by formatting them into a standar
 
 Sequence: After `smtpd`
 
-##### Queue Manager (qmgr)
+##### Queue Manager (`qmgr`)
 
 Central hub responsible for managing email flow within Postfix
 
@@ -161,7 +161,7 @@ Sep 18 15:22:55 smtp postfix/local[17382]: B43F91075DF8: to=<kimchen@ohio.cc>, r
 
 Alternatively to editing the `main.cf` file, the `postconf` command can be used to change parameters.
 
-List the parameters in **/etc/postfix/main.cf**
+List the parameters in `/etc/postfix/main.cf`
 
 ``` bash
 postconf
@@ -274,7 +274,7 @@ postqueue -f
 
 [POSTFIX SASL AUTHENTICATION OFFICIAL DOC](https://www.postfix.org/SASL_README.html)
 
-Postfix does not provide authentication natively, but can be configured together with other software packages: cyrus, dovecot to use them as authentication servers
+Postfix does not provide authentication natively, but can be configured together with other software packages: `cyrus`, `dovecot` to use them as authentication servers
 
 Authentication for e-mail servers is provided by a mechanism called SMTP AUTH. To confirm user's credentials, AUTH uses the SASL authentication framework. It is much like a PAM.
 
