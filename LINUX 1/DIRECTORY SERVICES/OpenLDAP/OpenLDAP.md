@@ -152,9 +152,9 @@ replace: olcRootDN
 olcRootDN: cn=admin,dc=olympus,dc=local
 ```
 
-`olcSuffix`: Directs queries for `dc=olympus,dc=local` (base DN for the directory) to this database instance
-`RootDN`: The DN of the root user for the database with full privileges
-`olcRootPW`: hashed database root password, generated with `slappasswd`
+- `olcSuffix`: Directs queries for `dc=olympus,dc=local` (base DN for the directory) to this database instance
+- `RootDN`: The DN of the root user for the database with full privileges
+- `olcRootPW`: hashed database root password, generated with `slappasswd`
 
 #### Access Control Lists
 
@@ -215,9 +215,9 @@ olcAccess: to dn.subtree='ou=people,dc=example,dc=com' attrs=userPassword
 ```
 
 The rule applies to the `userPassword` attribute
-`self write`: Allows a user to write to their own `userPassword` attribute (change their password)
-`by anonymous auth`: Allows anonymous users to just authenticate.
-`by * none`: Stops further processing.
+* `self write`: Allows a user to write to their own `userPassword` attribute (change their password)
+* `by anonymous auth`: Allows anonymous users to just authenticate.
+* `by * none`: Stops further processing.
 
 > Put the most sensitive access rules to the top. Terminate access rules with `by * none` to restrict further access.
 
@@ -264,14 +264,14 @@ SUP <parent class>
 <MUST|MAY> ( attritubutes ) )
 ```
 
-`OID`: Private Enterprise Number or Globally unique identifier. Registered at the IANA
-`NAME`: The name of the object class
-`SUP`: (superior) statement specifies the parent object class from which this object class inherits.`top` means no parent. The highest in the object class hierarchy. 
-`class types`:
+- `OID`: Private Enterprise Number or Globally unique identifier. Registered at the IANA
+- `NAME`: The name of the object class
+- `SUP`: (superior) statement specifies the parent object class from which this object class inherits.`top` means no parent. The highest in the object class hierarchy. 
+- `class types`:
 	`AUXILIARY`: An auxiliary object can be added to an existing entry to provide additional attributes. Cannot be the primary object class of an entry.
 	`STRUCTURAL`: Defines the main identity or role of the entry
 	`ABSTRACT`: A base class that cannot be directly instantiated, only inherited. Like `top`
-`MUST`: defines attributes that are required when this object class is used. `MUST dc` means that the object must have the `dc` attribute.
+- `MUST`: defines attributes that are required when this object class is used. `MUST dc` means that the object must have the `dc` attribute.
 Spacing inside of the ( ) is strict
 
 Example: Object class
@@ -459,9 +459,9 @@ slapindex -b 'DATABASE'
 
 **OpenLDAP** stores its information in backends or databases. The most commonly used database is the **Berkley DB** backend - bdb. As of more recently - hdb.
 
-`LDIF` - LDAP Data Interchange Format: text format designed to retrieve or update information from and on the LDAP server.
-`olc`: OpenLDAP configuration
-`dn`: (Destinguished Name) attribute: used to uniquely identify objects
+- `LDIF` - LDAP Data Interchange Format: text format designed to retrieve or update information from and on the LDAP server.
+- `olc`: OpenLDAP configuration
+- `dn`: (Distinguished Name) attribute: used to uniquely identify objects
 
 #### The LDIF Format
 
@@ -946,31 +946,31 @@ Provides a set of daemons to manage access to remote directories and authenticat
 chmod 0600 /etc/sssd/sssd.conf
 ```
 
-> [!NOTE]+ /etc/sssd/sssd.conf
-> ```
-> [sssd]
-> config_file_version = 2
-> services = nss, pam
-> domains = ohio.cc
-> debug_level = INT
-> 
-> [nss]
-> 
-> [domain/ohio.cc]
-> id_provider = ldap
-> auth_provider = ldap
+`/etc/sssd/sssd.conf`
+```
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = ohio.cc
+debug_level = INT
+
+[nss]
+
+[domain/ohio.cc]
+id_provider = ldap
+auth_provider = ldap
 ldap_uri = ldap://ldap.ohio.cc
-> ldap_search_base = ou=users,dc=olympus,dc=local
-> # TLS
-> ldap_id_use_start_tls = true
-> ldap_tls_reqcert = demand
+ldap_search_base = ou=users,dc=olympus,dc=local
+# TLS
+ldap_id_use_start_tls = true
+ldap_tls_reqcert = demand
 ldap_tls_cacert = /etc/openldap/certs/cacert.pem
 ldap_tls_ciphers = HIGH:!MEDIUM:!LOW:!aNULL:!NULL:!SHA:!MD5:!RC4
 ldap_tls_protocol_min = 1.2
-> 
-> [pam]
-> ldap_schema = rfc2307
-> ```
+
+[pam]
+ldap_schema = rfc2307
+```
 
 SSSD installs the PAM modules needed for authentication
 
@@ -1027,9 +1027,9 @@ Or manually put the following line in the appropriate pam files
 session     optional       pam_mkhomedir.so umask=0077
 ```
 
-`/etc/pam.d/login`
-`/etc/pam.d/password-auth`
-`/etc/pam.d/su`
+- `/etc/pam.d/login`
+- `/etc/pam.d/password-auth`
+- `/etc/pam.d/su`
 
 Logging in will now automatically create a `homedir` for the user
 

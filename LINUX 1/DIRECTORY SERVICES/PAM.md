@@ -8,8 +8,8 @@ Pluggable Authentication Module
 
 PAMs control how and when users can interact with a host. It is a hierarchy of authentication and authorization checks. These checks are stacked together. Checks can be required or optional.
 
-`/etc/pam.d/passwd` is a **service configuration files** - the service shares the same name as the application it is designed to authenticate.
-`/etc/pam.d/system-auth` - generated when installing the host, updated with **authconfig**. CentOS. On Ubuntu, the same role is performed by four files: common-auth, common-password, common-session, common-account
+- `/etc/pam.d/passwd` is a **service configuration files** - the service shares the same name as the application it is designed to authenticate.
+- `/etc/pam.d/system-auth` - generated when installing the host, updated with `authconfig`. CentOS. On Ubuntu, the same role is performed by four files: common-auth, common-password, common-session, common-account
 
 Management groups in PAM Service configuration files have four possible directives:
 * `auth | required | /usr/local/pamlib/pam_local.so | nullok try_first_pass` 
@@ -26,11 +26,10 @@ Control flags:
 * `sufficient`: authentication immediately succeeds if module is successful
 * `optional`: authentication is not impacted by module success or failure
 
-`pam_unix.so`: PAM module. If no path is specified, **/lib/security** is assumed
-`nullok try_first_pass`: this directive contains arguments that are passed to the pam module
-
-`try_first_pass`: this argument tells the module to see if a password has already been received by the module, and if so, to use that pass for auth
-`nullok`: this argument tells the module that a blank pass is ok
+- `pam_unix.so`: PAM module. If no path is specified, **/lib/security** is assumed
+- `nullok try_first_pass`: this directive contains arguments that are passed to the pam module
+- `try_first_pass`: this argument tells the module to see if a password has already been received by the module, and if so, to use that pass for auth
+- `nullok`: this argument tells the module that a blank pass is ok
 
 Most modules will ignore invalid or incorrect arguments passed to them
 
@@ -40,7 +39,7 @@ POSIX
 
 Portable Operating System Interface
 
-possixAccount: 
+`possixAccount`: 
 
 - `posixAccount` is an LDAP object class that represents a user account in a POSIX-compliant operating system environment.
 - It is defined in the RFC 2307bis standard.

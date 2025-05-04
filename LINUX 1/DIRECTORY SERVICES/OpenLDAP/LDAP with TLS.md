@@ -1,4 +1,5 @@
 Port 636 (ldaps://) enforces TLS
+
 Port 389 (ldap://) STARTTLS. 
 
 > `SELinux` context of the cert files must be right, otherwise it will be blocking access to certs, resulting in `implementation error`
@@ -32,22 +33,22 @@ ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config | grep -i tls
 ```
 
 Put the certs in `/etc/openldap/certs`
-To change the certificate paths, create a new .ldif file
+To change the certificate paths, create a new `.ldif` file
 
-> [!NOTE]+ /etc/openldap/slap.d/tls.ldif
-> ```
-> dn: cn=config
-> changeType: modify
-> replace: olcTLSCertificateFile
-> olcTLSCertificateFile: /etc/openldap/certs/certs/ldap.ohio.cc.cert
-> -
-> replace: olcTLSCertificateKeyFile
-> olcTLSCertificateKeyFile: /etc/openldap/certs/ldap.ohio.cc.key
-> -
-> add: olcTLSCACertificateFile
-> olcTLSCACertificateFile: /etc/openldap/certs/cacert.pem
-> -
-> ```
+`/etc/openldap/slap.d/tls.ldif`
+```
+dn: cn=config
+changeType: modify
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/openldap/certs/certs/ldap.ohio.cc.cert
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/openldap/certs/ldap.ohio.cc.key
+-
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/openldap/certs/cacert.pem
+-
+```
 
 Apply the changes
 
@@ -55,12 +56,12 @@ Apply the changes
 ldapmodify -Y EXTERNAL -H ldapi:// -f tls.ldif
 ```
 
-> [!NOTE]+ /etc/openldap/ldap.conf
-> ```
-> URI ldap[s]://ldap.ohio.cc/
-> TLS_CACERT /etc/openldap/cacerts/ca.cert.pem
-> TLS_REQCERT [allow, demand, try, never]
-> ```
+`/etc/openldap/ldap.conf`
+```
+URI ldap[s]://ldap.ohio.cc/
+TLS_CACERT /etc/openldap/cacerts/ca.cert.pem
+TLS_REQCERT [allow, demand, try, never]
+```
 
 To enforce `ldaps` only (CentOS 7)
 
@@ -109,10 +110,10 @@ Configure server-client mutual TLS verification
 olcVerifyClient: [never, allow, try, demand]
 ```
 
-`never`: The server never asks for client's certificate
-`allow`: The server asks for client's certificate but allows connection regardless
-`try`: The server asks for client's certificate. If none is given, connection proceeds. If the client certificate is invalid, the connection is terminated immediately.
-`demand`: The server allows connection only if client's certificate is valid. Most restrictive and probably used for server-to-server communication, i.e., replication.
+- `never`: The server never asks for client's certificate
+- `allow`: The server asks for client's certificate but allows connection regardless
+- `try`: The server asks for client's certificate. If none is given, connection proceeds. If the client certificate is invalid, the connection is terminated immediately.
+- `demand`: The server allows connection only if client's certificate is valid. Most restrictive and probably used for server-to-server communication, i.e., replication.
 
 Use the client certificates as arguments. This is mandatory if `olcVerifyClient` is set to `demand`
 
