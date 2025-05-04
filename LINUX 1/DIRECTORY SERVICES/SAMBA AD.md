@@ -222,11 +222,11 @@ The samba-generated smb.conf
 
 **Special Samba Services**
 
-`[global]`
+- `[global]`
 	Global directives apply to the entire Samba server and configure general settings that affect all shares and services.
-`[netlogon]`
+- `[netlogon]`
 	This share is a special service in Samba that provides domain clients (Windows machines) with access to logon scripts and handles authentication requests. 
-`[sysvol]`
+- `[sysvol]`
 	This share is essential in Samba's role as an **Active Directory Domain Controller**. It stores **Group Policy Objects (GPOs)**, scripts, and other domain-specific data that need to be replicated and distributed across all Domain Controllers in the network.
 	
 #### Firewall
