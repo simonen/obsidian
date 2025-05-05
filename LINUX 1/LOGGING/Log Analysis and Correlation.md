@@ -7,7 +7,7 @@ tags:
 ---
 [Elastic Repo](https://www.elastic.co/downloads/beats/filebeat)
 
-James Turnbull - The Logstash Book
+`James Turnbull - The Logstash Book`
 
 This docs is based on ELK stack v5.6 and Java 8 which are outdated.
 
@@ -28,14 +28,14 @@ Packages:
 
 Elastic.co maintains Beats, Logstash and Elasticsearch and Kibana
 
-Analysis: The study of constituent parts and their interrelationships in making up the whole
+- **Analysis**: The study of constituent parts and their interrelationships in making up the whole
 Correlation: The act of detecting relationships between data. 
 
 Data collection -> Filtering "wheat from the chaff" -> correlation of the remaining data in order to provide accurate analysis
 
-Stage 1: List out all applications, devices and hosts and where they log.
-Stage 2: Bring together all that information and work out what the important messages are
-Stage 3: Implement log correlation and analysis 
+- Stage 1: List out all applications, devices and hosts and where they log.
+- Stage 2: Bring together all that information and work out what the important messages are
+- Stage 3: Implement log correlation and analysis 
 
 Pipeline:
 * **Input plugins** handle data ingestion. 
@@ -84,9 +84,9 @@ Repo: `[elasticsearch-5.x]`
 Package:
 `logstash-5.6.16-1.noarch`
 
-Configuration file
-`/etc/logstash/logstash.yml`
-`/etc/logstash/conf.d/.conf`
+Configuration file: 
+- `/etc/logstash/logstash.yml`
+- `/etc/logstash/conf.d/.conf`
 
 `Logstash`: A tool that can transform logs into data that can be indexed and tagged and then stored (or shipped again) to make discovery easier. Has a variety of inputs and outputs that can write to `Elasticsearch`. 
 
@@ -170,9 +170,9 @@ Repo:
 Package:
 `elasticsearch-5.6.16-1.noarch`
 
-`Index`: Logical namespace for data. Made up of documents, which are equivalent of relational database rows. Each index has a mapping that defines the types in the index and other index settings.
-`type`: A type is a the type of document, like a `user` or `log`, and is used by the API as a filter.
-`document`: JSON object. Has a `type` and `ID`. Made up of one or more key/value pairs
+- `Index`: Logical namespace for data. Made up of documents, which are equivalent of relational database rows. Each index has a mapping that defines the types in the index and other index settings.
+- `type`: A type is a the type of document, like a `user` or `log`, and is used by the API as a filter.
+- `document`: JSON object. Has a `type` and `ID`. Made up of one or more key/value pairs
 
 Each document is stored in one primary `shard`. Shards are distributed among the nodes in the Elasticsearch cluster. For distributed systems, it is always good to deploy in odd numbers.
 

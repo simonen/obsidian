@@ -24,13 +24,13 @@ System messages are stored in the `/run` directory
 
 Standard Log Files:
 
-`/var/log/messages`: Generic log where most messages go
-`/var/log/dmesg`: Kernel messages
-`/var/log/secure`: Authentication-related messages
-`/var/log/boot.log`: System startup messages
-`/var/log/audit/audit.log`: Audit messages. `SELinux` writes here
-`/var/log/maillog`: Mail server messages
-`/var/log/httpd`: Logs by Apache Server, written directly, not through `rsyslog`
+- `/var/log/messages`: Generic log where most messages go
+- `/var/log/dmesg`: Kernel messages
+- `/var/log/secure`: Authentication-related messages
+- `/var/log/boot.log`: System startup messages
+- `/var/log/audit/audit.log`: Audit messages. `SELinux` writes here
+- `/var/log/maillog`: Mail server messages
+- `/var/log/httpd`: Logs by Apache Server, written directly, not through `rsyslog`
 
 #### Systemd-journald
 
@@ -111,8 +111,9 @@ journalctl [--since, -S "START"] [--until, U "END(excluding)"]
 ```
 
 Some possible time values
-`--since`: `yesterday, today, YYYY-MM-DD hh:mm:ss`. 
-`--until`: `"1 hour ago"`, `"5 min ago"`
+
+- `--since`: `yesterday, today, YYYY-MM-DD hh:mm:ss`. 
+- `--until`: `"1 hour ago"`, `"5 min ago"`
 
 Show all `sshd` log files until 13:04:25 with unit files
 

@@ -13,8 +13,9 @@ Fedora represents a family of distributions based on Red Hat Linux.
 Red Hat, CentOS, Scientific Linux, Oracle Linux use the same package management
 **RPM** and **DNF**
 
-YUM: Yellow Dog Modified
-DNF: Dandified YUM
+`YUM`: Yellow Dog Modified. Old
+
+`DNF`: Dandified YUM.
 
 
 When installing packages with **dnf**, the **dnf** database is updated then the **rpm** database. 
@@ -24,9 +25,9 @@ Only packages, installed through managed repositories, are updated. Manually ins
 
 #### Repositories
 
-/etc/yum.repos.d/
+`/etc/yum.repos.d/`: Repositories are defined here
 
-##### YUM Yellowdog Updater Modified
+##### YUM YellowDog Updater Modified
 
 Install the repositories needed for **PHP**
 
@@ -72,8 +73,8 @@ Major kernel updates should not be done. Only minor version updates should be do
 
 #### Using dnf to Manage Repositories
 
-**man dnf**
-**man dnf-config-manager**
+- **man dnf**
+- **man dnf-config-manager**
 
 List all installed repositories, enabled and disabled
 
@@ -267,12 +268,12 @@ The rpm Name Structure
 
 **Source**       : autofs-5.1.7-55.el9.src.rpm
 
-**autofs**: name of the actual package
-**5.1.7**: version of the package
-**-55**: sub-version
-**el9**: Red Hat version the package was created for
-**x86_64**: 32-bit or 64-bit platform the package was created for
-**no_arch**: no architecture. Can be used on any platform
+- **autofs**: name of the actual package
+- **5.1.7**: version of the package
+- **-55**: sub-version
+- **el9**: Red Hat version the package was created for
+- **x86_64**: 32-bit or 64-bit platform the package was created for
+- **no_arch**: no architecture. Can be used on any platform
 
 > RPM does not handle dependencies and using it to install and remove packages should be avoided. It is good for querying.
 
@@ -282,10 +283,10 @@ RPM packages are compressed with the **cpio** archiver. The rpm2cpio tool is use
 rpm2cpio "PACKAGE.rpm" | cpio -idvm 
 ```
 
--i: extract
--d: creates leading directories
--v: verbose
--m: preserves modification times of files
+- `-i`: extract
+- `-d`: creates leading directories
+- `-v`: verbose
+- `-m`: preserves modification times of files
 ##### Installing, Removing and Updating rpm Packages
 
 Install a rpm package
@@ -314,9 +315,9 @@ To install a local RPM package
 rpm -Uhv "PACKAGE.RPM"
 ```
 
--U: Upgrade if package already installed or install if not
--v: verbose
--h: shows progress with the "#" symbol
+- `-U`: Upgrade if package already installed or install if not
+- `-v`: verbose
+- `-h`: shows progress with the "#" symbol
 ##### Querying the RPM database
 
 RPM works with present or already installed packages
@@ -325,16 +326,16 @@ RPM works with present or already installed packages
 rpm -q[ a i l d c f p R ] "PACKAGE"
 ```
 
--qa: Lists all installed packages. Used with grep to find a specific package:
--qi:  To find info about a specific package:
--ql:  To list all files in a package:
--qd: To list documentation files of a package only
--qc: To list configuration files only:
--p: package is not installed but provided as a file path
--q  --scripts: To query a rpm package for containing scripts
--qR: Show dependencies of a RPM package
--q --changes: See the changelog for a package
--q: shows the version of the installed package
+- `-qa`: Lists all installed packages. Used with grep to find a specific package:
+- `-qi`:  To find info about a specific package:
+- `-ql`:  To list all files in a package:
+- `-qd`: To list documentation files of a package only
+- `-qc`: To list configuration files only:
+- `-p`: package is not installed but provided as a file path
+- `-q --scripts`  : To query a rpm package for containing scripts
+- `-qR`: Show dependencies of a RPM package
+- `-q --changes`: See the changelog for a package
+- `-q`: Shows the version of the installed package
 
 To find which package a file belongs to:
 
@@ -357,8 +358,8 @@ rpm -qlp "PACKAGE"
 
 **man package-cleanup**
 
-Package
-**yum-utils**
+Package: 
+`yum-utils`
 
 To clean up old kernels, leaving only the last N kernels
 
@@ -375,11 +376,11 @@ package-cleanup --orphans
 
 #### Building an RPM Package From Source
 
-Packages
-rpm-build
-rpmdevtools
+Packages: 
+`rpm-build`
+`rpmdevtools`
 
-The following steps will show how to build a package that installs a simple shell script in /usr/local/bin
+The following steps will show how to build a package that installs a simple shell script in `/usr/local/bin`
 
 The basic directory structure needs to be created
 
@@ -456,7 +457,7 @@ Build the package
 rpmbuild -bb simple_echo.spec
 ```
 
-The RPM is created in /root/rpmbuild/RPMS/x86_64/simple_echo-1.0-1.x86_64.rpm
+The RPM is created in `/root/rpmbuild/RPMS/x86_64/simple_echo-1.0-1.x86_64.rpm`
 
 Install the rpm package
 

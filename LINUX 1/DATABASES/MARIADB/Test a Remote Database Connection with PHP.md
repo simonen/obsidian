@@ -53,11 +53,9 @@ Mariadb > CREATE USER USER@WEBSERVER IDENTIFIED BY 'PASSWORD';
 Mariadb > GRANT ALL PRIVILEGES ON DATABASE*.* TO USER@WEBSERVER;
 ```
 
-##### Create the db_connection.php file in /var/www/hmtl for convenience
+##### Create the `db_connection.php` file in `/var/www/hmtl` for convenience
 
-> [!NOTE] /var/www/hmtl/db_connection.php
-> 
-
+`/var/www/hmtl/db_connection.php`
 ```php
 > <?php
 function OpenCon()
@@ -76,11 +74,9 @@ $conn -> close();
 ?>
 ```
 
-###### Create the index.php file
+###### Create the `index.php` file
 
-> [!NOTE] /var/www/hmtl/index.php file
-> 
-
+`/var/www/hmtl/index.php`
 ```php
 <?php
 include 'db_connection.php';
@@ -104,11 +100,9 @@ setsebool httpd_can_network_connect_db 1
 ```
 
 Test the connection.
-Use php to make sure it can properly connect to the db. Curl does not test for db conn.
+Use PHP to make sure it can properly connect to the db. Curl does not test for db conn.
 
-$ php index.php
 ```
 [root@vpnserver html]# php /var/www/index.php
 Connected Successfully
-[root@vpnserver html]
 ```

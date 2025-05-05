@@ -1,6 +1,6 @@
 
 * **logical volume resizing: ** if the filesystem supports it. XFS only supports increasing.
-* **snapshots**: grows when the original volume has changed. Should be temporary. Remove when served their purpose
+* **snapshots**: grows when the original volume has changed. Should be temporary. Remove when their purpose has been served.
 * **failing hardware**: failing disks can be removed and replaced, dynamically, without downtime
 
 #### Creating LVM Logical Volumes
@@ -102,17 +102,17 @@ lvcreate -n "LV" -L 100MiB "VGROUP"
 
 #### LVM Device Naming
 
-**dm**: device mapper - a generic interface to address storage devices. Used by LVM, RAID, multipath devices. DMs are created at boot time.** /dev/dm-0, /dev/dm-1**, etc
-The device mapper uses symbolic links in the **/dev/mapper** directory to **/dev/dm-#** devices
+`dm`: device mapper - a generic interface to address storage devices. Used by LVM, RAID, multipath devices. DMs are created at boot time. `/dev/dm-0, /dev/dm-1`, etc
+The device mapper uses symbolic links in the `/dev/mapper` directory to `/dev/dm-#` devices
 
-Ways of addressing an lvm device:
-  **/dev/vgname/lvname**
-  /dev/mapper/VGROUP-LVNAME
+Ways of addressing an LVM device:
+  - `/dev/vgname/lvname`
+  - `/dev/mapper/VGROUP-LVNAME`
 
 #### Resizing Volume Groups
 
-`vgextend`: Add physical volumes to a volume group
-`vgreduce`: Remove physical volume(s) from a volume group
+- `vgextend`: Add physical volumes to a volume group
+- `vgreduce`: Remove physical volume(s) from a volume group
 
 Multiple Linux LVM partitions can be added to a volume group
 
@@ -128,8 +128,8 @@ vgdisplay -v "VGROUP"
 
 #### Resizing Logical Volumes
 
-`lvextend` - Add space to a logical volume
-`lvreduce` - Reduce the size of a logical volume
+- `lvextend` - Add space to a logical volume
+- `lvreduce` - Reduce the size of a logical volume
 
 > [!NOTE]
 > Resizing a filesystem on an LVM is limited by the capabilities of the filesystem itself as it uses the underlying filesystem tools. XFS can still only be extended. Also, LVM should not be resized smaller than the filesystems they hold.
@@ -142,7 +142,7 @@ lvresize -l -r +50%FREE "/dev/vg_group/lvm"
 
 `-r, --resizefs`: Resize underlying filesystem together with the LV using fsadm. Recommended
 
-To manually resize an xfs filesystem
+To manually resize an XFS filesystem
 
 ``` bash
 xfs_growfs "LVM"
@@ -160,4 +160,3 @@ When the PV-to-be-removed has 100% of its PE available, it can be removed from t
 ``` bash
 vgreduce "VOLUME_GROUP" /dev/"PV_TO_REMOVE"
 ```
-

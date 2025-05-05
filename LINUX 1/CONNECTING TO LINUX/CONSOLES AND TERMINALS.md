@@ -25,7 +25,7 @@ kimchen  pts/0    192.168.137.9    16:20    5:18   0.11s  0.11s -bash
 student  pts/1    192.168.137.1    16:25    1.00s  0.13s  0.02s w
 ```
 
-Both users are connected via ssh
+Both users are connected via SSH
 
 Show login history (uses the `/var/log/wmtp` log)
 

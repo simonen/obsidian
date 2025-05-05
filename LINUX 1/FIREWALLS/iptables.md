@@ -1,5 +1,5 @@
 More info in
-Appress - Pro Linux System Administration 2nd Edition
+Apress - Pro Linux System Administration 2nd Edition
 
 To list current rules
 

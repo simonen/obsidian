@@ -93,26 +93,33 @@ yum clean all
 ```
 #### Manually Create an rpm Repository
 
-Package
-**createrepo**
+Package: 
+`createrepo`
 
 1. All packages must be present
-2. **createrepo** command generates the metadata that enables a directory to be used as a repo
+2. `createrepo` command generates the metadata that enables a directory to be used as a repo
 
 This example uses the RHEL9 installation disk
 
-$ sudo mkdir /repo
-\# **mount /dev/sr0 /repo**
+```bash
+sudo mkdir /repo
+mount /dev/sr0 /repo
+```
 
 Add the mount to the fstab
-**$ echo '/dev/sr0 /repo iso9660 defaults 0 0' | sudo tee -a /etc/fstab**
 
-**$ yum install -y createrepo**
-**$ createrepo** */DIR*
+```bash
+echo '/dev/sr0 /repo iso9660 defaults 0 0' | sudo tee -a /etc/fstab
+```
 
-Then manually create the new **.repo** file in **/etc/yum.repos.d** and specify label, name and baseurl
+```bash
+yum install -y createrepo
+createrepo /DIR
+```
 
-If using dnf config-manager, dnf will create the .repo file.
+Then manually create the new **.repo** file in `/etc/yum.repos.d` and specify label, name and baseurl
+
+If using `dnf config-manager`, `dnf` will create the .repo file.
 
 ``` bash
 yum-config-manager --add-repo file:///"REPO_DIR"
@@ -138,10 +145,10 @@ https://wiki.debian.org/DebianRepository/Format
 https://wiki.debian.org/DebianRepository
 
 Default repo configuration information is stored in
-/etc/apt/sources.list
+`/etc/apt/sources.list`
 
 Drop-in sources lists for custom repo configurations go here
- /etc/apt/sources.list.d/
+` /etc/apt/sources.list.d/`
 
 Debian repository anatomy
 
@@ -162,10 +169,10 @@ deb-src http://deb.debian.org/debian/ bookworm main non-free-firmware
 	* or release class (suites): `stable, unstable, oldstable`. Avoid using `stable` in sources.list
 
 components (define licensing terms):
-* main - official free packages
-* contrib - free packages which might contain non-free dependencies
-* non-free
-* non-free-firmware - device firmware could be included in the official repos
+* `main` - official free packages
+* `contrib` - free packages which might contain non-free dependencies
+* `non-free`
+* `non-free-firmware` - device firmware could be included in the official repos
 
 
 To download packages from a repository APT will download InRelase or Release from the $ARCHIVE_ROOT/dists/\$DISTRIBUTION directory

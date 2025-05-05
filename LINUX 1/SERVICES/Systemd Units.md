@@ -67,36 +67,35 @@ Unit file sections
 
 #### Systemd Mount Units
 
-Mount units are an alternative to mounting via **/etc/fstab**
+Mount units are an alternative to mounting via `/etc/fstab`
 
-> [!NOTE]+ tmp.target
-> ```
-> # /usr/lib/systemd/system/tmp.mount
-> 
-> [Unit]
-> Description=Temporary Directory
-> ConditionPathIsSymbolicLink=!/tmp
-> DefaultDependencies=no
-> Conflicts=umount.target
-> Before=local-fs.target umount.target
-> 
-> [Mount]
-> What=tmpfs
-> Where=/tmp
-> Type=tmpfs
-> Options=mode=1777,strictatime
-> 
-> [Install]
-> WantedBy=local-fs.target
-> ```
+`tmp.target`
+```
+# /usr/lib/systemd/system/tmp.mount
 
+[Unit]
+Description=Temporary Directory
+ConditionPathIsSymbolicLink=!/tmp
+DefaultDependencies=no
+Conflicts=umount.target
+Before=local-fs.target umount.target
+
+[Mount]
+What=tmpfs
+Where=/tmp
+Type=tmpfs
+Options=mode=1777,strictatime
+
+[Install]
+WantedBy=local-fs.target
+```
 #### Systemd Socket Units
 
 A **socket** creates a method for applications to communicate. A **socket** could be a file or a port on which **systemd** will be listening for incoming connections. That way, a service will only start when there is a connection coming in on that socket. Every socket needs a corresponding service file.
 
 Example:
-**/usr/lib/systemd/system/sshd.socket**
 
+`/usr/lib/systemd/system/sshd.socket`
 ```
 [Unit]
 Description=OpenSSH Server Socket
@@ -111,14 +110,15 @@ Accept=yes
 WantedBy=sockets.target
 ```
 
-ListenStream -> tcp
-ListemDatagram -> udp
+- `ListenStream` -> TCP
+- ListemDatagram -> UDP
 #### Systemd Target Units
 
 **target**: a group of units, loaded in the right order, executed at the right time. Can have dependencies on other targets. Does not contain information about units themselves, just what units and services it can coexist with and the order or execution. That is included in the Install section of the different unit files.
 
-When a unit is added to a target, a symbolic link is created in the target directory in /etc/systemd/system/unitfile.target pointing to the unit file in /usr/lib/systemd/system/unit.service
-This symbolic link is a.k.a **want** - defines what the target wants to start.
+When a unit is added to a target, a symbolic link is created in the target directory in `/etc/systemd/system/unitfile.target` pointing to the unit file in `/usr/lib/systemd/system/unit.service`
+
+This symbolic link is a.k.a a `want` - defines what the target wants to start.
 
 To get | set the default target
 

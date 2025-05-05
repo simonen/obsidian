@@ -5,15 +5,15 @@ tags:
   - postgresql
 ---
 
-Package
+Package: 
 `postgresql`: client
 `postgresql-server`: server
 
-Port:
+Port: 
 `5432/tcp`
 
 Main configuration file
-`/var/lib/pgsql/data/postgresql.conf`
+- `/var/lib/pgsql/data/postgresql.conf`
 
 #### Install and Start up PostgreSQL
 
@@ -55,11 +55,11 @@ local   all             all                                     peer
 ```
 
 Methods:
-`peer`: The authenticating Unix user is mapped directly to the corresponding PostgreSQL user. No password prompt.
-`md5`: The authenticating user will be prompted for password.
-`gss`: Kerberos
-`cert`: Very high level of sec
-`ldap`
+- `peer`: The authenticating Unix user is mapped directly to the corresponding PostgreSQL user. No password prompt.
+- `md5`: The authenticating user will be prompted for password.
+- `gss`: Kerberos
+- `cert`: Very high level of sec
+- `ldap`
 
 Set password for the `postgres` user. Change the prompt first
 
@@ -235,7 +235,7 @@ WHERE rolname = 'postgres'
 
 Requires `pgcrypto` extension
 
-Package:
+Package: 
 `postgresql-contrib`
 
 Create the extension in the database

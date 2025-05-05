@@ -42,10 +42,10 @@ Functionality, loaded as modules:
 
 #### Hardware Initialization
 
-* **systemd-udevd**: the process loads a driver upon detection, making the hardware device available. Continuously monitors hardware changes
-* **/usr/lib/udev/rules.d**: rules on how devices are initialized. Should not be modified.
-* **/etc/udev/rules.d**: custom rules. Read after rules in /usr/lib/udev/rules.d
-* **/sys**: pseudo **sysfs** file system to track hardware-related settings and where status about kernel modules is written. Each phase of hardware probing is concluded in a file in **/sys**
+* `systemd-udevd`: the process loads a driver upon detection, making the hardware device available. Continuously monitors hardware changes
+* `/usr/lib/udev/rules.d`: rules on how devices are initialized. Should not be modified.
+* `/etc/udev/rules.d`: Custom rules. Read after rules in `/usr/lib/udev/rules.d`
+* `/sys`: pseudo `sysfs` file system to track hardware-related settings and where status about kernel modules is written. Each phase of hardware probing is concluded in a file in `/sys`
 
 To list all events that are processed when loading or unloading a hardware:
 
@@ -56,30 +56,38 @@ udevadm monitor
 #### Managing Kernel Modules
 
 Common commands used for manual kernel management:
-* **lsmod**: lists currently loaded kernel modules
-* **modinfo MODULE_NAME**: displays info about kernel modules
-* **modprobe:** loads kernel modules, including their dependencies
-* **modprobe -r**: unloads kernel modules, considering dependencies. Can unload only modules that are NOT currently being used.
+* `lsmod`: Lists currently loaded kernel modules
+* `modinfo MODULE_NAME`: Displays info about kernel modules
+* `modprobe`: Loads kernel modules, including their dependencies
+* `modprobe -r`: Unloads kernel modules, considering dependencies. Can unload only modules that are NOT currently being used.
 
 Alternative method of loading kernel modules 
-**/etc/modules-load.d**: manually create files here for modules that are not automatically loaded by **systemd-udevd**
-**/usr/lib/modules-load.d**: for default modules that should always be loaded
++ `/etc/modules-load.d`: Manually create files here for modules that are not automatically loaded by `systemd-udevd`
+- `/usr/lib/modules-load.d`: For default modules that should always be loaded
 
-**insmod** and **rmmod** are legacy utilities that do not address dependencies and should **NOT** be used
+`insmod` and `rmmod` are legacy utilities that do not address dependencies and should **NOT** be used
 
-**/boot/config-kernel-version**: kernel config file. To search for a module within the file
-\# grep -i *MODULE* *config-5.8.0-45-generic* 
+`/boot/config-kernel-version`: Kernel config file. To search for a module within the file
+
+```bash
+grep -i 'MODULE' *config-5.8.0-45-generic* 
+```
+
 MODULE=m
 MODULE=y 
 **m**: loadable kernel module. Can be added to **/etc/modules**
 y: module is built-in to the kernel, should not be added to **/etc/modules**
+
 To see if it is currently loaded
-\# **lsmod | grep** *MODULE*
+
+```bash
+lsmod | grep 'MODULE'
+```
 
 #### Checking Driver Availability for Hardware Devices
 
-**lspci**: shows all devices detected by the PCI bus
-**lspci -k**: shows all modules that are used by the detected PCI devices
+- `lspci`: Shows all devices detected by the PCI bus
+- `lspci -k`: Shows all modules that are used by the detected PCI devices
 
 If a detected PCI device doesn't list any modules, probably means it is not supported. Closed sourced drivers might endanger stability. 
 
@@ -87,7 +95,7 @@ If a detected PCI device doesn't list any modules, probably means it is not supp
 
 #### Managing Kernel Module Params
 
-**/etc/modprobe.d**: drop-in files with module parameters go here
+`/etc/modprobe.d`: Drop-in files with module parameters go here
 
 ```
 echo MODULE_NAME PARAM=0 or 1 > /etc/modprobe.d/MODULE_NAME.conf
@@ -111,4 +119,4 @@ http://en.wikipedia.org/wiki/Procfs
 
 This is a special directory that contains a virtual, or pseudo, filesystem that provides a way of interacting with the kernel. It exists only in memory.
 
-Internal kernel variables are accessible by the /proc/sys directory
+Internal kernel variables are accessible by the `/proc/sys` directory

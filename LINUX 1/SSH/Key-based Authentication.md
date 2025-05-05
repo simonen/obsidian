@@ -1,6 +1,6 @@
 Key-based auth is more secured than password-based auth
 
-public keys are stored in **~/.ssh/authorized_keys** on the server
+public keys are stored in `~/.ssh/authorized_keys` on the server
 
 #### Generating New Host Keys
 
@@ -23,7 +23,7 @@ ssh-keygen: generating new host keys: RSA1 RSA DSA ECDSA ED25519
 ```
 
 **DSA**: keys generally should be avoided. Remove the `ssh_host_dsa.key`
-**RSA**: keys are oldest and most compatible
+**RSA**: keys are oldest and most compatible. Use >=2048 bits strength. 
 **ECDSA** and **ED25519**: released 2014, very strong, and computationally less expensive.
 
 Check the current cryptographic policies applying to OpenSSH
@@ -63,8 +63,10 @@ cat "PUB_KEY".pub | ssh "USER@REMOTE_HOST" "cat >> ~/.ssh/authorized_keys"
 
 **Permissions**. If the **Strict** mode is set to yes, folder and keys permissions must be exactly as:
 
-`~/.ssh:  rwxr-xr-x 755`
-`authorized_keys: rw---- 600`
+```
+~/.ssh:  rwxr-xr-x 755
+authorized_keys: rw---- 600
+```
 
 > PuTTY key authentication requires the .ppk format for the private key.
 
@@ -72,15 +74,18 @@ cat "PUB_KEY".pub | ssh "USER@REMOTE_HOST" "cat >> ~/.ssh/authorized_keys"
 
 To verify the host key fingerprint. Both keys should produce the same fingerprint
 
-$ **ssh-keygen -lf** /etc/ssh/ssh_host_KEY.pub
-$ **ssh-keygen -lf** /etc/ssh/ssh_host_KEY
+```bash
+ssh-keygen -lf /etc/ssh/ssh_host_KEY.pub
+ssh-keygen -lf /etc/ssh/ssh_host_KEY
+```
 
 #### SSH Connection Profiles
 
-In order to avoid typing long ssh commands, specifying users, keys, etc.. a per-user config file containing pre-configured connections can be created.
+In order to avoid typing long SSH commands, specifying users, keys, etc.. a per-user config file containing pre-configured connections can be created.
 
 Per-user configuration file. Must have strict permissions
-**~/.ssh/config**
+
+`~/.ssh/config`
 
 ```
 Host LABEL

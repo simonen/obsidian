@@ -1,5 +1,5 @@
 
-**parted** only manages partitioning. **Writes changes immediately to disk!**!!
+`parted` only manages partitioning. **Writes changes immediately to disk!**!!
 GPT GUID Partition Table: Globally Unique Identifier Partition Table
 
 >Partitions attached to an active root systems like boot, home, var, should not be unmounted. Use SystemRescue or make changes from another Linux system

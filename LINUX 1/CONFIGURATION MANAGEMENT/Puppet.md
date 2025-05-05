@@ -63,10 +63,10 @@ Environment -> Module -> Class -> Resource Type -> Attribute
 Repo:
 [YUM Puppet](https://yum.puppet.com/puppet/el/9/x86_64/index.html)
 
-Package
+Package:
 `puppetserver`
 
-Port
+Port:
 `8140/tcp`
 
 Configuration files
@@ -153,8 +153,8 @@ Info: Certificate Request fingerprint (SHA256): F9:F8:26:E2:48:4E:6A:20:81:42:32
 Notice: Did not receive certificate
 ```
 
-`--test`: Runs the Puppet client in the foreground and prevents it from running as a daemon. 
-`--noop`: Runs the Puppet client non-destructively
+- `--test`: Runs the Puppet client in the foreground and prevents it from running as a daemon. 
+- `--noop`: Runs the Puppet client non-destructively
 
 The client created a private key and a certificate signing request, and waits for the puppet server to sign it, trying every 15 seconds.
 

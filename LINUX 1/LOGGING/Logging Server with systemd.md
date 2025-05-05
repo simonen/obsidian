@@ -21,8 +21,8 @@ Service configuration file
 `/usr/lib/systemd/system/systemd-journal-remote.service`
 
 Config files: 
-`/etc/systemd/journal-remote.conf`: (server)
-`/etc/systemd/journal-upload.conf`: (client)
+- `/etc/systemd/journal-remote.conf`: (server)
+- `/etc/systemd/journal-upload.conf`: (client)
 
 #### Log Server Configuration
 
@@ -170,16 +170,16 @@ Mar 25 22:00:52 server15 root[3533]: Test Message
 
 `systemd-journal-gatewayd` serves journal events over the network. Clients must connect using HTTP. The server listens on port 19531 by default. The `systemd-journal-gateway` system user must have read access to the journal directory.
 
-`systemd-journal-gatewayd.service`
-`systemd-journal-gatewayd.socket`
-`systemd-journal-gatewayd`
+- `systemd-journal-gatewayd.service`
+- `systemd-journal-gatewayd.socket`
+- `systemd-journal-gatewayd`
 
 `man systemd-journal-gatewayd`
 
 By default, the gateway will serve clients only its own runtime journal. Arguments must be passed to `systemd-journal-gatewayd` daemon to include other journals
-`-m, --merge`: Serves entries interleaved from all available journals
-`-D DIR, --directory=`: Serves the specified journal directory instead of the default runtime and system journal paths.
-`--file=GLOB`: Servers entries from the specified journal files instead of he default runtime journal. Can be specified multiple times
+- `-m, --merge`: Serves entries interleaved from all available journals
+- `-D DIR, --directory=`: Serves the specified journal directory instead of the default runtime and system journal paths.
+- `--file=GLOB`: Servers entries from the specified journal files instead of he default runtime journal. Can be specified multiple times
 
 Arguments can be passed to the daemon by including them into the service file
 
@@ -207,9 +207,9 @@ curl http://"journal-gateway":19531/entries[?option1&option2=value...]`
 ```
 
 Some options after `entries?`
-`follow`: = `-f
-`boot`: Limit entries to the current boot
-`KEY=FIELD`: = `_COMM=sshd` for example
+- `follow`: = `-f
+- `boot`: Limit entries to the current boot
+- `KEY=FIELD`: = `_COMM=sshd` for example
 
 Return a list of values of the field present in the logs. Mimics the `journalctl -F _FIELD` 
 

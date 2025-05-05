@@ -1,11 +1,11 @@
 
-Provides remote connection to a server running **sshd daemon**, using an ssh client
+Provides remote connection to a server running `sshd` daemon*, using an ssh client
 
 **man sshd**
 
-config file
-**/etc/ssh/ssh_config**
-**/etc/ssh/sshd_config**
+Config files:
+- `/etc/ssh/ssh_config`: client
+- `/etc/ssh/sshd_config`: daemon
 
 **host keys**: authenticate hosts
 **public keys**: authenticate users
@@ -31,27 +31,6 @@ CLIENT_IP CLIENT_PORT SERVER_PORT
 
 remote servers' public keys are stored in `~/.ssh/known_hosts`
 
-#### Customizing BASH Prompt for SSH
-
-Customize the prompt so that it is easier to acknowledge ssh sessions
-In .**bashrc**
-
-```
-if [ -n "$SSH_CLIENT" ]; then text=" ssh"
-fi
-export PS1='\[\e[0;36m\]\u@\h:\w${text}$\[\e[0m\] '
-```
-
-The prompt's color on the **ssh** server has now changed, thus indicating ssh session more clearly
-
-if \[ -n "$SSH_CLIENT" ]; then text = VALUE : if the $SSH_CLIENT does not return an output, thus no open ssh sessions, create a variable **text** with value **ssh**
-
-text=" *TEXT* " 
-kimchen@backupserver:~ *TEXT* $
-
-\[\e\[0;31m\]: the code block that determines color
-\[\e\[0m\]: turns off custom colors for commands and command output
-
 #### Listing Supported Encryption Algorithms
 
 **man ssh**
@@ -69,15 +48,6 @@ To list supported ciphers
 ssh -Q cipher
 ```
 
-#### Using Graphical Applications in SSH environment
-
-The remote host must have an **X** server running to allow graphical apps to be displayed over SSH
-The remote host must be allowed to display screens on the local host
-
-**-Y** allows the remote host to display screens
-**$ ssh -Y** *username@remotehost *
-
-**ForwardX11 yes**  in the config file enables remote graphical display by default
 #### SCP - Securely Copying Files 
 
 ``` bash
@@ -98,12 +68,14 @@ Copy (push) a file from local computer to remote server
 scp "LOCAL_SOURCE" "REMOTE_DESTINATION"
 ```
 
-`-r`: copies the entire subdirectory structure
-`-P`: (uppercase) to specify non-default ssh port
+- `-r`: copies the entire subdirectory structure
+- `-P`: (uppercase) to specify non-default SSH port
 
 #### Mounting Remote Filesystems with SSHFS
 
-Install the **sshfs** package. Also installs **FUSE**: Filesystem in Userspace
+Packages:
+`sshfs`
+`fuse`  - Filesystem in User space
 
 The remote filesystems is mounted in a local directory with write permissions
 
@@ -122,7 +94,8 @@ findmnt | grep sshfs
 ```
 
 Options
-**-o reconnect:** tells sshfs to reconnect if the connection is interrupted 
+
+`-o reconnect`: Tells `sshfs` to reconnect if the connection is interrupted 
 
 To safely unmount an SSH mounted fs
 
@@ -134,19 +107,32 @@ fusermount -u "MOUNTPOINT"
 
 Secure FTP
 
+`sshd` service is required to be running on the remote host
+
 Uses the FTP protocol to securely transfer file.
-**put** - upload
-**get** - download
-**sshd** service is required to be running on the remote host
+- `put` - upload
+- `get` - download
 
 Current working directory is used to download to and upload from files
 
-**$ sftp *user@remotehost*
+```bash
+sftp 'user@remotehost'
 sftp>** 
+```
 
-**lpwd** - local current working directory
-**lcd** - change local working directory
-**pwd** - print working directory on the remote host
-**lls** - list local directory contents
+- `lpwd` - local current working directory
+- `lcd` - change local working directory
+- `pwd` - print working directory on the remote host
+- `lls` - list local directory contents
 
 **$ put / get** *source destination*
+
+#### Using Graphical Applications in SSH environment
+
+The remote host must have an **X** server running to allow graphical apps to be displayed over SSH
+The remote host must be allowed to display screens on the local host
+
+**-Y** allows the remote host to display screens
+**$ ssh -Y** *username@remotehost *
+
+**ForwardX11 yes**  in the config file enables remote graphical display by default

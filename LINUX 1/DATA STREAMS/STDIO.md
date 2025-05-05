@@ -17,17 +17,17 @@ lrwx------. 1 root root 64 Mar 27 19:55 255 -> /dev/pts/0
 The block above shows that by default all data streams are wired to the pseudo-terminal the current user is hooked up to. 
 
 Regardless of how a SHELL is accessed, the following are always wired
-`/dev/fd/0` - STDIN
-`/dev/fd/1` - STDOUT
-`/dev/fd/2` - STDERR
+- `/dev/fd/0` - STDIN
+- `/dev/fd/1` - STDOUT
+- `/dev/fd/2` - STDERR
 
 `fd`: file descriptor
 #### STDIN Standard In
 
 Common STDIN locations:
-* **Keyboard**: /dev/fd/0
-* **File**: /dev/fd/0
-* **Pipe**: /dev/fd0
+* **Keyboard**: `/dev/fd/0`
+* **File**: `/dev/fd/0`
+* **Pipe**: `/dev/fd0`
 
 Redirection symbols
 \> STDOUT, writes input to a file
@@ -35,7 +35,10 @@ Redirection symbols
 |, pipe: takes the output and passes it as input to the next function. Connects output and input streams
 
 This will redirect the stream from the FILE, which is user@host, to the ssh command as argument
-$ cat < FILE | ssh $(cat)
+
+```bash
+cat < FILE | ssh $(cat)
+```
 
 #### Using cat
 

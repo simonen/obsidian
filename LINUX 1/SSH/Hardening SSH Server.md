@@ -22,7 +22,7 @@ The host keys must be owned by root. The host private keys are 600, the public k
 
 ##### Disable Root Login
 
-By default, on most systems ssh root login is disabled. The parameter controlling root login is `PermitRootLogin` in the **/etc/sshd_config** config file. 
+By default, on most systems SSH root login is disabled. The parameter controlling root login is `PermitRootLogin` in the `/etc/sshd_config` config file. 
 
 Options:
 * yes
@@ -35,13 +35,13 @@ Options:
 `PasswordAuthentication no`
 ##### Change Default Port
 
-Look for unused ports in **/etc/services**
+Look for unused ports in `/etc/services`
 
 ``` bash
 getent services | grep "PORT"
 ```
 
-Add the `sshd NEW_PORT` to **/etc/services**
+Add the `sshd NEW_PORT` to `/etc/services`
 
 Change the SELinux label on the non-default port:
 
@@ -114,12 +114,12 @@ eval $(ssh-agent -k)
 
 > Doesnt Work
 
-Package
-**keychain**
+Package: 
+`keychain`
 
-**keychain** works like the ssh-agent for storing private key passphrases but it caches the passphrase until system shutdown
+`keychain` works like the ssh-agent for storing private key passphrases but it caches the passphrase until system shutdown
 
-This goes in the **/home/.bash_profile**. Applies automatically on login
+This goes in the `/home/.bash_profile`. Applies automatically on login
 
 `eval keychain --eval ~/.ssh/PRIVATE_KEY`
 
@@ -155,53 +155,60 @@ The cronjob
 
 ##### Limiting User Access
 
-sshd_config parameters:
-**AllowUsers** *USER1@HOST USER2@HOST*
-**DenyUsers** *USER1@HOST USER2@HOST*
-**AllowGroups** *GROUP1 GROUP2*
-**DenyGroups** 
+`sshd_config` parameters:
+- `AllowUsers USER1@HOST USER2@HOST` 
+- `DenyUsers *USER1@HOST USER2@HOST`
+- `AllowGroups *GROUP1 GROUP2`
+- `DenyGroups GROUP1 GROUP2` 
 ##### Session Options
 
-**GSSAPIAuthentication**: used with Kerberos. Otherwise should be switched off
-**UseDNS**
-**MaxSessions**: 10 by default
+- `GSSAPIAuthentication`: used with Kerberos. Otherwise should be switched off
+- `UseDNS`
+- `MaxSessions`: 10 by default
 
 ##### Connection KeepAlive Options
 
 On the server
-* CPKeepAlive
-* ClientAliveInterval
-* ClientAliveCountMax
+* `CPKeepAlive`
+* `ClientAliveInterval`
+* `ClientAliveCountMax`
 
-On the client in **/etc/ssh/ssh_config**:
-* ServerAliveInterval
-* ServerAliveCountMax
+On the client in `/etc/ssh/ssh_config`:
+* `ServerAliveInterval`
+* `ServerAliveCountMax`
 
-Limit the length of time the server waits for a user to log in and complete the connec‐
-tion. The default is 2m:
-**LoginGraceTime** 90
+Limit the length of time the server waits for a user to log in and complete the connection. The default is 2m:
+`LoginGraceTime 90`
 
+#### SELinux to allow port change
 
-#### SElinux to allow port change
-
-After modifying a port, SElinux needs to be configured to allow for the change
+After modifying a port, SELinux needs to be configured to allow for the change
 SELinux security labels on ports prevent services from accessing port they are not allowed to.
 
 If not running a web server, SSH on port 443 can be configured
 
-To avoid getting locked out of the server while changing ssh ports, open two sessions. Sessions are not automatically closed when successfully restarting the sshd.
+To avoid getting locked out of the server while changing ssh ports, open two sessions. Sessions are not automatically closed when successfully restarting the `sshd`.
 
 To list all ports that have security labels
-**$ semanage port -l**
 
-To add a label to a port
-**$ semanage port -a**
+```bash
+semanage port -l
+```
 
 To modify an existing port:
-**$ semanage port -m**
 
-To label port 2020 for access via ssh
-**$ semanage port -a -t ssh_port_t -p tcp 2020**
+```bash
+semanage port -m
+```
+
+To label port 2020 for access via SSH
+
+```bash
+semanage port -a -t ssh_port_t -p tcp 2020
+```
 
 Port should also be opened by the firewall
-**$ firewall-cmd --add-port=2020/tcp; $ firewall-cmd --add-port=2020/tcp --permanent**
+
+```bash
+firewall-cmd --add-port=2020/tcp; $ firewall-cmd --add-port=2020/tcp --permanent
+```

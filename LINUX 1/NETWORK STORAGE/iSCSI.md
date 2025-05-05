@@ -25,7 +25,7 @@ Terminology
 * **LUN**: **Logical Unit Number**. The backend storage devices that are shared through the target. Could be any device supporting read/write ops: disks, partitions, logical volumes, tapes and files. The **LUN**s are needed to associate a block device with a **TPG**
 * **Portal**: or **node**. The IP and port address that targets and initiators use to establish connections
 * **TPG**: **Target Portal Group.** A collection of IP addresses and ports a specific iSCSI target listens to
-* **Discovery**: the initiator finds a target and saves information about it locally for future reference. Done by the **iscsiadm** command
+* **Discovery**: the initiator finds a target and saves information about it locally for future reference. Done by the `iscsiadm` command
 * **Login**: Authentication that gives the initiator access to the target LUN. Done with the `iscsiadm` command
 
 
@@ -52,10 +52,10 @@ Steps to create a target:
 4. LUNs
 5. Portal
 
-6. Install the **targetcli** package
+6. Install the `targetcli` package
 7. Create the backed storage devices
 8. Configure the backstore
-	**cd /backstores** ; **block/ create** block1 *BACKEND_STORAGE_DEV*
+	`cd /backstores` ; **block/ create** block1 *BACKEND_STORAGE_DEV*
 		the **create** command comes from the **block/** dir
 	To create a file-backed storage device:
 		**/fileio>** **create file1 /root/** *FILENAME* *SIZE*
@@ -65,12 +65,12 @@ Steps to create a target:
 	1. /iscsi/iqn.../tpg1/acls> **create** *iqn.yyyy-mm.inverteddomain:initiator*
 	2. Add the *initiator* in **/etc/iscsi/initiatorname.iscsi**
 6. Create the LUNs
-	1. /iscsi/iqn.20...get/tpg1/luns> create /backstores/block/block1
-	2. /iscsi/iqn.20...get/tpg1/luns> create /backstores/block/block2
-	3. /iscsi/iqn.20...get/tpg1/luns> create /backsores/fileio/file1
+	1. `/iscsi/iqn.20...get/tpg1/luns> create /backstores/block/block1`
+	2. `/iscsi/iqn.20...get/tpg1/luns> create /backstores/block/block2`
+	3. `/iscsi/iqn.20...get/tpg1/luns> create /backsores/fileio/file1`
 		to assign a LUN a specific number: **create lun**=*NUMBER* **storage=/backstores/**block/block1
 7. Create the Portal:
-	1. /iscsi/iqn.20.../tpg1/portals>**create** *IP_ADDRESS PORT*
+	1. `/iscsi/iqn.20.../tpg1/portals>**create** *IP_ADDRESS PORT*`
 8. Overview and **exit**
 
 ##### Firewall

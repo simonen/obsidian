@@ -74,8 +74,8 @@ To test connectivity to hosts from the hosts file
 ansible all -m ping
 ```
 
-**all**: reads all hosts from the hosts file
-**-m**: module
+`all`: reads all hosts from the hosts file
+`-m`: module
 `--become`: Defaults to `sudo`
 `--ask-become-pass`: Prompts for password
 
@@ -85,7 +85,7 @@ To execute a bash shell command on a remote host or groups
 ansible HOST -a "shell command"
 ```
 
--a: ad-hoc
+`-a`: ad-hoc
 
 System executables can have different paths across Linux distributions and commands might fail if the system is not looking in the correct path. Use full paths to executables instead of aliases or '$(which COMMAND) ARGUMENT'
 
@@ -130,17 +130,19 @@ Gather facts about the local host with the `setup` module
 ansible -c local localhost -m setup
 ```
 
-`-c local`: using local connection
-`localhost`: operating on the localhost
-`-m setup`: module
+- `-c local`: using local connection
+- `localhost`: operating on the localhost
+- `-m setup`: module
 #### Running Commands with Escalated Privileges
 
-> [!NOTE] /etc/ansible/ansible.cfg
-> \[privilege_escalation]
-become=True
-become_method=sudo
-become_user=root
+`/etc/ansible/ansible.cfg`
+```
+[privilege_escalation]  
+become=True  
+become_method=sudo  
+become_user=root  
 become_ask_pass=True
+```
 
 Sudo password prompt can be invoked manually
 
@@ -375,7 +377,6 @@ playbook = [
     }
 ]
 ```
-
 
 ```
 - hosts: webservers  

@@ -15,7 +15,7 @@ tags:
 
 #### Working with Targets
 
-targets do:
+Targets do:
 * adding units to be automatically started
 * setting a default target
 * running non-default target to enter troubleshooting mode
@@ -46,8 +46,8 @@ A target unit file contains what it requires and which services it cannot coexis
 #### Wants
 
 *Wants* in Systemd define which units Systemd wants when starting a specific target
-Wants are created as directories when using the **systemctl enable** command, containing wants as symbolic links to the services that need to be started
-**/etc/systemd/system/**: contains the **wants** dirs of different targets
+Wants are created as directories when using the `systemctl` enable** command, containing wants as symbolic links to the services that need to be started
+`/etc/systemd/system/`: Contains the **wants** dirs of different targets
 #### Managing Targets
 
 The **\[Install]** section of a unit file defines the target in which a service should be started
@@ -67,7 +67,7 @@ WantedBy=multi-user.target
 ```
 
 The **systemctl enable** command creates a symlink 
-**vsftpd.service** -> **/usr/lib/systemd/system/vsftpd.service** in the /etc/systemd/system/multi-user.target.wants directory
+`vsftpd.service` -> `/usr/lib/systemd/system/vsftpd.service` in the `/etc/systemd/system/multi-user.target.wants` directory
 
 Changing the default target works similarly:
 `Created symlink /etc/systemd/system/default.target → /usr/lib/systemd/system/multi-user.target.`

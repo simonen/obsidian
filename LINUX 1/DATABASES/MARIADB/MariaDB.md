@@ -4,28 +4,26 @@ tags:
   - centos
   - mysql
 ---
-Oreilly – Learning mySQL and MariaDB 2015
-
 MariaDB is a simple SQL shell client
 
-##### Packages:
-mariadb
-mariadb-server
+##### Packages: 
+`mariadb`
+`mariadb-server`
 
-Install the official mariadb repo to get the latest version
+Install the official MariaDB repo to get the latest version
 https://mariadb.org/download/?t=repo-config&d=CentOS+7&v=11.3&r_m=chroot-network
 
 ##### Documentation
 https://mariadb.com/kb/en/mariadb-command-line-client/
 
 ##### Files and Directories
-**/etc/my.conf**: MariaDB main conf file\
-**/etc/mysql/mysql.conf.d**: main conf files if mySQL 
-**/var/lib/mysql/**:  Data dir. Default database location
-* ibdata1: contains system and user data
-* ib_logfileN: redo, transaction logs. Data is kept here before written to table files
-* /\<database>/\<tablename.frm>
-**/var/log/mysql/error.log**: error log (mySQL)
+- `/etc/my.conf`: MariaDB main conf file
+- `/etc/mysql/mysql.conf.d`: Main conf files if mySQL 
+- `/var/lib/mysql/`:  Data dir. Default database location
+* `ibdata1`: contains system and user data
+* `ib_logfileN`: redo, transaction logs. Data is kept here before written to table files
+* `/<database>/<tablename.frm>`
+- `/var/log/mysql/error.log`: Error log (mySQL)
 
 ##### Install MariaDB
 
@@ -43,23 +41,16 @@ To get a list of available settings
 ```
 
 #### Remote Connections to Databases
-> /etc/my.cnf
-> 
->* **bind-address = 0.0.0.0 : allows connections on all IPv4 and IPv6 addresses.
->* **skip-networking**=0; allow remote connections; 1 to deny remote connections
->* If disabled, local communication with the db is done via sockets, not localhost.
->* **port** 
 
-> [!NOTE]+ /etc/my.conf
-> ```
-> \[mysqld]
-> # Allows connections on all IPv4 and IPv6 addresses. Blank for IPv4 only
-> bind-address=:: 
-> # Allows remote connections; 1 denies remote connections. If disabled,    # local communication with the db is done via sockets, not localhost. 
-> skip-networking=0 
-> port PORT
-> ```
-> 
+`/etc/my.cnf`
+```
+[mysqld]
+# Allows connections on all IPv4 and IPv6 addresses. Blank for IPv4 only
+bind-address=:: 
+# Allows remote connections; 1 denies remote connections. If disabled, local communication with the db is done via sockets, not localhost. 
+skip-networking=0 
+port PORT
+```
 
 To show the current location of databases:
 
@@ -74,6 +65,7 @@ mysqladmin -u root -p variables | grep datadir
 ##### SELinux 
 
 On the web server
+
 ```sh
 setsebool httpd_can_network_connect_db 1 
 ```
@@ -109,7 +101,7 @@ mysql -u root -e "show engines;"
 
 XtraDB / InnoDB is the Default engine
 
-To list all innodb-related variables
+To list all InnoDB-related variables
 
 ``` bash
 mysql -u root -e "show variables like '%innodb%';" -p
@@ -144,7 +136,6 @@ mysql -u root -e "SET GLOBAL innodb_fast_shutdown = 1;" -p
 Shutting down the server will flush all pending changing from the transaction logs to the table files
 
 Some performance variables
-
 
 ``` 
 [mysqld]
@@ -277,9 +268,9 @@ MariaDB > UPDATE <TNAME> SET <ATTR>='NEW_VALUE' WHERE <ATTR>='VALUE'
 MariaDB > DROP DATABASE IF EXISTS 'MY_DATABASE';
 ```
 
-If a db name contains special chars like a hypen `my-db`, it should be enclosed in backquotes or ticks, as the server might interpret the name as a subtraction in this case.
+If a db name contains special chars like a hyphen `my-db`, it should be enclosed in backquotes or ticks, as the server might interpret the name as a subtraction in this case.
 
-Commands can be executed without entering the mariadb CLI:
+Commands can be executed without entering the `mariadb` CLI:
 
 ```sh
 mysql -u USER -e '<MYSQL COMMAND>;'
@@ -294,9 +285,9 @@ CREATE USER USER@HOST IDENTIFIED BY 'PASSWORD'
 ```
 
 A **mysql** user is defined by *USER*@*HOST*, depending on the log in type: local or remote.
-* user@localhost: for local login only
-* user@*remotehost*: for remote users
-* user@'%': Wildcard. Any remote host in this case.
+- `user@'localhost'`: for local login only
+* `user@'remotehost'`: for remote users
+* `user@'%'`: Wildcard. Any remote host in this case.
 
 List all **mysql** users:
 
@@ -329,16 +320,16 @@ FLUSH PRIVILEGES;
 
 ##### Grant Privileges
 
-`SELECT` Gives the ability to perform SELECT statements
-`INSERT` Gives the ability to perform INSERT statements
-`UPDATE` Gives the ability to perform UPDATE statements
-`DELETE` Gives the ability to perform DELETE statements
-`INDEX` Gives the ability to create indexes on tables
-`CREATE` Gives the ability to create databases tables
-`ALTER` Gives the ability to alter database tables
-`DROP` Gives the ability to drop database tables
-`GRANT` OPTION Gives the ability to grant the same privileges to other users
-`ALL` Gives all privileges except GRANT OPTION
+- `SELECT` Gives the ability to perform SELECT statements
+- `INSERT` Gives the ability to perform INSERT statements
+- `UPDATE` Gives the ability to perform UPDATE statements
+- `DELETE` Gives the ability to perform DELETE statements
+- `INDEX` Gives the ability to create indexes on tables
+- `CREATE` Gives the ability to create databases tables
+- `ALTER` Gives the ability to alter database tables
+- `DROP` Gives the ability to drop database tables
+- `GRANT` OPTION Gives the ability to grant the same privileges to other users
+- `ALL` Gives all privileges except GRANT OPTION
 
 The native password authentication method. Just type mysql and press Enter.
 

@@ -12,8 +12,8 @@
 
 **NIS** Network Information Service: provides a network-based authentication server. Deprecated
 
-`/etc/exports`: in this file exports are defined
-`/etc/exports.d`/: files, defining exports, with `.export` extension go here
+- `/etc/exports`: in this file exports are defined
+- `/etc/exports.d`/: files, defining exports, with `.export` extension go here
 
 ```
 # Export structure
@@ -73,12 +73,12 @@ man 5 exports (export options)
 exportfs -o 'OPTIONS' 'CLIENT_HOSTS':/'DIR'
 ```
 or
-add the shares in the **/etc/exports** | **/etc/exports.d/.export**
+add the shares in the `/etc/exports` | `/etc/exports.d/.export`
 
 Some `exportfs` options:
-`-a`: To export all un-exported shares in `/etc/exports`
-`-r`: To re-export and clean non-existing exports:
-`-s`: To display exports and their options on the server
+- `-a`: To export all un-exported shares in `/etc/exports`
+- `-r`: To re-export and clean non-existing exports:
+- `-s`: To display exports and their options on the server
 
 Security methods:
 * `none` : Anonymous access based on the `nobody` permissions. Used with `nfsd_anon_write `boolean. Insecure
@@ -202,8 +202,8 @@ It is a good practice to have the user home directories stored in a central NFS 
 * -rw server:/'EXPORT'/&
 ```
 
-`*` : arbitrary local mount point
-`&`: matching item on the remote server
+- `*` : arbitrary local mount point
+- `&`: matching item on the remote server
 
 Restart the `autofs` daemon after configuring the files
 

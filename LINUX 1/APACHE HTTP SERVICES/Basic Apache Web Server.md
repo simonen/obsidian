@@ -6,31 +6,31 @@ tags:
 
 Apress – Pro Linux System Administration 2nd 2017
 
-Packages
-**httpd** - CentOS
-**apache2** - Debian
-**mod_ssl** - SSL module for Apache
+Packages:
+- `httpd` - CentOS
+- `apache2` - Debian
+- `mod_ssl` - SSL module for Apache
 
-Ports 80, 443
+Ports: 80, 443
 #### Getting Started
 
 Install Apache on RHEL
 
 ``` bash
-$ sudo group install 'Basic Web Server'
+sudo group install 'Basic Web Server'
 ```
 
 ##### Files and Directories
 
-**/etc/httpd** - ServerRoot
-**/etc/httpd/conf/httpd.conf** - main config file
-**/etc/httpd/conf.d** - drop-in conf files, virtual hosts
-**/etc/http/conf.modules.d** - module specific conf files
-**/var/www/html** - default document root
-**/usr/share/doc/httpd-2.4.6/** - sample config and virtual hosts files
+- `/etc/httpd` - ServerRoot
+- `/etc/httpd/conf/httpd.conf` - Main config file
+- `/etc/httpd/conf.d` - Drop-in conf files, virtual hosts
+- `/etc/http/conf.modules.d` - Module specific conf files
+- `/var/www/html` - Default document root
+- `/usr/share/doc/httpd-2.4.6/` - Sample config and virtual hosts files
 
-**DocumentRoot** - specifies the location where Apache looks for content.
-**ServerRoot** - specifies the location of Apache conf files
+- `DocumentRoot` - specifies the location where Apache looks for content.
+- `ServerRoot` - specifies the location of Apache conf files
 
 ```
 [kimchen@rhel9 ~]$ ll /etc/httpd
@@ -53,12 +53,12 @@ Processes that are running in chroot env can read files only from that environme
 
 Procedure to access a virtual host:
 
-* client starts a session to a host, typically by a web browser
+* Client starts a session to a host, typically by a web browser
 * DNS name resolve
-* the Apache process receives request for all virtual hosts it is running
-* the Apache process reads the HTTP header and decides which vh to forward to
+* The Apache process receives request for all virtual hosts it is running
+* The Apache process reads the HTTP header and decides which vh to forward to
 * Apache reads the specific VH conf file to find which **DocumentRoot** it is using
-* the request is forwarded to the appropriate contents file in that specific document root
+* The request is forwarded to the appropriate contents file in that specific document root
 
 * **name-based virtual hosting**: virtual hosting causes Apache to serve a web page for a specific directory based on the name of the site a remote user connected to. Any number of name-based virtual hosts can share a single IP address. The name of the site is determined by a special header that is sent in the request to the web server.
 
@@ -66,31 +66,31 @@ Procedure to access a virtual host:
 
 #### Creating Virtual Hosts
 
-1. Create DNS records for the Virtual Hosts in /etc/hosts
-2. Create a file in /etc/http/conf.d/*HOSTNAME*.**conf**
-3. Make sure the servername is resolvable. DNS or /etc/hosts
+1. Create DNS records for the Virtual Hosts in `/etc/hosts`
+2. Create a file in `/etc/http/conf.d/'HOSTNAME'.conf`
+3. Make sure the `ServerName` is resolvable. 
 
-> [!NOTE]+ /etc/http/conf.d/*HOSTNAME*.conf
->  ```
->  <VirtualHost *:80>
-> 	ServerAdmin webmaster@account.example.com
-> 	DocumentRoot /www/docs/account.example.com
-> 	ServerName account.example.com
-> 	ServerAlias www.account.example.com
-> 	ErrorLog logs/account.example.com-error_log
-> 	CustomLog logs/account.example.com-access_log common
-> </VirtualHost>
-> ```
+`/etc/http/conf.d/_HOSTNAME_.conf`
+```
+<VirtualHost *:80>
+	ServerAdmin webmaster@account.example.com
+	DocumentRoot /www/docs/account.example.com
+	ServerName account.example.com
+	ServerAlias www.account.example.com
+	ErrorLog logs/account.example.com-error_log
+	CustomLog logs/account.example.com-access_log common
+</VirtualHost>
+```
 
-**DirectoryIndex index.html** - This tells apache to look for a file named index.html as the webpage home page
+`DirectoryIndex index.html` - This tells apache to look for a file named index.html as the webpage home page
 
-`curl www.account.example.com` will now 
+`curl www.account.example.com`
 `curl –H 'Host: www.example.com' http://localhost`
 
 -H 'Host: www.example.com' : sends the special header
 ##### Host Based Access
 
-To control access separately to virtual host the \<Directory> block must be inserted in the VirtualHost block
+To control access separately to virtual host the `\<Directory>` block must be inserted in the `VirtualHost` block
 
 `/etc/httpd/conf.d/virtualhost.conf`
 ```
@@ -157,14 +157,12 @@ Options
 
 [[gitea/LINUX 1/APACHE HTTP SERVICES/Advanced Apache Web Server#Configuring Private Directories]]
 
-User
-apache
+User: 
+`apache`
 ##### Firewall
 
 Ports: 80, 443
-##### Selinux 
-
-This tells SELinux to block access to the DocumentRoot
+##### SElinux 
 
 Booleans
 Contexts
@@ -186,7 +184,6 @@ To enable modules in Ubuntu, symlinks are created in
 
 Modules can be managed maually by the 
 `a2enmod`, `a2dismod` commands
-
 
 ##### Apache MPMs
 

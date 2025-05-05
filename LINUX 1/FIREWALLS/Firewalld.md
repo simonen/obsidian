@@ -6,11 +6,11 @@ tags:
   - centos
 ---
 
-**firewalld** is part of the **firewalld** package
-**firewalld-config** - graphical configuration tool
-**ebtables**: used for managing firewalling on Linux bridges
+- `firewalld` is part of the `firewalld` package
+- `firewalld-config` - graphical configuration tool
+- `ebtables`: used for managing firewalling on Linux bridges
 
->!!! **iptables** and **firewalld** services must **NOT** be running together. Running iptables while firewalld is running messes up firewalld configuration
+>!!! **iptables** and **firewalld** services must **NOT** be running together. Running iptables while `firewalld` is running messes up `firewalld` configuration
 
 To make sure iptables (or any unwanted service) is not started by accident
 
@@ -48,7 +48,7 @@ Oct 27 22:39:31 localhost.com kernel: filter_IN_public_REJECT: IN=ens18 OUT= MAC
 ```
 #### Network Ports and Numbering
 
-For port reference 
+Port reference:  
 `/etc/services`
 
 port range 0-65535
@@ -78,8 +78,8 @@ firewall-cmd --add-port='port/protocol' --permanent ; firewall-cmd --reload
 
 #### firewalld Services
 
-**Firewalld** has its own services. Not to be confused with **systemd** services
-**firewalld** services serve to allow ports through the firewall. They do not change config files of other services
+`Firewalld` has its own services. Not to be confused with `systemd` services
+`firewalld` services serve to allow ports through the firewall. They do not change config files of other services
 
 > `Firewalld` services are pre-defined as xml files in:
 > `/usr/lib/firewalld/services` -> should not be modified
@@ -129,12 +129,12 @@ firewall-cmd --runtime-to-permanent
 ```
 
 ##### Create a custom service
-1. Create a new xml file or copy one from **/usr/firewalld/services** over to **/etc/firewalld/services**
+1. Create a new xml file or copy one from `/usr/firewalld/services` over to `/etc/firewalld/services`
 2. Make the configurations in the file
-3. Reload **firewall-cmd**
-4. **$ firewall-cmd --get-services** now shows the custom service
-5. **$ firewall-cmd --add-service**=*CUSTOM-SERVICE* **--permanent**
-6. Reload **firewall-cmd**
+3. Reload `firewall-cmd`
+4. `firewall-cmd --get-services` now shows the custom service
+5. `firewall-cmd --add-service=CUSTOM-SERVICE --permanent` 
+6. Reload `firewall-cmd`
 
 #### firewalld Zones
 
@@ -192,7 +192,7 @@ Default zones
 
 ##### Rich Rule Syntax
 
-**man 5 firewalld.richlanguage**
+**man 5 `firewalld.richlanguage`**
 
 * **Rule**
 	* \[source] \[destination]
@@ -209,7 +209,7 @@ Default zones
 
 A rule not matched by anything is denied, depending on the zone. Trusted zone allows packets even if no rule is matched.
 
-**--timeout**: this option allows a rule to expire after a specified period of time. 
+`--timeout`: this option allows a rule to expire after a specified period of time. 
 
 To block a connection from a specific IP address:
 
@@ -247,6 +247,6 @@ firewall-cmd --zone=public --add-forward-port=port="PORT":proto="PROTOCOL":topor
 
 #### Saving and Restoring the Configuration
 
-firewalld must be stopped while doing configuration save and restore with iptables
+`firewalld` must be stopped while doing configuration save and restore with iptables
 
 [[gitea/LINUX 1/FIREWALLS/iptables#Saving and Restoring the Configuration]]

@@ -4,17 +4,17 @@ tags:
   - networking
 ---
 Network configuration files (profiles) in CentOS
-/etc/sysconfig/network-scripts : CentOS 7
-/etc/NetworkManager/system-connections : CentOS 8 and up
+- `/etc/sysconfig/network-scripts` : CentOS 7
+- `/etc/NetworkManager/system-connections` : CentOS 8 and up
 
 For more info on all network options
-/usr/share/doc/initscripts-\<version>/sysconfig.txt
+`/usr/share/doc/initscripts-\<version>/sysconfig.txt`
 
 To FILL IN: NetworkManager - when it is used, relation to /etc/resolv.conf
 
 NMCLI HELP:
-**$ man 5 nm-settings
-$ man nmcli-examples**
+`man 5 nm-settings`
+`man nmcli-examples`
 
 General dev info
 
@@ -142,12 +142,13 @@ Restart the connection after modifications
 
 #### NetworkManager Connection Conf file
 
-`/etc/NetworkManager/system-connections`
-`/usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf`: controls unmanaged devices
+- `/etc/NetworkManager/system-connections`
+- `/usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf`: controls unmanaged devices
 
 Naming convention
 connection_name.nmconnection
-enp0s3.nmconnection file
+
+`enp0s3.nmconnection file`
 ```
 [connection]
 id=enp0s3

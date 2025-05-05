@@ -7,21 +7,25 @@ tags:
 ---
 
 Debian based distributions use the following software management commands
+
 **aptitude**: terminal-based package manager
-**apt** Advanced Packaging Tool: dependency resolver
-**dpkg**: single package manager
-**tasksel**: managing package groups
+`apt`: Advanced Packaging Tool: dependency resolver
+`dpkg`: Single package manager
+`tasksel`: Managing package groups
 
 #### Apt Cache
 
-Installed debian packages are first downloaded and stored in **/var/cache/apt/archives**. The cache can be shared among multiple clients to install already downloaded software. Utilities for this are: apt-cacher, apt-cacher-ng, and apt-proxy
+Installed Debian packages are first downloaded and stored in `/var/cache/apt/archives`. The cache can be shared among multiple clients to install already downloaded software. Utilities for this are: `apt-cacher`, `apt-cacher-ng`, and `apt-proxy`.
 
 #### Installing and Removing Debian Repositories
 
-/etc/apt/sources.list.d
+`/etc/apt/sources.list.d`
 
 Learn the codename of the Debian release
-$ **lsb_release -sc**
+
+```
+lsb_release -sc
+```
 
 ```
 root@server15:~# lsb_release -sc
@@ -30,19 +34,34 @@ bookworm
 ```
 
 Add a Debian repository
-\# **add-apt-repository** "deb *URL*" *CODENAME*/*SUITE*  *COMPONENTS*
+
+```bash
+add-apt-repository "deb URL" 'CODENAME'/'SUITE'  'COMPONENTS'
+```
 
 Remove a repository
-\# **apt-get repository -r** ...
+
+```bash
+apt-get repository -r 'REPO'
+```
 
 When installing or removing repositories, update the package cache
-\# **apt update**
+
+```bash
+apt update
+```
 
 To download repository updates and install the upgrades
-\# **apt upgrade**
+
+```bash
+apt upgrade
+```
 
 List package dependencies
-$ **apt depends** *PACKAGE*
+
+```bash
+apt depends 'PACKAGE'
+```
 
 #### Using apt to Search, Inspect, Install and Remove Packages
 
@@ -80,9 +99,11 @@ apt remove purge "PACKAGENAME"
 
 man dpkg
 
-To install a dpkg package
+To install a `dpkg` package
 
-\# **dpkg -i** *PACKAGENAME*
+```bash
+dpkg -i 'PACKAGENAME'
+```
 
 Remove a package
 
@@ -98,13 +119,13 @@ dpkg -P | --purge "PACKAGENAME"
 
 ##### Using dpkg to Query and Inspect Packages
 
-dpkg can query installed packages or .deb files. When querying installed packages only the name of the package is used as in "fdisk". When querying a .deb file, the full file path of the package is provided ./fdisk_2.38.1-5+deb12u1_amd64.deb
+`dpkg` can query installed packages or .deb files. When querying installed packages only the name of the package is used as in "fdisk". When querying a .deb file, the full file path of the package is provided ./fdisk_2.38.1-5+deb12u1_amd64.deb
 
 ``` bash
 dpkg-query [OPTION] [PACKAGE.deb]
 ```
 
-List all dpkg-query commands
+List all `dpkg-query` commands
 
 ```
 dpkg-query --help
@@ -132,10 +153,10 @@ Statuses
 * Error
 
 Status codes:
-ii - Package is installed and will install updates if available
-hi - package is on hold and installed but will not install updates
-un - package is not installed
-rc - package is not installed, but there are leftover conf files. (Usually after uninstalling)
+`ii` - Package is installed and will install updates if available
+`hi` - package is on hold and installed but will not install updates
+`un` - package is not installed
+`rc` - package is not installed, but there are leftover conf files. (Usually after uninstalling)
 
 List the contents of an installed package
 
@@ -205,7 +226,7 @@ tar -zxvf nginx-1.10.1.tar.gz
 
 [Info about the make command]( http://www.tutorialspoint.com/makefile/why_makefile.htm f)
 
-Install the required dependecies:
+Install the required dependencies:
 
 ``` bash
 apt intall -y zlib1g-dev libpcre3-dev

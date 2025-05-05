@@ -8,10 +8,10 @@ The `rsyslog` utility generates, processes and stores meaningful event notificat
 `RELP`: Reliable Event Logging Protocol. Allows `rsyslog` to send log data across the network.
 `rsyslog` traffic is transmitted on 514/tcp
 
-Config file:
+Config file: 
 `/etc/rsyslog.conf`
 
-Drop-in files
+Drop-in files: 
 `/etc/rsyslog.d`
 
 #### rsyslog.conf
@@ -204,21 +204,22 @@ firewall-cmd --add-port=514/tcp --permanent ; firewall-cmd --reload
 
 On the client server
 
-`etc/rsyslog.conf`
+`/etc/rsyslog.conf`
 ```
 *.* @@LOG-SERVER:514
 ```
 
-`*.* `: All facilities and priorities are sent to the remote server
-`@@`: Send over TCP protocol
-`@`: Send over UDP protocol
+- `*.* `: All facilities and priorities are sent to the remote server
+- `@@`: Send over TCP protocol
+- `@`: Send over UDP protocol
 
 To send only `err` priority messages over TCP:
+
 `*.err @@LOG-SERVER:514`
 
 Sending logs to a remote server with the `omfwd` module
 
-`etc/rsyslog.conf`
+`/etc/rsyslog.conf`
 ```
 mail.*    action(type="omfwd" Target="192.168.1.13" Port="10514" Protocol="tcp" NetworkNamespace="ns_eth0.0")
 ```
@@ -303,7 +304,6 @@ To pipe a log file into `rsyslog`. Now mail facility messages on the client will
 ``` bash
 tail -f /var/log/maillog | logger
 ```
-
 
 #### RELP 
 

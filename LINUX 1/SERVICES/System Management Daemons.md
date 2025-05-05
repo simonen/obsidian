@@ -100,7 +100,7 @@ Executing /lib/systemd/systemd-sysv-install disable postfix
 
 SysV Runlevels are mapped to systemd targets using symlinks
 
-Runlevels can be found here
+Runlevels can be found here: 
 `/usr/lib/systemd/system`
 
 ```
@@ -140,21 +140,21 @@ LSB Linux Standard Base: set of standards
 The init process under Upstart is event-driven
 
 Service daemon
-initctl
+`initctl`
 
 Definition files or Upstart scripts can be found in
-/etc/init
+`/etc/init`
 
-Managing SysV init.d  services in Ubuntu is done via the update-rc.d command. It creates or removes symbolic links in /etc/rc*.d 
+Managing SysV init.d  services in Ubuntu is done via the `update-rc.d` command. It creates or removes symbolic links in `/etc/rc*.d `
 
 update-rc.d options:
 
-start: explicitly state the runlevels and startup sequences
-stop: explicitly state the sequence and runlevels to stop a service
-defaults: creates start and stop symlinks with default start stop sequences
+start: explicitly state the *runlevels* and startup sequences
+stop: explicitly state the sequence and *runlevels* to stop a service
+defaults: creates start and stop *symlinks* with default start stop sequences
 remove: removes symlinks from runlevel dirs
--n: dry run
--f: force
+- `-n`: dry run
+- `-f`: force
 
 S20: start priority 20
 K80: stop priority of 80

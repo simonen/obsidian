@@ -1,11 +1,11 @@
 [[gitea/LINUX 1/STORAGE/Devices]]
 
-**xfs**: default filesystem for RHEL9
-**ext4**: default filesystem for pre-RHEL9
-**ext3** and less: not supported in RHEL
-**ntfs**: not supported in RHEL
-**vfat**: virtual FAT, kernel filesystem driver for FAT16 or FAT32
-**mkfs**, without arguments defaults to **ext2**
+- **xfs**: default filesystem for RHEL9
+- **ext4**: default filesystem for pre-RHEL9
+- **ext3** and less: not supported in RHEL
+- **ntfs**: not supported in RHEL
+- **vfat**: virtual FAT, kernel filesystem driver for FAT16 or FAT32
+- **mkfs**, without arguments defaults to **ext2**
 
 The available disk space of a filesystem is divided into **blocks** of specific size. 4K by default. A block can hold a whole file or part of it. A 1K file will use up an entire 4K block. Block size should be selected according to the server's specific purpose.
 
@@ -98,13 +98,15 @@ du -h [-s] 'DIR' [--exclude='DIR']
 **man mke2fs**
 
 Packages:
-**e2fsprogs**: tune2fs, mke2fs, e2label
-**util-linux**: mkfs
+- `e2fsprogs`: tune2fs, mke2fs, e2label
+- `util-linux`: mkfs
 
 Volumes should be unmounted prior to formatting
 For a list of supported filesystem types:
 
-**cat /etc/mke2fs.conf**
+```bash
+cat /etc/mke2fs.conf
+```
 
 **tune2fs**: tool for managing ext4 filesystems
 
@@ -150,9 +152,9 @@ e2label "DEVICE"
 **man mke2fs**
 **man tune2fs**
 
-**data=ordered**: default journal mode, journals metadata only
-**data=journal**: safest mode. All data is forced directly into the journal prior to being written into the main filesystem. Best chances of recovering data in case of failure. Changes written twice.
-**data=writeback**: fastest, least safe
+- `data=ordered`: Default journal mode, journals metadata only
+- `data=journal`: Safest mode. All data is forced directly into the journal prior to being written into the main filesystem. Best chances of recovering data in case of failure. Changes written twice.
+- `data=writeback`: fastest, least safe
 
 ##### Improving Performance with an External Journal for ext4
 
@@ -168,12 +170,19 @@ tune2fs -l "DEVICE" | grep -i "BLOCK_SIZE"
 ```
 
 To format a partition as a journal block device
-\#  **mke2fs -O journal_dev**  -b 4096 \[ -L volume-label ] *PARTITION*
+
+```bash
+mke2fs -O journal_dev  -b 4096 \[ -L volume-label ] 'PARTITION'
+```
 
 To format a volume with ext4 fs and attach the external journal to it
-\# **mkfs.ext4 -b 4096** \[ -L volume-label ] **-J device**=*JOURNAL_DEVICE* *PARTITION*
+
+```bash
+mkfs.ext4 -b 4096 \[ -L volume-label ] -J device='JOURNAL_DEVICE' 'PARTITION'
+```
 
 The external journal device fs-type is shown as **jbd**
+
 ```
 $ lsblk -o NAME,FSTYPE,TYPE
 NAME          FSTYPE      TYPE UUID
@@ -186,8 +195,10 @@ sdb                       disk
 
 To attach an external journal device to an existing filesystem, first clear its existing journal using "^" before the feature to disable it. **man tune2fs**
 
-\# **tune2fs -O ^has_journal** *VOLUME*
-\# **mke2fs -b** SAME_BLOCKSIZE -**J device**=*JOURNAL_DEVICE VOLUME*
+```bash
+tune2fs -O ^has_journal** *VOLUME*
+mke2fs -b SAME_BLOCKSIZE -J device='JOURNAL_DEVICE' 'VOLUME'
+```
 
 ##### Finding Which Journal System is Attached to
 
@@ -195,12 +206,14 @@ man **dumpe2fs**
 **man tune2fs**
 
 A Linux volume with an internal journal
+
 ```
 [root@localhost ~]# dumpe2fs -h /dev/sda2 | grep -i uuid
 Filesystem UUID:          d1db1852-6492-4d52-8a80-ec62824ddbbc
 ```
 
-The device /dev/sdb2 shows that it has an externally-attached journal disk 6e6f70... to it
+The device `/dev/sdb2` shows that it has an externally-attached journal disk 6e6f70... to it
+
 ```
 $ sudo dumpe2fs -h /dev/sdb2 | grep -i uuid
 dumpe2fs 1.43.8 (1-Jan-2018)
@@ -261,15 +274,15 @@ tune2fs -r "RES_BLOCK_NUM" "DEV"
 **man xfs_admin**: tool for managing **xfs** filesystems
 
 Package:
-**xfsprogs**
+`xfsprogs`
 
 XFS developed by Silicon Graphics for IRIX. Supports expanding only.
 
 Tools: 
-xfs_TAB_TAB for all commands
-xfs_repair: helps repair damaged or corrupt fs
-xfs_growfs: expands the XFS 
-xfs_freeze: useful when making snapshots
+- `xfs_TAB_TAB` for all commands
+- `xfs_repair`: helps repair damaged or corrupt fs
+- `xfs_growfs`: expands the XFS 
+- `xfs_freeze`: useful when making snapshots
 
 Make an xfs filesystem
 
@@ -295,12 +308,12 @@ https://wiki.gentoo.org/wiki/Btrfs
 
 man 8 btrfs-filesystem
 
-Package
-**btrfs-progs**
+Package:
+`btrfs-progs`
 
-Btrfs uses COW (Copy-On-Write). When modifying data, it is copied, modified and then written to a new free location, rather than modifying it in-place. The metadata, the location of the file is then updated in the same way to reflect the new location of the data.
+`Btrfs` uses COW (Copy-On-Write). When modifying data, it is copied, modified and then written to a new free location, rather than modifying it in-place. The metadata, the location of the file is then updated in the same way to reflect the new location of the data.
 
-To format a device with btrfs 
+To format a device with `btrfs` 
 
 ``` bash
 mkfs.btrfs "/dev/DEVICE"
@@ -312,8 +325,8 @@ To create a btrfs RAID partition
 mkfs.btrfs -d raid10 /dev/sdb /dev/sdc /dev/sdd /dev/sde
 ```
 
--d: creates the profile for the data block groups
--m: creates the profile for the metadata block groups
+- `-d`: creates the profile for the data block groups
+- `-m`: creates the profile for the metadata block groups
 
 ##### Subvolumes and Snapshots
 
@@ -323,7 +336,7 @@ A subvolume is a POSIX-namespace or a container, not a block device.
 btrfs subvolume create /data/mail
 ```
 
-Create new /srv/subvol folder and mount the mail subvolume
+Create new `/srv/subvol` folder and mount the mail sub volume
 
 ``` bash
  mount -t btrfs -o subvol=mail /dev/sdc /srv/subvol
@@ -339,8 +352,8 @@ Filesystem      Size  Used Avail Use% Mounted on
 
 #### Creating exFAT Filesystem
 
-Package
-**exfatprogs**
+Package: 
+`exfatprogs`
 
 **FUSE**: Filesystem in User Space
 
@@ -358,10 +371,11 @@ exfatlabel "DEVICE" "LABEL"
 
 #### Creating FAT16 and FAT32 Filesystems
 
-Packages
-**dosfstools**
+Package:
+`dosfstools`
 
 Max file size: 4GB
+
 Max partition size: 16TB
 
 Create a FAT 32 filesystem
@@ -449,7 +463,7 @@ swapoff /dev/"SWAP_DEV|FILE"
 
 #### fsadm Utility
 
-fsadm — utility to resize or check filesystem on a device
+`fsadm` — utility to resize or check filesystem on a device
 
 #### Recovering from Failure
 

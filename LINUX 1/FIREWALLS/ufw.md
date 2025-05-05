@@ -1,7 +1,7 @@
 
-Uncomplicated Firewall
+Uncomplicated Firewall. Debian
 
-Enable / disable ufw
+Enable / disable `ufw`
 
 ```bash
 ufw enable | disable
@@ -46,27 +46,27 @@ To delete a rule
 ufw delete allow http
 ```
 
-Application profiles can be defined in drop-in files in **/etc/ufw/applications.d/**. The openssh-server drop-in file is already present, thus allowing ssh connections, even as ufw might not be installed
+Application profiles can be defined in drop-in files in `/etc/ufw/applications.d/`. The `openssh-server` drop-in file is already present, thus allowing SSH connections, even as ufw might not be installed
 
-> [!NOTE]+ /etc/ufw/applications.d/openssh-server
-> ```
-> [OpenSSH]
-> title=Secure shell server, an rshd replacement
-> description=OpenSSH is a free implementation of the Secure Shell protocol.
-> ports=22/tcp
-> ```
+`/etc/ufw/applications.d/openssh-server`
+```
+[OpenSSH]
+title=Secure shell server, an rshd replacement
+description=OpenSSH is a free implementation of the Secure Shell protocol.
+ports=22/tcp
+```
 
-Namespace OpeSSH followed by title and description. Similar to firewalld services
+Namespace OpenSSH followed by title and description. Similar to `firewalld` services
 
 To define a custom rule (application profile) with multiple ports and protocols, separated by "|"
 
->[!NOTE]+ /etc/ufw/applications.d/webserver
->```
-> [webserver] 
-> title=Application Webserver
-> description=Application X Webserver
-> ports=80/tcp|443/tcp|8080/tcp 
-> ```
+`/etc/ufw/applications.d/webserver`
+```
+[webserver] 
+title=Application Webserver
+description=Application X Webserver
+ports=80/tcp|443/tcp|8080/tcp 
+```
 
 After the app file has been created
 
@@ -80,7 +80,7 @@ To verify the new rule
 sudo ufw app info webserver
 ```
 
-To list all app profiles from the /applications.d dir
+To list all app profiles from the `/applications.d` dir
 
 ```
 ufw app list

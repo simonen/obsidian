@@ -72,10 +72,12 @@ TCP Forwarding uses:
 * **Local Port Forwarding**: create a local port that is connected to a remote service
 * **Remote Port Forwarding**: make a port available on a local host to users on the internet
 
-in **sshd_config**:
-`GatewayPorts yes | no | clientspecified`
+`sshd_config`
+```
+GatewayPorts yes | no | clientspecified
+```
 
-The GatewayPorts directive controls access to a forwarded port. Applies only to the starting point of the tunnel. Binds to the loopback interface by default.
+The `GatewayPorts` directive controls access to a forwarded port. Applies only to the starting point of the tunnel. Binds to the loopback interface by default.
 
 `no`: restricts SSH forwarded ports to the loopback interface only
 
@@ -91,13 +93,13 @@ Netid       State        Local Address:Port             Peer Address:Port
 tcp         LISTEN                   *:8088                        *:*
 ```
 
-`-f`: run the ssh session in the background
-`-N`: Do not execute a remote command. Useful for just forwarding ports
+- `-f`: run the SSH session in the background
+- `-N`: Do not execute a remote command. Useful for just forwarding ports
 
 ##### Reverse SSH Tunneling
 
-Client: 10.0.2.66
-Server: 10.0.2.153
+- Client: 10.0.2.66
+- Server: 10.0.2.153
 
 Reverse tunnels allow external clients to access services on a remote server as if they were local to that server. This can be useful for scenarios where direct access to the server is restricted or when services need to be accessed securely from external networks.
 
