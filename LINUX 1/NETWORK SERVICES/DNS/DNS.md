@@ -36,15 +36,15 @@ Domain Name System. Hierarchical system that stores info about network hosts. In
 
 **nsswitch.conf**: specifies the order of which DNS resource providers are contacted
 
+`nsswitch.conf`
 ```
-nsswitch.conf
 hosts:      files dns myhostname
 ```
 
 In order of appearance:
 1. **`files`:** `/etc/hosts`
-2. **dns**: available DNS servers (`resolv.conf`)
-3. myhostname
+2. **`dns`**: available DNS servers (`resolv.conf`)
+3. `myhostname`
 
 `myhostname` : this will resolve the ip address to the host's own hostname without the need to be included in the `hosts` file.
 #### Zones
