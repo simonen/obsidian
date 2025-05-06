@@ -2,6 +2,7 @@
 man loginctl
 man lastlog
 
+```
 logname
 lastlog
 whoami
@@ -10,12 +11,15 @@ who
 users
 last
 lastb: lists bad logins, incorrect password or other issues
+```
+
 
 **MOTD_FILE**: Message of The Day file. Defines welcome message on login.
 
 man issue
-/etc/issue : for local logins
-/etc/issue.net : for SSH logins
+
+- `/etc/issue` : for local logins
+- `/etc/issue.net` : for SSH logins
 
 #### User Prompt
 
@@ -28,10 +32,10 @@ echo $PS1
 [\u@\h \W]\$
 ```
 
-\\u: username
-\\h: hostname
-\\W: working directory
-\\T: timestamp
+- `\u`: username
+- `\h`: hostname
+- `\W`: working directory
+- `\T`: timestamp
 
 See PROMPTING section in the bash man page
 
@@ -44,9 +48,9 @@ PS1="(\T)[\u@\h:\W] $ "
 
 #### Environment Variables
 
-/etc/profile
-/etc/profile.d/
-~/.bash_profile
+- `/etc/profile`
+- `/etc/profile.d/`
+- `~/.bash_profile`
 
 To add a directory to the start of the PATH variable
 
@@ -67,13 +71,13 @@ To add a path to the end of the PATH
 PATH=$PATH:"/home/kimchen/documents"
 ```
 
-These effects are temporary, lasting only until the end of the session. To make changes permanent, add the modifications in the ~/.**bash_profile** file, + the export command to propagate the change.
+These effects are temporary, lasting only until the end of the session. To make changes permanent, add the modifications in the `~/.bash_profile` file, + the export command to propagate the change.
 
-> [!NOTE]+ ~/.bash_profile
-> ``` 
-> PATH=$PATH:"/home/kimchen/documents"
-> export PATH
-> ```
+`~/.bash_profile`
+```
+PATH=$PATH:"/home/kimchen/documents"
+export PATH
+```
 
 #### Aliases
 

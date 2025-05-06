@@ -1,14 +1,15 @@
 
 **man lshw**
 
-**lspci**
-**lsusb**
-**lscpu**
-#### Filtering lshw Output
+- `lspci`
+- `lsusb`
+- `lscpu`
+#### Filtering `lshw` Output
 
-lshw options
+`lshw` options
 
-**lshw -short** produces
+`lshw -short` produces
+
 ```
 H/W path              Device      Class       Description
 =========================================================
@@ -26,43 +27,62 @@ H/W path              Device      Class       Description
 ```
 
 To filter out specific items from the Class column
-\# **lshw -short -class** *CLASS_ITEM*
 
-For full version of a specific class
-\# **lshw -class** *CLASS_ITEM*
+```bash
+lshw [-short] -class *CLASS_ITEM*
+```
 
--**sanitize**: removes sensitive info such as IP addresses, serial numbers
+- `-short`: Short version
+- `-sanitize`: Removes sensitive info such as IP addresses, serial numbers
 
-Format the report 
+Format the report:
 -json
 -html
 -xml 
 
-#### Detecting Hardware with hwinfo
+#### Detecting Hardware with `hwinfo`
 
 **man hwinfo**
-**hwinfo --help** for a list of hardware items
+
+`hwinfo --help`: For a list of hardware items
 
 List RAID devices, if any
-$ **hwinfo --listmd**
+
+```bash
+hwinfo --listmd
+```
 
 Get detailed info about selected components
-$ **hwinfo** --*COMPONENT1* --*COMPONENT2* --*COMPONENTN*
 
-#### Detecting PCI Hardware with lspci
+```bash
+hwinfo --'COMPONENT1' --'COMPONENT2' --'COMPONENTN'
+```
 
-Read information from the PCI bus, includes onboard components, items plugged in the PCI slots. Reads info from its own databases **pci.ids**
+#### Detecting PCI Hardware with `lspci`
+
+Read information from the PCI bus, includes onboard components, items plugged in the PCI slots. Reads info from its own databases `pci.ids`
 
 To update the database
-\# **update-pciids**
+
+```bash
+update-pciids
+```
 
 Locate the database
-**\# locate pci.ids** 
-**/usr/share/misc/pci.ids** : Debian
-**/usr/share/hwdata/pci.ids** : RHEL, CentOS
 
-$ **lspci** 
-$ **lspci** -v, vv, vvv
+```
+locate pci.ids
+```
+
+```
+/usr/share/misc/pci.ids : Debian
+/usr/share/hwdata/pci.ids : RHEL, CentOS
+```
+
+```bash
+lspci
+lspci -v, vv, vvv
+```
 
 #### Understanding lspci Output
 
@@ -78,7 +98,10 @@ $ **lspci** -v, vv, vvv
 00:0d.0: **BDF** number. bus:device:function. 
 
 Display tree view to see relationship between the PCI bus and devices
-\# **lspci -tvv**
+
+```bash
+lspci -tvv
+```
 
 ```
 [root@server2 ~]# lspci -tvv
@@ -97,14 +120,20 @@ PC's almost always have a single PCI bus, so the number is 00
 Servers with multiple CPUs have multiple host bridges, and sometimes - multiple buses on a single domain
 
 Display the domain
-\# **lspci -D**
+
+```bash
+lspci -D
+```
 
 #### Filtering lspci Output
 
 Using **awk**
 
-To filter out entries containing a class keyword \[ Audio, CPU, USB, Ethernet... as per the lspci standard output ]
-\# **lspci -v** | awk '/KEYWORD/,/^$/'
+To filter out entries containing a class keyword \[ Audio, CPU, USB, Ethernet... as per the `lspci` standard output ]
+
+```bash
+lspci -v | awk '/KEYWORD/,/^$/'
+```
 
 \/^$/: looks for the line breaks. Great for extracting text blocks from the -v output
 ```
@@ -115,7 +144,10 @@ text block 2
 	text2 text2 text2
 ```
 
-\# **lspci -nn**
+```
+lspci -nn
+```
+
 ```
 [root@server2 ~]# lspci -nn
 00:00.0 Host bridge [0600]: Intel Corporation 440FX - 82441FX PMC [Natoma] [8086:1237] (rev 02)
@@ -124,8 +156,8 @@ text block 2
 00:02.0 VGA compatible controller [0300]: VMware SVGA II Adapter [15ad:0405]
 ```
 
-\[0600]: class number
-\[8086:1237]: vendor_number : device_number
+- \[0600]: class number
+- \[8086:1237]: vendor_number : device_number
 
 To filter out by class number, vendor, device number
 
@@ -136,10 +168,16 @@ lspci -d ::"NUMBER"
 #### Using lspci to Identify Kernel Modules
 
 To find out which kernel module a device is using
-\# **lspci -kd** ::*CLASS_NUMBER* 
+
+```bash
+lspci -kd ::'CLASS_NUMBER'
+```
 
 To filter out the Ethernet only in machine-readable output -mm
-$ **lspci -vmmk** | awk '/Ethernet/,/^$/'
+
+```bash
+lspci -vmmk | awk '/Ethernet/,/^$/'
+```
 
 ```
 Class:  Ethernet controller
@@ -154,7 +192,10 @@ Module: e1000
 
 #### Using lsusb to List USB Devices
 
-$ lsusb -tv
+```bash
+lsusb -tv
+```
+
 ```
 [root@server2 ~]# lsusb -tv
 /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/6p, 5000M
@@ -175,7 +216,9 @@ ID 1d6b:0003: vendor_code:device_code
 
 On Linux, mass storage devices like SATA and flash media use the SCSI driver
 
-$ **lsblk**
+```bash
+lsblk
+```
 
 ```
 [root@server2 ~]# lsblk
@@ -240,5 +283,7 @@ sr0  0:0:0:0    rom  VBOX     VBOX CD-ROM   1.0  VB0-01f003f6         ata
 
 #### Identifying Hardware Architecture
 
-$ uname -m
-$ arch
+```bash
+uname -m
+arch
+```

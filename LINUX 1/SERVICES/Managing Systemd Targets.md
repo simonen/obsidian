@@ -20,13 +20,13 @@ Targets do:
 * setting a default target
 * running non-default target to enter troubleshooting mode
 
-**systemctl enable / disable** adds or removes services to / from targets.
+`systemctl enable / disable` adds or removes services to / from targets.
 
 #### Target Units
 
-a target unit has:
-* **/etc/systemd/system/unit.wants**: contains reference to all files that need to be loaded
-* **target unit file**:
+A target unit has:
+* `/etc/systemd/system/unit.wants`: Contains reference to all files that need to be loaded
+* target unit file:
 
 ```
 [kimchen@rhel9 timers.target.wants]$ systemctl cat multi-user.target
@@ -66,7 +66,8 @@ ExecStart=/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
 WantedBy=multi-user.target
 ```
 
-The **systemctl enable** command creates a symlink 
+The `systemctl enable` command creates a symlink 
+
 `vsftpd.service` -> `/usr/lib/systemd/system/vsftpd.service` in the `/etc/systemd/system/multi-user.target.wants` directory
 
 Changing the default target works similarly:
@@ -120,4 +121,4 @@ The `Alias` option in the \[Install] section means that we can symlink kbrequest
 Created symlink from /etc/systemd/system/kbrequest.target to /usr/lib/systemd/system/rescue.target.
 ```
 
-`kbrequest.target` is a special systemd unit that is started by pressing ALT+UpArrow which should enter rescue mode
+`kbrequest.target` is a special `systemd` unit that is started by pressing ALT+UpArrow which should enter rescue mode

@@ -37,7 +37,7 @@ Configuration files
 #### Postfix Processes (Daemons) and Basic Email Flow
 
 Sequence: 
-`smtpd` -> `cleanup` -> `qmgr` -> `{local, smtp}`
+- `smtpd` -> `cleanup` -> `qmgr` -> `{local, smtp}`
 
 ##### SMTP Daemon (`smtpd`)
 
@@ -248,13 +248,13 @@ Simple SMTP messages can be sent to a user's inbox over telnet. Commands:
 
 Multiple commands can be issued at once with the help of `PIPELINING` if the SMTP server supports it. Prepare the commands in a text file and feed it to the telnet or openssl s_client 
 
-```
+```bash
 openssl s_client -starttls smtp -connect smtp.6circles.cc:25 < smtp-commands.txt
 ```
 
 #### Basic Mail Troubleshooting
 
-Postfix and Dovecot log files
+Postfix and Dovecot log files: 
 - `/var/log/maillog`
 
 To check the mail queue

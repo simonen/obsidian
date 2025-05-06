@@ -40,7 +40,7 @@ ldd /bin/bash
         /lib64/ld-linux-x86-64.so.2 (0x00007f6676aa4000)
 ```
 
-ldd should be used on trusted executables only, as it can execute arbitrary code. 
+`ldd` should be used on trusted executables only, as it can execute arbitrary code. 
 On untrusted execute use:
 
 ``` bash
@@ -53,9 +53,9 @@ Copy the libraries to /new/root/lib64 and execute chroot /new/root
 bash-4.2#
 ```
 
-When chrooting the root directory, it does so without the pseudo filesystems like procfs, sysfs... 
+When chrooting the root directory, it does so without the pseudo filesystems like `procfs`, sysfs... 
 
-For example: as lsblk command reads the sysfs filesystem and udev db to gather information about block devices, the /sys directory must be mounted in the chroot env.
+For example: as `lsblk` command reads the `sysfs` filesystem and `udev db` to gather information about block devices, the `/sys` directory must be mounted in the chroot env.
 When using a SystemRescue disk which comes with pseudo filesystems, this can be achieved by binding them to the chroot env.
 
 ``` bash

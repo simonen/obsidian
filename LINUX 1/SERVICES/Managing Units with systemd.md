@@ -214,5 +214,8 @@ systemctl enable "NAME"@"CONFIG_FILE_NAME" # (without the .conf)
 ```
 
 Refer to the template file for requirements
-$ **systemctl cat** NAME@.service
+
+```bash
+systemctl cat NAME@.service
+```
 

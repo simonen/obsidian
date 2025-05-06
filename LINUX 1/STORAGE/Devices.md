@@ -83,7 +83,7 @@ This address uniquely identifies the SCSI device within the system and is often 
 
 In modern Linux systems, device management is typically handled by utilities such as `udev` or `sysfs`. 
 
- To disable a SCSI device. Make sure the right HCTL is selected with lsblk first. Not permanent
+ To disable a SCSI device. Make sure the right HCTL is selected with `lsblk` first. Not permanent
 
  ``` bash
  echo 1 > /sys/class/scsi_device/"HCTL"/device/delete

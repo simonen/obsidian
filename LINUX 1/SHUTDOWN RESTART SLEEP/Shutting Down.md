@@ -1,9 +1,10 @@
 
-Permissions for shutting down Linux are controlled by PolKit (former Policy Kit) Authorization Manager
+Permissions for shutting down Linux are controlled by `PolKit` (former Policy Kit) Authorization Manager
 
 **man 8 polkit**
 
-legacy commands are symlinked to **/bin/systemctl**
+Legacy commands are symlinked to `/bin/systemctl`
+
 ```
 $ stat /sbin/shutdown
  File: ‘/sbin/shutdown’ -> ‘../bin/systemctl’
@@ -16,7 +17,7 @@ Context: system_u:object_r:bin_t:s0
 man
 #### Shutting Down with systemctl
 
-systemctl poweroff and shutdown link to the same poweroff.target in /lib/systemd/system
+`systemctl poweroff` and shutdown link to the same poweroff.target in /lib/systemd/system
 
 \# systemctl { halt | poweroff | shutdown | reboot }
 
@@ -44,7 +45,10 @@ Schedule a shutdown at an exact time
 \# **shutdown -h 22:15**
 
 Reboot
-\# **shutdown -r**
+
+```bash
+shutdown -r
+```
 
 Halt
 \# **shutdown -H**

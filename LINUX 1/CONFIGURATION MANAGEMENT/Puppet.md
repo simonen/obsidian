@@ -2,7 +2,7 @@
 tags:
   - centos
 ---
-Puppet Server v4 tested on CentOS 7. To test on CentOS 9
+Puppet Server v4 tested on CentOS 7. 
 #### Overview
 
 **Architecture**
@@ -70,8 +70,8 @@ Port:
 `8140/tcp`
 
 Configuration files
-`/etc/puppetlabs/puppetserver/conf.d/puppetserver.conf`: Principal configuration file. Paths, TLS
-`/etc/puppetlabs/puppet/puppet.conf`: Main `conf` file. Environment is set here
+- `/etc/puppetlabs/puppetserver/conf.d/puppetserver.conf`: Principal configuration file. Paths, TLS
+- `/etc/puppetlabs/puppet/puppet.conf`: Main `conf` file. Environment is set here
 
 The environment directory structure
 

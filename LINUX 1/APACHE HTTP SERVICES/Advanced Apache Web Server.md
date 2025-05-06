@@ -113,8 +113,8 @@ setfacl -R -m -d:g:webdev:rwx /var/www/docs
 
 #### Configuring TLS security
 
-**package**: `crypto-utils`
-**apache mod**: `mod_ssl`
+Package: `crypto-utils`
+Apache mod: `mod_ssl`
 
 [[LINUX/PKI/OpenSSL]] For SSL certificates and keys generation
 
@@ -176,6 +176,7 @@ curl 'https://WEB_SERVER' --cacert 'CACERT.PEM'
 `-k`: to skip certificate verification
 
 To redirect **http** to **https**
+
 `/etc/http/conf/httpd.conf`
 ```
 Listen 80
@@ -340,12 +341,12 @@ SSLSessionCacheTimeout 3600
 
 Memcached options
 
-`-m 10`: Allocate 10 MB of RAM to ensure the session data is cached for the entire duration
-`-k`: Lock the cache memory to improve performance and prevent TLS session data from being written to swap
-`-c #`: Ensure that the maximum number of connections allowed is sufficient to cover the max number of concurrent connections supported by the entire cluster
-`-d`: Run as a daemon
-`-u memcache`: Rus as user `memcache`
-`-p 11211`: Run on port 
+- `-m 10`: Allocate 10 MB of RAM to ensure the session data is cached for the entire duration
+- `-k`: Lock the cache memory to improve performance and prevent TLS session data from being written to swap
+- `-c #`: Ensure that the maximum number of connections allowed is sufficient to cover the max number of concurrent connections supported by the entire cluster
+- `-d`: Run as a daemon
+- `-u memcache`: Rus as user `memcache`
+- `-p 11211`: Run on port 
 
 **Availability**:
 	`Memcached` is now a single point of failure for the cluster
@@ -502,17 +503,17 @@ To allow access to the web resource to authenticated users only using LDAP. User
 ```
 
 Other directives
-`Require ldap-group <AUTHORIZED GROUP>`: Give access to authorized group users only.
-`AuthLDAPBindAuthoritative on`
-`AuthLDAPBindDN cn=webadmin,ou=meta,dc=example,dc=com`
-`AuthLDAPBindPassword <thewebadminpasswordincleartext>`
+- `Require ldap-group <AUTHORIZED GROUP>`: Give access to authorized group users only.
+- `AuthLDAPBindAuthoritative on`
+- `AuthLDAPBindDN cn=webadmin,ou=meta,dc=example,dc=com`
+- `AuthLDAPBindPassword <thewebadminpasswordincleartext>`
 
 #### Connecting to Databases
 
 `SELinux` considerations
 
-`httpd_can_network_connect_db` (Boolean) : Enabled when the db server is on a remote machine
-`httpd_can_network_connect` (Boolean): Enabled when it is not obvious that the target is a db server 
+- `httpd_can_network_connect_db` (Boolean) : Enabled when the db server is on a remote machine
+- `httpd_can_network_connect` (Boolean): Enabled when it is not obvious that the target is a db server 
 
 #### Deploying CGI Applications
 

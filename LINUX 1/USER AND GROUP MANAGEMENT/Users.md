@@ -1,23 +1,31 @@
 
-Users a listed in: **/etc/passwd**. Groups are listed in: **/etc/group**
-Hashed passwords are stored in **/etc/shadow**
+Users a listed in: `/etc/passwd`. Groups are listed in: `/etc/group`
+Hashed passwords are stored in `/etc/shadow`
 
-**/etc/passwd** entry breakdown
-`username:x:UID:GID:GECOS:Home Directory:default login shell`
-x: a marker for password, stored in the /etc/shadow as a hash
+`/etc/passwd` entry breakdown
+```
+Username:x:UID:GID:GECOS:Home Directory:Default login shell
+```
 
-**/etc/shadow** entry breakdown
-babuna:$6$0VllUFP4$UjlNOukc80lX/H3XZ17bQ8Te2fRPRlNHSwyZIddFG1f8GtlKtBRnVZ0UriDJO4oaKk2uRP990T2eLQ9N38JXb/:19842:0:99999:7:::
+`x`: Marker for password, stored in the `/etc/shadow` as a hash
+
+`/etc/shadow` entry breakdown
+```
+babuna:$6$0VllUFP4$UjlNOukc8...riDJO4oaKk2uRP990T2eLQ9N38JXb/:19842:0:99999:7:::
+```
 `username:(password prefix)pass_hash:date pass was last changed:minimum days between pass changes:pass expiration in days:pass exp warning in days:number of days after pass expiration account will disabled:date since account has been disabled`
 
-password prefixes:
-$: active account
-\* or !: password is disabled, account locked.
-!! : pass never set
+Password prefixes:
+- `$`: Active account
+- `* or !`: Password is disabled, account locked.
+- `!!` : Pass never set
 
 
-Use getent to list the contents of the respective directories
-**$ getent passwd; $ getent group**
+Use `getent` to list the contents of the respective directories
+
+```
+getent passwd; getent group
+```
 
 * human users: root / superuser or regular / unprivileged 
 * system users: represent services or processes. Do not have logins or home dirs
@@ -44,32 +52,38 @@ Executable files with the set uid special permission are executed always as the 
 
 EXAMPLE: 
 
-1. execute the passwd command as a regular user
-2. check out the passwd process information
+1. Execute the `passwd` command as a regular user
+2. Check out the `passwd` process information
 
-$ **ps -eo pid,euser,ruser,rgroup** *PASSWD_PID*
+```bash
+ps -eo pid,euser,ruser,rgroup** *PASSWD_PID*
+```
+
 `2243 root     kimchen  kimchen`
 
-The **passwd** command is run effectively by the root user (euser), who is the owner of the exe file, by real user kimchen (ruser), primary group kimchen (rgroup)
+The `passwd` command is run effectively by the root user (`euser`), who is the owner of the exe file, by real user kimchen (`ruser`), primary group kimchen (rgroup)
 
 To get the real **UID** of a user:
 
 ``` bash
 id "USER"
 ```
-#### Create Users
+#### Creating Users
 
 **man useradd**
 **man passwd**
-**/etc/login.defs**
-**/etc/default/useradd** : useradd default settings
-**/etc/skel**
 
-> [!NOTE]+ /etc/passwd structure
-> USERNAME:x:UID:GID:COMMENT:HOME_DIR:/SHELL
-> klientela:x:1003:1003:Account manager:/home/klientela:/bin/bash
+- `/etc/login.defs`
+- `/etc/default/useradd` : `useradd` default settings
+- `/etc/skel`
 
-To list **useradd** default settings. Displays the contents of **/etc/default/useradd**
+`/etc/passwd` structure
+```
+USERNAME:x:UID:GID:COMMENT:HOME_DIR:/SHELL
+klientela:x:1003:1003:Account manager:/home/klientela:/bin/bash
+```
+
+To list `useradd` default settings. Displays the contents of `/etc/default/useradd`
 
 ``` bash
 useradd -D
@@ -89,7 +103,10 @@ useradd "USER";
 ```
 
 If the Linux system does not create home dir and primary group for the user automatically:
-\# **useradd -mU** *USER*
+
+```bash
+useradd -mU 'USER'
+```
 
 Assign or change passwords
 
@@ -98,7 +115,10 @@ passwd "USER"
 ```
 
 To read the password from STDIN
-**$ echo** *PASSWORD* | **passwd** **--stdin** *USER*
+
+```bash
+echo 'PASSWORD' | passwd --stdin 'USER'
+```
 
 To force the user to change his password at first login (expire the password)
 ``` bash
@@ -117,15 +137,15 @@ useradd -G "GROUP1","GROUP2","GROUP3" -c "FULL NAME,,,," "USER"
 useradd -rs /sbin/nologin "SERVICE_USER"
 ```
 
-**-r**: create system user with real ID in the correct numerical range (as defined in **/etc/login/defs**) for system users
-**-s**: login shell
-USERGROUPS_ENAB yes: if set to 'no' default user group is users(gid=100)
+- `-r`: Create system user with real ID in the correct numerical range (as defined in `/etc/login/defs`) for system users
+- `-s`: login shell
+- `USERGROUPS_ENAB yes`: if set to 'no' default user group is users(gid=100)
 
 #### Password Aging
 
 man chage
 
-**/etc/login.defs**
+`/etc/login.defs`
 
 Set the password to expire after 30 days
 
@@ -135,29 +155,40 @@ chage -M 30 "USER"
 
 #### Customizing the Documents, Music, Downloads Directories
 
-These directories are set up from **/etc/xdg/user-dirs.defaults**
+These directories are set up from `/etc/xdg/user-dirs.defaults`
 Include KEY=VALUE pairs. Only the VALUE can be changed, or dirs can be excluded overall
+
 ```
 DESKTOP=Desktop
 ```
 
-For per-user customization the conf file is **~/.config/user-dirs.dirs**
+For per-user customization the conf file is `~/.config/user-dirs.dirs`
+
 ```
 XDG_DESKTOP_DIR="$HOME/Desktop"
 ```
 
 To apply changes. Custom dirs must exist before applying the changes. Apply automatically on login
-$ **xdg-user-dirs-update --set** DESKTOP **$HOME**/*NEW_NAME*
+
+```bash
+xdg-user-dirs-update --set DESKTOP $HOME/'NEW_NAME'
+```
 
 Icons should change if successful
 
 To revert back to defaults
-$ **xdg-user-dirs-update --force**
+
+```bash
+xdg-user-dirs-update --force
+```
 
 For dirs outside of $HOME, use symbolic links
-$ **ln -s** /*OUTSIDE_DIR* ~/OUTSIDE_DIR
 
-In **~/.config/user-dirs.dirs**
+```bash
+ln -s /'OUTSIDE_DIR' ~/OUTSIDE_DIR
+```
+
+`~/.config/user-dirs.dirs`
 ```
 XDG_MUSIC_DIR="$HOME/OUTSIDE_DIR"
 ```
@@ -166,8 +197,8 @@ Log out and log in to apply changes automatically
 
 #### Checking Password File Integrity
 
-$ **pwck** : check the integrity of the **shadow** file
-$ **grpck** : checks the integrity of the **gshadow** file
+- `pwck` : Check the integrity of the **shadow** file
+- `grpck` : checks the integrity of the **gshadow** file
 
 #### Disabling User Accounts
 
@@ -183,7 +214,8 @@ passwd -l "USER"
 ```
 
 or 
-Replace the 'x' with an '\*' in the password field in **/etc/passwd**
+
+Replace the 'x' with an '\*' in the password field in `/etc/passwd`
 
 To completely disable a user account
 
@@ -253,5 +285,7 @@ find / -nouser
 ```
 
 Perform an action on files returned by **find**. In this case move them over to another loc
-$ **find / -user** *USER* -exec mv {} /*SOME_DIR* \\; 
 
+```bash
+find / -user 'USER' -exec mv {} 'SOME_DIR' \; 
+```

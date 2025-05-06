@@ -65,9 +65,9 @@ systemctl stop iptables
 ```
 
 By default, the root has no password on a **SystemRescue**. Make sure it has prior to SSH-ing.
-Root password can be set as a boot param. From the **SystemRescue** menu press TAB or 'e' to open the boot options window and add **rootpass=PASSWORD nofirewall** at the end of the line starting with **linux** .CTRL + x to boot.
+Root password can be set as a boot param. From the **SystemRescue** menu press TAB or 'e' to open the boot options window and add `rootpass=PASSWORD nofirewall` at the end of the line starting with **linux** .CTRL + x to boot.
 
-**scp** and **sshfs** can be used
+`scp` and `sshfs` can be used
 
 #### Repairing GRUB from SystemRescue
 
@@ -180,9 +180,9 @@ Run three more passes to try saving more data
 ddrescue -d -f -r3 /"SOURCE" /"DEST" ddlogfile
 ```
 
--rN: retry passes
--f: force
--n: no scrape
+- `-rN`: retry passes
+- `-f`: force
+- `-n`: no scrape
 
 Run a filesystem check on the unmounted recovery disk
 
@@ -193,11 +193,14 @@ e2fsck -vfp /"RECOVERY_DISK"
 #### Creating a Data Partition on SystemRescue USB Drive
 
 Package:
-**syslinux**
+`syslinux`
 
-Tools
-**isohybrid**
-**mbr.bin**
+Utilities: 
+
+```
+isohybrid
+mbr.bin
+```
 
 Make the USB SystemRescue bootable and usable as a recovery drive at the same time. To do this, the SystemRescue ISO must be made bootable from a partition.
 A writable partition on USB allows to make persistent configuration changes to SystemRescue
@@ -210,19 +213,28 @@ isohybrid --partok "SR_IMAGE".iso
 
 Create an msdos partition table on the USB
 
-\# **parted /dev**/*USB* **mklabel msdos**
+```bash
+parted /dev/*USB* mklabel msdos
+```
 
 Create the SR partition FAT32 formatted, 2G size, and set the **boot flag**
 
-\# **parted** /dev/*USB* **mkpart 'sysrec' fat32 1MB 2000MB**
-\# **parted** /dev/*USB* **set 1 boot**
+```bash
+parted /dev/'USB' mkpart 'sysrec' fat32 1MB 2000MB
+parted /dev/'USB' set 1 boot
+```
 
 Create the data partition. Type xfs
 
-\# **parted /dev**/*USB* **mkpart** "data" **xfs 2001MB** *WHATEVERMB*
+```bash
+parted /dev/'USB' mkpart "PARTITION LABEL" xfs 2001MB 'WHATEVERMB'
+```
 
 Create the FAT32 on Partition 1 on the USB
-\# **mkfs.fat -F 32 -n SYSRESCUE /dev**/*USB_PART_*1
+
+```bash
+mkfs.fat -F 32 -n SYSRESCUE /dev/'USB_PART_*1'
+```
 
 Create the XFS on Partition 2 
 
@@ -265,7 +277,8 @@ Disk identifier: 0x000a13a7
 #### Preserving Changes in SystemRescue
 
 To customize a SystemRescue, changes need to be made persistent
-Add the boot parameter **cow_label**=*data* in the selected boot option
 
-The configuration is stored in **/run/archiso/cowspace/persistent_RESCUE**
+Add the boot parameter `cow_label=data` in the selected boot option
+
+The configuration is stored in `/run/archiso/cowspace/persistent_RESCUE`
 

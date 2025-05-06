@@ -9,16 +9,16 @@
 find /"DIR_TO_TRAVERSE" -type "TYPE_OF_OBJECT" -name "NAME"
 ```
 
--**iname**: makes the search pattern case-insensitive
+`-iname`: makes the search pattern case-insensitive
 
-object types are:
-b: block
-c: character special
-p: named pipe (FIFO)
-l: symbolic links
-f: regular files
-d: dirs
-s: socket
+Object types:
+- `b`: block
+- `c`: character special
+- `p`: named pipe (FIFO)
+- `l`: symbolic links
+- `f`: regular files
+- `d`: dirs
+- `s`: socket
 
 To search for files by owner
 
@@ -26,7 +26,7 @@ To search for files by owner
 find / -user "USERNAME_OR_UID"
 ```
 
--**group**: search by group name
+`-group`: Search by group name
 
 To search for files owned by nobody (files not belonging to a valid user)
 
@@ -40,8 +40,8 @@ To search for files by exact permissions
 find / -perm "PERMISSIONS"
 ```
 
--**perm** -PERMISSIONS: the - means any. -644 disregards the special bit.
--perm /*PERMISSIONS*: either or
+- `-perm` -PERMISSIONS: The '-' means any. `-644` disregards the special bit.
+- `-perm /PERMISSIONS, /PERMISSIONS`: either or
 
 Search for files which are writable by either their owner or their group but not by anyone
 
@@ -69,7 +69,7 @@ find / -name "NAME" | xargs rm -rf
 #### Using locate
 
 Package
-mlocate
+`mlocate`
 
 man locate
 

@@ -1,13 +1,13 @@
 
 #### Types of files
 
-\-: regular file or binary
-d: directory - a file that contains a list of other files
-l: symlink
-c: character device
-b: block device
-s: socket - allow interprocess communication
-p: named pipe
+- `-`: regular file or binary
+- `d`: directory - a file that contains a list of other files
+- `l`: symlink
+- `c`: character device
+- `b`: block device
+- `s`: socket - allow interprocess communication
+- `p`: named pipe
 
 #### Listing Files and Dirs
 
@@ -108,14 +108,14 @@ yes "STRING" | head -c 100MiB > "FILE"
 **man mv**
 
 Useful options:
-* -a, archive: preserve file attributes, timestamps 
-* -n, no-clobber: prevents overwriting destination files
-* -u, update: overwrites destination files only if source files are newer
+* `-a`, archive: preserve file attributes, timestamps 
+* `-n`, no-clobber: prevents overwriting destination files
+* `-u`, update: overwrites destination files only if source files are newer
 
 #### Date and Time
 
-**atime**: last time a file was accessed
-**ctime**: when a file was created
+- `atime`: last time a file was accessed
+- `ctime`: when a file was created
 
 To display file creation time
 
@@ -128,4 +128,3 @@ To display file last access time
 ``` bash
 ls -lu
 ```
-

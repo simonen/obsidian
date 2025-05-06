@@ -9,7 +9,7 @@ modules add to **rsyslog** functionality
 
 ##### Connecting journald to rsyslog
 
-in **/etc/systemd/journald.conf** add:
+`/etc/systemd/journald.conf`
 ```
 $OmitLocalLogging on
 $IMJournalStateFile imjournal.state

@@ -111,7 +111,7 @@ WantedBy=sockets.target
 ```
 
 - `ListenStream` -> TCP
-- ListemDatagram -> UDP
+- `ListemDatagram` -> UDP
 #### Systemd Target Units
 
 **target**: a group of units, loaded in the right order, executed at the right time. Can have dependencies on other targets. Does not contain information about units themselves, just what units and services it can coexist with and the order or execution. That is included in the Install section of the different unit files.

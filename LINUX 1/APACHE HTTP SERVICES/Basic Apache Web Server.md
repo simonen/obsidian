@@ -182,7 +182,7 @@ Ubuntu
 To enable modules in Ubuntu, symlinks are created in 
 `/etc/apache2/modules-enabled`
 
-Modules can be managed maually by the 
+Modules can be managed manually by the 
 `a2enmod`, `a2dismod` commands
 
 ##### Apache MPMs
@@ -200,8 +200,8 @@ The default MPM module can be changed by commenting or uncommenting the appropri
 `LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\""
 vhost_combined`
 
-%v: virtual host
-%p: port
-%h: remote hostname
-%l: remote username
-%u: authenticated user
+- `%v`: virtual host
+- `%p`: port
+- `%h`: remote hostname
+- `%l`: remote username
+- `%u`: authenticated user

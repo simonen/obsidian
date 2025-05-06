@@ -1,5 +1,5 @@
 
-* **logical volume resizing: ** if the filesystem supports it. XFS only supports increasing.
+* logical volume resizing: if the filesystem supports it. XFS only supports increasing.
 * **snapshots**: grows when the original volume has changed. Should be temporary. Remove when their purpose has been served.
 * **failing hardware**: failing disks can be removed and replaced, dynamically, without downtime
 

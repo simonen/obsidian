@@ -1,4 +1,3 @@
-ls ()
 1. POST
 2. Selecting Bootable Device
 3. Loading the Boot Loader
@@ -30,6 +29,7 @@ grub> set root=(hd0,msdos1)
 
 Load the kernel
 `grub> linux /boot/vmzlinux-linux-... root=/dev/sda1 ( the correct device must be selected)`
+
 `grub> initrd /boot/initramfs-linux.... `
 
 Boot
@@ -44,7 +44,7 @@ grub> boot
 
 **/var/log**: legacy location for log files
 
-**dmesg**: reads the kernel ring buffer. Displays everything that happens at startup, hardware activity after startup, i.e attaching devices, network activity
+`dmesg`: reads the kernel ring buffer. Displays everything that happens at startup, hardware activity after startup, i.e attaching devices, network activity
 
 Display kernel info in human readable timestamps
 
@@ -63,7 +63,7 @@ dmesg -T | grep -w sd*
 [Sun Mar 24 18:20:03 2024] sd 9:0:0:0: [sdc] Synchronizing SCSI cache
 ```
 
-**dmesg -h** for all log levels and facilities
+`dmesg -h` for all log levels and facilities
 
 To display certain logging levels. 
 
@@ -81,8 +81,8 @@ grep -ir "KEYWORD" /var/log/*
 
 In the GRUB menu:
 
-**e**: to pass kernel options 
-**c**: to enter full GRUB command prompt
+- `e`: To pass kernel options 
+- `c`: To enter full GRUB command prompt
 
 The line that tells GRUB how to start the **kernel**
 
@@ -96,20 +96,23 @@ rd.lvm.lv=rhel/ root rd.lvm.lv=rhel/swap rhgb quiet
 
 To enter in the following TS mode, in GRUB, press e and add one of following options at the end of the 
 
-**rd.break**: breaks the boot process while in **initramfs** procedure 
-**init=/bin/bash**:  root fs is mounted in ro mode. A shell is immediately started after kernel is loaded
-**systemd.unit=emergency.target**: the bare minimum of unit files are loaded
-**systemd.unit=rescue.target**: starts more units
-**single**: tells the bootloader to boot the OS in single user mode.
+`rd.break`: Breaks the boot process while in `initramfs` procedure 
+`init=/bin/bash`:  Root fs is mounted in `ro` mode. A shell is immediately started after kernel is loaded
+`systemd.unit=emergency.target`: The bare minimum of unit files are loaded
+`systemd.unit=rescue.target`: Starts more units
+`single`: Tells the bootloader to boot the OS in single user mode.
 
 #### Rescue Disks
 
 The default rescue image is on the Linux installation disk
 
-**/mnt/sysimage**: detected installations are mounted here when using rescue disks
+`/mnt/sysimage`: detected installations are mounted here when using rescue disks
 
 To make the contents of the directory actual working environment:
-**\# chroot /mnt/sysimage**
+
+```bash
+chroot /mnt/sysimage
+```
 
 **chroot**: ensures path references to all configuration files are correct
 
@@ -121,16 +124,15 @@ it could be a broken **initramfs**
 $ **dracut**: without any arguments, the command creates a new **initramfs** for the current 
 kernel
 
-**$ dracut --force**: will override the current **initramfs**
+`dracut --force`: Override the current `initramfs`
 
-**/usr/lib/dracut/dracut.conf.d/**\*.conf: system default conf files
-**/etc/dracut.conf.d**: custom dracut conf files
-**/etc/dracut.conf**: deprecated
+- `/usr/lib/dracut/dracut.conf.d/*.conf`: system default conf files
+- `/etc/dracut.conf.d`: Custom dracut conf files
+- `/etc/dracut.conf`: Deprecated
 
 #### Recovering From File system issues
 
 Non-existent devices or wrong UID in fstab can lead to file system errors. Use labels instead
-
 #### Resetting Root Password
 
 Boot into **minimal mode**, where root pass is not needed
@@ -162,7 +164,7 @@ or
 
 Make sure `/.autorelabel` file is present
 
-Currently, the PID 1 process is `/bin/bash`, not **systemd**, and the system cannot use the `reboot` command. 
+Currently, the PID 1 process is `/bin/bash`, not `systemd`, and the system cannot use the `reboot` command. 
 
 To change to `systemd`:
 
@@ -178,8 +180,7 @@ Reboot the system by
 exec /sbin/init 6
 ```
 
-`exec`: replaces the current process with the given command
-`init 6`: reboots the machine using the `kexec.target`
+- `exec`: replaces the current process with the given command
+- `init 6`: reboots the machine using the `kexec.target`
 
 **man init** for all signals info
-

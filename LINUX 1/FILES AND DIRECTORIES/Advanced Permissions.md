@@ -41,16 +41,16 @@ The sticky bit appears as a T at the position where the execute permission of **
 
 ```drwxrwxrwt. 18 root root 4096 Dec 16 19:32 /tmp```
 
-t: sticky bit + execute 
-T: sticky bit only
+- `t`: Sticky bit + execute 
+- `T`: Sticky bit only
 
 #### Applying Advanced Permissions
 
-SUID, SGID and Sticky bits are applied with the **chmod** command
+SUID, SGID and Sticky bits are applied with the `chmod` command
 
-**SUID**: numeric value of 4
-**SGID**: numeric value of 2
-Sticky bit: numeric value of 1
+- `SUID`: numeric value of 4
+- `SGID`: numeric value of 2
+- `Sticky bit`: numeric value of 1
 
 The special permission goes before the regular permissions:
 
@@ -64,23 +64,23 @@ chmod 4700 "FILE" or chmod u+s "FILE"
 
 **man umask**
 
-**umask** is a shell built-in
+`umask` is a shell built-in
 
-Default permissions are determined by the **umask** settings.
+Default permissions are determined by the `umask` settings.
 Files are created with 0666 permissions without umask.
 Directories are created with 0777 permissions without umask.
 
-The **umask** setting is subtracted from the default max setting to give the default permissions of files and dirs.
+The `umask` setting is subtracted from the default max setting to give the default permissions of files and dirs.
 
-effective files permissions = default max - umask -> 0666 - 0022 = 0644 = rw- r-- r--
-effective directory permissions = default max - umask -> 0777 - 0022 = 0755 = rwx-r-xr-x
+- Effective files permissions = default max - umask -> 0666 - 0022 = 0644 = rw- r-- r--
+- Effective directory permissions = default max - umask -> 0777 - 0022 = 0755 = rwx-r-xr-x
 
-The default umask setting can be set
-* **/etc/login.defs**
-* **~/.bashrc** - per user by inserting **umask** *CUSTOM_UMASK*
-* by using the **pam_mask** module
+The default `umask` setting can be set
+* `/etc/login.defs`
+* `~/.bashrc` - Per user by inserting `umask` *CUSTOM_UMASK*
+* By using the `pam_mask` module
 
-See the default **umask**
+See the default `umask`
 
 ``` bash
 umask
@@ -124,5 +124,3 @@ chattr -i FILE
 ``` bash
 chattr [+-]"attribute" "FILE"
 ```
-
-

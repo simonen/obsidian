@@ -1,8 +1,8 @@
 #### FreeIPA Server
 #### RHEL 7 
 
-`yum update nss`: fixes the 'CA did not start in 300s' error
-`yum -y install ipa-server bind-dyndb-ldap ipa-server-dns`
+- `yum update nss`: fixes the 'CA did not start in 300s' error
+- `yum -y install ipa-server bind-dyndb-ldap ipa-server-dns`
 
 Include the *IP_ADDRESS FQDN* in the `/etc/hosts` file
 
@@ -64,7 +64,7 @@ ipa-client-install --mkhomedir --enable-dns-updates --force-ntpd
 
 #### RHEL 9
 
-RHEL9 uses **chronyd** instead of **ntpd** as NTP server
+RHEL9 uses `chronyd` instead of `ntpd` as NTP server
 The IPA server should be configured as an **NTP** server or use a dedicated NTP server. 
 The client must time synced with the NTP server
 
@@ -88,8 +88,11 @@ https://www.freeipa.org/page/V2/DNS_Interface_Design
 In order for postfix to be able to receive and send messages, DNS must be configured properly. An **MX** record must be added to the **DNS** server.
 
 For IPA DNS server
-\# **ipa dnsrecord-add** *DOMAIN* **@ --mx-rec**='*PREFERENCE*(INT) *MAIL_SERVER_FQDN*.'
-**@** - record name
-**MX** - record type
-**PREFERENCE** - integer, the lower the higher priority
-**MAIL EXCHANGER** - mail server fqdn
+
+```bash
+ipa dnsrecord-add 'DOMAIN' @ --mx-rec='PREFERENCE(INT) MAIL_SERVER_FQDN.'
+```
+- `@` - Record name
+- `MX` - Record type
+- `PREFERENCE` - integer, the lower the higher priority
+- `MAIL EXCHANGER` - Mail server FQDN

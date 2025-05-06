@@ -1,12 +1,18 @@
 
 Check used and free disk space
-$ df -h
 
-Maxing out on **inodes** could cause running out of disk space even if disk usage is low.
+```bash
+df -h
+```
+
+Maxing out on `inodes` could cause running out of disk space even if disk usage is low.
 Kernel upgrades can clog up a disk space pretty easily as kernel headers accumulate, taking lots of inodes. 
 
-Show used and free inodes
-$ df -ih
+Show used and free `inodes`
+
+```
+df -ih
+```
 
 ```
 [root@dbserver19 rsync]# df -hi
@@ -18,10 +24,14 @@ tmpfs                     230K    16  230K    1% /sys/fs/cgroup
 /dev/mapper/centos-root   8.5M   36K  8.5M    1% /
 ```
 
-10-20% used inodes could indicate a problem
+10-20% used `inodes` could indicate a problem
 
 Sort folders in the parent directory by number of files
-\# find . -xdev -type f | cut -d "/" -f 2 | sort | uniq -c | sort -n
+
+```
+find . -xdev -type f | cut -d "/" -f 2 | sort | uniq -c | sort -n
+```
+
 ```
       3 tmp
      13 root
@@ -32,13 +42,16 @@ Sort folders in the parent directory by number of files
 ```
 #### Monitoring with smartmontools
 
-Package
-**smartmontools**
+Package: 
+`smartmontools`
 
 **S.M.A.R.T** : Self-Monitoring Analysis and Reporting Technology
 
 To check if a disk supports SMART
-\# smartctl -i /dev/sda
+
+```
+smartctl -i /dev/sda
+```
 
 ```
 [root@dnsserver remote]# smartctl -i /dev/sda

@@ -17,7 +17,7 @@ Benefits of using a remote logging server:
 Packages:
 `systemd-journal-remote` - on server and clients
 
-Service configuration file
+Service configuration file: 
 `/usr/lib/systemd/system/systemd-journal-remote.service`
 
 Config files: 

@@ -24,7 +24,7 @@
 	- `server string = Samba File Server`
 - `netbios name`: 
 	Local broadcast protocol that handles connection information between computers. Used to match names to IP addresses in WINS servers.
-	`netbios name = DC1`
+	- `netbios name = DC1`
 - `security`:
 	- `user`: Samba prompts for a username and password
 	- `share`

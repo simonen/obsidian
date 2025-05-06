@@ -1,7 +1,7 @@
 
-`console`: The screen the user is looking at
-`terminal`: the command-line environment that is opened on the console and provides access to the shell ( typically bash), where commands are issued
-`prompt`: \[user@host directory]$ 
+- `console`: The screen the user is looking at
+- `terminal`: the command-line environment that is opened on the console and provides access to the shell ( typically bash), where commands are issued
+- `prompt`: \[user@host directory]$ 
 
 [Customize the prompt](https://tldp.org/HOWTO/Bash-Prompt-HOWTO/)
 #### Virtual Terminals
@@ -14,8 +14,8 @@ Change the virtual terminal
 chvt N 
 ```
 
-`/dev/tty#` - devices to which virtual terminals are linked
-`pts` - pseudo terminal services
+- `/dev/tty#` - devices to which virtual terminals are linked
+- `pts` - pseudo terminal services
 
 ```
 [student@localhost ~]$ w
@@ -34,10 +34,10 @@ last
 ```
 
 To leave a graphical session and enter a console
-CTRL + Fn..
+`CTRL + Fn..`
 
 To return to graphical session
-ALT + Fn
+`ALT + Fn`
 
 #### Change Prompt Colors
 

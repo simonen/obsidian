@@ -5,8 +5,8 @@ www.rsyslog.com
 
 The `rsyslog` utility generates, processes and stores meaningful event notification messages. The `rsyslogd` is a passive tool that listens for messages from OS and apps.
 
-`RELP`: Reliable Event Logging Protocol. Allows `rsyslog` to send log data across the network.
-`rsyslog` traffic is transmitted on 514/tcp
+- `RELP`: Reliable Event Logging Protocol. Allows `rsyslog` to send log data across the network.
+- `rsyslog` traffic is transmitted on 514/tcp
 
 Config file: 
 `/etc/rsyslog.conf`
@@ -27,20 +27,23 @@ The configuration file contains information about what devices and programs `rsy
 GLOBAL DIRECTIVES
 RULES
 
-Each line in the `rsyslog.conf` is structured into two fields: a selector field and an action field. 
-`selector             action`
-`facility.priority    write to destination`
-`cron.=debug          -/var/log/cron.debug`
+Each line in the `rsyslog.conf` is structured into two fields: a **selector** field and an **action** field. 
 
-Breakdown
-`cron.=debug -/var/log/cron.debug`
-`=`: to specify only one priority
-`-/var/log/cron.debug`: Destination where the log is written. 
-`-`: Log writes are buffered rather than synced to disk immediately after every message.
+```
+selector             action
+facility.priority    write to destination
+cron.=debug          -/var/log/cron.debug
+```
 
-`*.emerg    :omusrmsg:*`
-`om`: Output module
-`im`: Input module
+Breakdown:
+- `cron.=debug -/var/log/cron.debug`
+- `=`: to specify only one priority
+- `-/var/log/cron.debug`: Destination where the log is written. 
+- `-`: Log writes are buffered rather than synced to disk immediately after every message.
+
+- `*.emerg    :omusrmsg:*`
+- `om`: Output module
+- `im`: Input module
 
 This will send all messages of the `emerg` priority, regardless of facility, to everyone who is logged in.
 
@@ -63,8 +66,8 @@ Logging facilities are categorized sources of log messages.
 | user      | The default facility when none specified |
 | uucp      |                                          |
 Special facilities:
-`*`: Wildcard. All.
-`none`: Negates a facility selection
+* `*`: Wildcard. All.
+- `none`: Negates a facility selection
 
 `kern.none    /var/log/messages`: Do not log kernel messages to `/var/log/messages`
 #### Priorities 
@@ -98,11 +101,11 @@ Priorities are organized in an escalating scale of importance. Each priority sel
 
 Additional priority modifiers "=" and "!"
 
-`=`: Only one priority is selected
-`!`: Except
-`cron.=crit`: Only `cron` facility messages of priority `crit` are to be selected
-`cron.!=crit`: Selects all `cron` facility messages except those of `crit` priority.
-`cron.!crit`: Only `cron` facility messages except those of `crit` **or higher priority**!
+- `=`: Only one priority is selected
+- `!`: Except
+- `cron.=crit`: Only `cron` facility messages of priority `crit` are to be selected
+- `cron.!=crit`: Selects all `cron` facility messages except those of `crit` priority.
+- `cron.!crit`: Only `cron` facility messages except those of `crit` **or higher priority**!
 
 Only one priority and one priority wildcard can be listed per selector.
 #### Log Destinations (Actions)
@@ -131,6 +134,7 @@ auth-priv    root,kimchen - user
 Filtering works from left to right. Place broader filters at the left, narrow criteria to the right
 
 `auth,auth-priv.crit    /var/log/auth`
+
 `auth;auth-priv.debug;auth-priv.!=emeg   /var/log/auth`
 ```
 auth    /var/log/auth

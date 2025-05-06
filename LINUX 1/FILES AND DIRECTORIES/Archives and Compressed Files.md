@@ -7,9 +7,9 @@
 tar -cvf "FILENAME".tar "FILE(S)_TO_ARCHIVE"
 ```
 
-**-c**: create archive
--v: verbose
--f: file
+- `-c`: Create archive
+- `-v`: Verbose
+- `-f`: File
 
 Same result using data streams
 
@@ -19,7 +19,7 @@ tar -cvf - "/DIR" | cat > "ARCHIVE.tar"
 
 #### **Add a new file to an archive**
 
-**-r** option
+`-r` option
 
 ``` bash
 tar -rvf "ARCHIVE.tar" "FILE_TO_ADD"
@@ -27,7 +27,7 @@ tar -rvf "ARCHIVE.tar" "FILE_TO_ADD"
 
 #### **Update files in an archive**
 
-**-u** option
+`-u` option
 
 ``` bash
 tar -uvf "ARCHIVE.tar" "/UPDATED_FILES"
@@ -35,7 +35,7 @@ tar -uvf "ARCHIVE.tar" "/UPDATED_FILES"
 
 #### **See the contents of an archive**
 
-**-t, --list**
+`-t`, `--list`
 
 ``` bash
 tar -tvf "ARCHIVE.tar"
@@ -60,7 +60,7 @@ file "FILE|DIR"
 
 #### Extracting files from archive
 
-**-x**: extract
+`-x`: Extract
 
 ``` bash
 tar -xvf "FILENAME.tar" # in same dir
@@ -84,9 +84,9 @@ gzip | bzip2 | xz "ARCHIVE.tar"
 
 ##### Compressing using tar
 
-**-z** options (gzip)
-**-J** option (xz)
-**-j** option (bzip2)
+- `-z` options (gzip)
+- `-J` option (xz)
+- `-j` option (bzip2)
 
 Compress archive.tar to archive.tar.bz2
 
@@ -115,7 +115,7 @@ rpm packages are compressed with the cpio archiver
 **man split**
 
 Package 
-**coreutils**
+`coreutils`
 
 To split a file into N parts
 
@@ -141,7 +141,7 @@ To archive partitions. Partitions are always given explicitly
 tar -cvf "ARCHIVE".tar --one-file-system "/PARTITION1" "/PARTITION2" \ --exclude "/PARTITION"
 ```
 
---**one-file-system**: Stay in local file system when creating archive. Pseudo filesystems are ignored
+`--one-file-system`: Stay in local file system when creating archive. Pseudo filesystems are ignored
 
 #### Aggregating Files with find
 
@@ -150,7 +150,8 @@ Look for particular files and archive them
 ``` bash
 find "SEARCH_ROOT_DIR" -iname "*.mp4" -exec tar -rvf "ARCHIVE".tar {} \;
 ```
--**iname**: makes the search pattern case insensitive
+
+`-iname`: Makes the search pattern case insensitive
 #### Transfer an Archive over SSH Using Streams
 
 This generates a stream of data sourced at the given DIR, pushes it to ssh and executes a cat against the incoming stream, then assembles the data into a tar file onto the remote machine.

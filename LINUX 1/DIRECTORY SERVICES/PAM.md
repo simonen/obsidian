@@ -49,9 +49,9 @@ Portable Operating System Interface
 
 **inetOrgPerson**:
     
-`inetOrgPerson` is a widely-used LDAP object class that represents a person or entity within an organization.
+- `inetOrgPerson` is a widely-used LDAP object class that represents a person or entity within an organization.
     - It is defined in the Internet Engineering Task Force (IETF) RFC 2798.
     - Attributes associated with `inetOrgPerson` typically include personal information such as name, email address, phone number, and organizational details.
- `inetOrgPerson` is often used in general-purpose directory services to store information about users, employees, or individuals within an organization.
+ - `inetOrgPerson` is often used in general-purpose directory services to store information about users, employees, or individuals within an organization.
     - While `inetOrgPerson` provides attributes for basic user information, it does not include attributes specific to POSIX (Portable Operating System Interface) accounts, such as UID (User ID) and GID (Group ID).
 

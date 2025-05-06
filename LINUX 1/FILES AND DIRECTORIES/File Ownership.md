@@ -18,10 +18,16 @@ stat "FILE/DIR"
 ```
 
 Look for files that are owned by a specific users
-**$ find / -user** *USER*
+
+```bash
+find / -user 'USER'
+```
 
 Look for files that are owned by a specific group
-**$ find / -group** *GROUP*
+
+```bash
+find / -group 'GROUP'
+```
 
 #### Default Ownership
 
@@ -34,7 +40,7 @@ newgrp "GROUP"
 ```
 
 This opens a subshell and the effect is temporary until the subshell is closed.
-New files and olders are now **group owned** by the new **primary group**. The user must be either a member of that group or the group must have a group password.
+New files and older are now **group owned** by the new **primary group**. The user must be either a member of that group or the group must have a group password.
 
 #### Changing User Ownership
 
@@ -56,7 +62,7 @@ chown -R "USER" "FILE/DIR"
 
 Changing group ownership requires the user changing it to be member of that group and owner of the file.
 
-Changing with the **chown** command. Include . or : in front of the group name
+Changing with the `chown` command. Include . or : in front of the group name
 
 Set the user and group ownership to a file or dir
 
@@ -71,10 +77,16 @@ chown :"GROUP" "FILE/DIR"
 ```
 
 Transfer ownership of files from one user to another. Username or UID
-**$ chown -Rv --from** *ORIGINAL_OWNER NEW_OWNER*
-\# **find / -user** *ORIGINAL_OWNER* **-exec chown -v** *NEW_OWNER* {} \\;
 
-Changing group ownership with the **chgrp** command
+```bash
+chown -Rv --from 'ORIGINAL_OWNER' 'NEW_OWNER'
+```
+
+```bash
+find / -user 'ORIGINAL_OWNER' -exec chown -v 'NEW_OWNER' {} \;
+```
+
+Changing group ownership with the `chgrp` command
 
 ``` bash
 chgrp [OPTION] "GROUP" "FILE/DIR"

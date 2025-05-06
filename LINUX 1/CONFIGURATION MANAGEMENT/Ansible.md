@@ -8,7 +8,7 @@ tags:
 
 Ansible doesn’t require any agent software to be installed on the target machines. It uses SSH for Unix/Linux systems and `WinRM` (Windows Remote Management) for Windows systems, simplifying setup and reducing security concerns.
 
-Packages
+Packages:
 `ansible`
 
 Files and Directories
@@ -74,10 +74,10 @@ To test connectivity to hosts from the hosts file
 ansible all -m ping
 ```
 
-`all`: reads all hosts from the hosts file
-`-m`: module
-`--become`: Defaults to `sudo`
-`--ask-become-pass`: Prompts for password
+- `all`: reads all hosts from the hosts file
+- `-m`: module
+- `--become`: Defaults to `sudo`
+- `--ask-become-pass`: Prompts for password
 
 To execute a bash shell command on a remote host or groups
 

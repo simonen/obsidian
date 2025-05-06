@@ -40,10 +40,10 @@ Package
 man mdadm.conf
 man mdadm
 
-Configuration file
-`/usr/lib/tmpfiles.d/mdadm.conf`
+Configuration file:
+- `/usr/lib/tmpfiles.d/mdadm.conf`
 
-mdadm: Multiple Device Administration Tool
+`mdadm`: Multiple Device Administration Tool
 
 Create a RAID 1 with 2 disks
 
@@ -123,13 +123,13 @@ md0 : active raid1 sdb[2](S) sde[4] sdd[3](S) sdc[1]
 unused devices: <none>
 ```
 
-\[UU]: both devices are UP. 
-\[\_U]: one device is degraded
-(S): spare
+- `[UU]`: both devices are UP. 
+- `[_U]`: one device is degraded
+- `(S)`: spare
 
 ##### Removing RAID Arrays
 
-Remove configuration in mdadm.conf associated with the array
+Remove configuration in `mdadm.conf` associated with the array
 
 Stop the array
 

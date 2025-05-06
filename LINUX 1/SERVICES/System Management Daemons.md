@@ -5,14 +5,14 @@ tags:
   - rhel
 ---
 
-**init** - Legacy. Minimalistic approach to services and daemons. System modes are called **Run Levels** 
+`init` - Legacy. Minimalistic approach to services and daemons. System modes are called **Run Levels** 
 Used in lightweight systems where the functionality of systemd is not needed.
 
-**systemd** - The  base process (PID 1) that spawns all other processes. Modern. Expanded functionality. Aims to standardize modern linux systems. It provides an uniform interface 
+`systemd` - The  base process (PID 1) that spawns all other processes. Modern. Expanded functionality. Aims to standardize modern linux systems. It provides an uniform interface 
 that starts **units**. 
 
 Advantages:
-* **systemd** is event-driven. Can respond to system events (new hardware being plugged, traffic starting on a network port)
+* `systemd` Is event-driven. Can respond to system events (new hardware being plugged, traffic starting on a network port)
 * concurrent and parallel boot processing
 * can respawn processes
 * event logging
@@ -26,10 +26,11 @@ kworker/0:3-events : thread_name/CPU
 
 #### Identifying System Management Daemon 
 
-Ways of checking if a system uses **systemd** or **SysV**
-* The system uses **systemd** if **/run/systemd/system** is present
-* $ **stat /sbin/init** is symlinked to **/lib/systemd/systemd** -> **systemd**
-* **/sbin/init** is not symlinked -> **SysV**
+Ways of checking if a system uses `systemd` or `SysV`
+
+* The system uses `systemd` if `/run/systemd/system` is present
+* `stat /sbin/init` is symlinked to `/lib/systemd/systemd`
+* `/sbin/init` is not symlinked -> `SysV`
 
 The command attached to **PID 1** process is the **init** - the first process launched at startup
 
@@ -70,10 +71,10 @@ systemd
 
 #### SysV, SysV Init, SystemV or just init (Legacy)
 
-/sbin/init: binary
-/etc/inittab : conf file
-/etc/rc0-6.d/ : contain scripts, starting with K (shutting down) or S (Starting) for the particular runlevel
-/etc/init.d/ : systems running systemd-sysv will look here if a systemd service file cannot be found
+- `/sbin/init`: binary
+- `/etc/inittab` : conf file
+- `/etc/rc0-6.d/` : Contain scripts, starting with K (shutting down) or S (Starting) for the particular runlevel
+- `/etc/init.d/` : Systems running `systemd-sysv` will look here if a `systemd` service file cannot be found
 
 ``` 
 [root@prometheus rc0.d]# ll
@@ -81,7 +82,7 @@ lrwxrwxrwx. 1 root root 20 Jan 19 18:49 K50netconsole -> ../init.d/netconsole
 lrwxrwxrwx. 1 root root 17 Jan 19 18:49 K90network -> ../init.d/network
 ```
 
-systemd-sysv generated service files look like this
+`systemd-sysv` generated service files look like this
 
 ```
 [Service]
@@ -98,10 +99,10 @@ Executing /lib/systemd/systemd-sysv-install disable postfix
 ```
 ##### SysV RunLevels
 
-SysV Runlevels are mapped to systemd targets using symlinks
+SysV Runlevels are mapped to `systemd` targets using symlinks
 
 Runlevels can be found here: 
-`/usr/lib/systemd/system`
+- `/usr/lib/systemd/system`
 
 ```
 lrwxrwxrwx. 1 root    15 Apr 11 09:18 runlevel0.target -> poweroff.target
@@ -147,7 +148,7 @@ Definition files or Upstart scripts can be found in
 
 Managing SysV init.d  services in Ubuntu is done via the `update-rc.d` command. It creates or removes symbolic links in `/etc/rc*.d `
 
-update-rc.d options:
+`update-rc.d` options:
 
 start: explicitly state the *runlevels* and startup sequences
 stop: explicitly state the sequence and *runlevels* to stop a service

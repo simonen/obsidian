@@ -163,12 +163,12 @@ kernel vmlinuz
   append initrd=initrd.img inst.stage2=hd:LABEL=Rocky9-KS-ISO inst.ks=METHOD/ks.cfg
 ```
 
-`inst.stage2=hd:LABEL=Rocky9-KS-ISO`: The installation source. The installer mounts the filesystem using its LABEL, which in this case is the label of the ISO file and sources the necessary files from there.
+- `inst.stage2=hd:LABEL=Rocky9-KS-ISO`: The installation source. The installer mounts the filesystem using its LABEL, which in this case is the label of the ISO file and sources the necessary files from there.
 
 Methods:
 
-`inst.ks=http://<server>/<path>`: Fetch the ks file from a web server
-`inst.ks=nfs:<server>:/<path>`
-`inst.ks=cdrom:LABEL=<cdlabel>:/ks.cfg`
-`inst.ks=hd:sda3:/mydir/ks.cfg)`: The installer will mount the filesystem (vfat or ext2) and look for the ks.cfg file
+- `inst.ks=http://<server>/<path>`: Fetch the ks file from a web server
+- `inst.ks=nfs:<server>:/<path>`
+- `inst.ks=cdrom:LABEL=<cdlabel>:/ks.cfg`
+- `inst.ks=hd:sda3:/mydir/ks.cfg)`: The installer will mount the filesystem (vfat or ext2) and look for the ks.cfg file
 

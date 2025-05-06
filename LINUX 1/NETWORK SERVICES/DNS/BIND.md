@@ -125,7 +125,7 @@ ns1                 IN  CNAME   delphos
                         TXT     "313ca80f6a3edb16931ded49de08ba24be"
 ```
 ; comments
-`serial`: every zone must have an associated serial number. Used when replicating information between DNS servers to determine if there is a newer version of a zone file
+- `serial`: every zone must have an associated serial number. Used when replicating information between DNS servers to determine if there is a newer version of a zone file
 olympus.local. 
 
 Check the syntax of a zone file

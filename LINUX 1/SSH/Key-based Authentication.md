@@ -22,9 +22,9 @@ ssh-keygen -A
 ssh-keygen: generating new host keys: RSA1 RSA DSA ECDSA ED25519
 ```
 
-**DSA**: keys generally should be avoided. Remove the `ssh_host_dsa.key`
-**RSA**: keys are oldest and most compatible. Use >=2048 bits strength. 
-**ECDSA** and **ED25519**: released 2014, very strong, and computationally less expensive.
+- **DSA**: keys generally should be avoided. Remove the `ssh_host_dsa.key`
+- **RSA**: keys are oldest and most compatible. Use >=2048 bits strength. 
+- **ECDSA** and **ED25519**: released 2014, very strong, and computationally less expensive.
 
 Check the current cryptographic policies applying to OpenSSH
 

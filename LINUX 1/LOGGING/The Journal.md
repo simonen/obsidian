@@ -19,8 +19,8 @@ System messages are stored in the `/run` directory
 * `auditd`: Provides an in-depth trace of what services, processes and users are doing. `SELinux` uses `auditd`.
 * `direct write`: Some services write directly in logs, **not recommended**
 
-`journalctl` - gives detailed logging info
-`systemctl status UNIT` - overview of the most recent significant events logged by `systemd`
+- `journalctl` - gives detailed logging info
+- `systemctl status UNIT` - overview of the most recent significant events logged by `systemd`
 
 Standard Log Files:
 
@@ -50,15 +50,15 @@ journalctl
 
 With no arguments, returns all messages since boot
 
-Some `journalctl` filters
-`-f`: Acts like the `tail -f` command. `-n LINES` works also.
-`-k`: Kernel messages only
-` _UID=1000`: Shows messages related to the user with ID 1000
-`-u UNIT`: Show logs about a specific unit
-`-p "PRIORITY"`: Filter out messages of the priority `[emerg, alert, crit, err, warning, notice, info, debug]`
-`--list-boot`: Lists boot IDs
-`-b`: Messages from last boot
-`-b BOOT_ID`: Shows messages from a specific boot.  A negative boot number means number of boots prior to the most recent.
+Some `journalctl` filters:
+- `-f`: Acts like the `tail -f` command. `-n LINES` works also.
+- `-k`: Kernel messages only
+- ` _UID=1000`: Shows messages related to the user with ID 1000
+- `-u UNIT`: Show logs about a specific unit
+- `-p "PRIORITY"`: Filter out messages of the priority `[emerg, alert, crit, err, warning, notice, info, debug]`
+- `--list-boot`: Lists boot IDs
+- `-b`: Messages from last boot
+- `-b BOOT_ID`: Shows messages from a specific boot.  A negative boot number means number of boots prior to the most recent.
 
 ``` bash
 journalctl -o verbose

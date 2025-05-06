@@ -1,10 +1,11 @@
 
-**/etc/groups**
-GROUP:X:GID:MEMBER1,MEMBER2,MEMBERN
-cigani:x:1004:kimchen,gligana
+`/etc/groups`
 
-primary groups
-supplementary groups
+`GROUP:X:GID:MEMBER1,MEMBER2,MEMBERN`
+`cigani:x:1004:kimchen,gligana`
+
+- primary groups
+- supplementary groups
 
 Users can be added directly in the groups file after the desired group, comma-delimited 
 
@@ -18,10 +19,10 @@ A user has access to files its primary or secondary groups it belongs to are gro
 > To Do: Add a group pass and observe the gshadow file
 #### Creating Groups
 
-man groupadd
+man `groupadd`
 
-Groups can be created by editing the **/etc/group** config file using **$ vigr** command
-or the **$ groupadd** command
+Groups can be created by editing the `/etc/group` config file using the `vigr` command
+or the `groupadd` command
 
 Create a group
 
@@ -29,9 +30,9 @@ Create a group
 groupadd "GROUP"
 ```
 
-**-g**: specify group ID. Optional
--**r**: create a system group with the correct GID range
-#### Adding Users to Groups with usermod
+- `-g`: specify group ID. Optional
+- `-r`: create a system group with the correct GID range
+#### Adding Users to Groups with `usermod`
 
 > Logged-in users must log out and log in for changes to take effect
 
@@ -68,8 +69,8 @@ getent group "GROUP"
 cat /etc/group | grep "GROUP"
 ```
 
-#### Group Administration with gpasswd
+#### Group Administration with `gpasswd`
 
-man gpasswd
+man `gpasswd`
 
-The gpasswd command is used to administer /etc/group, and /etc/gshadow. Every group can have administrators, members and a password.
+The `gpasswd` command is used to administer `/etc/group`, and `/etc/gshadow`. Every group can have administrators, members and a password.

@@ -11,7 +11,7 @@ PXE boots rely on a DHCP server to assign IP address to the client machine and p
 
 > The PXE client must have sufficient memory >= 4G
 
-The PXE boot server is made of three stages:
+The PXE boot server is made of these stages:
 - **stage0:** the PXE-booting client sent an extended DHCPDISCOVER
 - **stage1:** the DHCP server send an IP address to the client and supplementing information such as the TFTP server
 - **stage2:** the PXE-booting client configures the network and requests the first boot files from the TFTP server (boot loader, kernel image and sysresccd.img)
@@ -69,14 +69,14 @@ Directory tree
 Boot menu files. Found in the ISO
 
 BIOS:
-	`pxelinux.0`: BIOS bootloader. From the `syslinux` package
-	`pxelinux.cfg/default`: BIOS menu configuration file. From `isolinux/isolinux.cfg`
-	`.32`: BIOS menu libraries. From `isolinux/`
-	`vmlinuz and initrd`: From `images/pxeboot` or `isolinux/`
+- `pxelinux.0`: BIOS bootloader. From the `syslinux` package
+- `pxelinux.cfg/default`: BIOS menu configuration file. From `isolinux/isolinux.cfg`
+- `.32`: BIOS menu libraries. From `isolinux/`
+- `vmlinuz and initrd`: From `images/pxeboot` or `isolinux/`
 EFI:
-	`shimx64.efi`: EFI bootloader. From the `Packages/shim-x64_xxx.rpm`
-	`grub.cfg`: EFI boot menu configuration file. From `/EFI/BOOT`
-	`grubx64.efi`: From `/EFI/BOOT` 
+- `shimx64.efi`: EFI bootloader. From the `Packages/shim-x64_xxx.rpm`
+- `grub.cfg`: EFI boot menu configuration file. From `/EFI/BOOT`
+- `grubx64.efi`: From `/EFI/BOOT` 
 
 `.treeinfo`: This file defines the installation source directory structure. Pulled during stage2
 
@@ -126,6 +126,7 @@ ldap.ohio.cc in.tftpd: Client :192.168.137.121 finished /images/pxeboot/initrd.i
 [DHCP and PXE Boot](https://datatracker.ietf.org/doc/html/rfc5071)
 
 `PXE (Pre-boot execution Environment)` is a first-stage network bootstrap agent. PXE is loaded out of firmware on the client host, and performs DHCP queries to obtain an IP address
+
 `PXELINUX` is a second-stage bootstrap agent. `PXELINUX` seeks its configuration from a cache of DHCP options supplied to the PXE first-stage agent, and then takes action based upon those options.`
 
 `/etc/dhcp/dhcpd.conf`
@@ -153,15 +154,15 @@ subnet 192.168.137.0 netmask 255.255.255.0 {
 }
 ```
 
-`filename "pxelinux.0";`: (BIOS) The name boot file that PXE-booted hosts should look for to start the boot process. 
-`filename "grub/shimx64.efi"`: (UEFI)
-`next-server IP`: The address of the file server (TFTP) that makes the files for PXE boot available.
-`option vendor-class-identifier, 0, 9`: The DHCP server will look in the first 9 characters for the vendor class... 
+- `filename "pxelinux.0";`: (BIOS) The name boot file that PXE-booted hosts should look for to start the boot process. 
+- `filename "grub/shimx64.efi"`: (UEFI)
+- `next-server IP`: The address of the file server (TFTP) that makes the files for PXE boot available.
+- `option vendor-class-identifier, 0, 9`: The DHCP server will look in the first 9 characters for the vendor class... 
 
 Architecture types:
-	`00:01`: x86
-	`00:07`: x84_64
-	`00:0E`: ARM
+- `00:01`: x86
+- `00:07`: x84_64
+- `00:0E`: ARM
 
 The Client System Architecture type can be pulled from the DHCP discover packet
 `Option: (93): Client System Architecture ` in Wireshark or by listening to DHCP traffic with `tcpdump`.
@@ -227,5 +228,3 @@ linuxefi /images/vmlinuz inst.repo=http://server/Rocky9
 ```
 
 The installer will read the `.treeinfo` file from the installation root directory tree which defines its structure.
-
-

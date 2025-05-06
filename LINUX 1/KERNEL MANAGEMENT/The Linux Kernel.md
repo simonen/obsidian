@@ -18,18 +18,18 @@ The Kernel Ring Buffer holds info on:
 * the hardware the kernel detected and related actions
 
 Tools for analysis
-* **dmesg**: shows the contents of the kernel ring buffer with most recent messages. Time indicator is relative to the start of the kernel
-* **journalctl -k, journalctl --dmesg**: same as **dmesg**, give events in absolute clock time
-* the **/proc file system**: an interface to the kernel. Gives detailed status info about the system
-* **uname**: info about the OS. -r: kernel version, -a: overview
-* **hostnamectl status**: OS info
+* `dmesg`: shows the contents of the kernel ring buffer with most recent messages. Time indicator is relative to the start of the kernel
+* `journalctl -k`, `journalctl --dmesg`: Same as `dmesg`, give events in absolute clock time
+* The `/proc` file system: an interface to the kernel. Gives detailed status info about the system
+* `uname`: info about the OS. -r: kernel version, -a: overview
+* `hostnamectl`: OS info
 
-Useful dmesg options
-* -C: clears the kernel ring buffer
-* -H: human readable format
-* -T: human-readable timestamp
-* -w: wait for new messages
-* -l <1-9>: show messages of certain level: info, crit, err, emerg...
+Useful `dmesg` options
+* `-C`: clears the kernel ring buffer
+* `-H`: human readable format
+* `-T`: human-readable timestamp
+* `-w`: wait for new messages
+* `-l <1-9>`: show messages of certain level: info, crit, err, emerg...
 
 #### Kernel Modules
 
@@ -73,10 +73,10 @@ Alternative method of loading kernel modules
 grep -i 'MODULE' *config-5.8.0-45-generic* 
 ```
 
-MODULE=m
-MODULE=y 
-**m**: loadable kernel module. Can be added to **/etc/modules**
-y: module is built-in to the kernel, should not be added to **/etc/modules**
+- MODULE=m
+- MODULE=y 
+- `m`: Loadable kernel module. Can be added to `/etc/modules`
+- `y`: module is built-in to the kernel, should not be added to `/etc/modules`
 
 To see if it is currently loaded
 
