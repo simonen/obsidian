@@ -30,33 +30,44 @@ The fourth partition is the last. Makes sense to fill up all remaining space.
 
 #### Storage Measurement Units
 
-**MB** - Megabyte - multiple of 1000
-**MiB** - Mebibyte - multiple of 1024
+- `MB` - Megabyte - multiple of 1000
+* `MiB` - Mebibyte - multiple of 1024
 
 Linux works with MiBs
 #### Managing Partitions and Filesystems
 
-**fdisk**: manage MBR and GPT partitions
-**gdisk**: manage GPT partitions
-**parted**: utility for basic partition management
+* `fdisk`: Manage MBR and GPT partitions
+- `gdisk`: Manage GPT partitions
+- `parted`: Utility for basic partition management
 
 Device naming:
-**/dev/sda**: uses the **iSCSI** driver. Used for **SCSI** and **SATA** devices
-**/dev/nvmen0n1**:  the first nvme drive on a nvme interface
-**/dev/hda**: Legacy disks on the IDE interface
-**/dev/vda**: a disk in a KVM virtual machine
-**/dev/xvda**: a disk in a Xen virtual machines, using the Xen virtual disk driver
+- `/dev/sda`: Uses the **iSCSI** driver. Used for **SCSI** and **SATA** devices
+- `/dev/nvmen0n1`:  The first nvme drive on a nvme interface
+- `/dev/hda`: Legacy disks on the IDE interface
+- `/dev/vda`: A disk in a KVM virtual machine
+`/dev/xvda`: A disk in a Xen virtual machines, using the Xen virtual disk driver
 
 #### Creating MBR Partitioning
 
 Find the disk device that needs to be partitioned
-**$ lsblk -fs** 
+
+```bash
+lsblk -fs
+```
 
 Create the partition with **fdisk**
-**\# fdisk** /dev/sdb
 
-If **fdisk** prints a message stating that it could not update the partition table:
-**$ partprobe**: to manually update the partition
+```bash
+fdisk /dev/sdb
+```
+
+If `fdisk` prints a message stating that it could not update the partition table:
+
+To manually update the partition
+
+```bash
+partprobe
+```
 
 #### Creating GPT Partitioning
 

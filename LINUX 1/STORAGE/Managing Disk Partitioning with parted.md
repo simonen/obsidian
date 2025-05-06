@@ -4,7 +4,7 @@ GPT GUID Partition Table: Globally Unique Identifier Partition Table
 
 >Partitions attached to an active root systems like boot, home, var, should not be unmounted. Use SystemRescue or make changes from another Linux system
 
->Non-root partitions, however, should be unmounted before modification in order to be properly reread by the kernel, otherwise the **partprobe** command is used to redetect partitions.
+>Non-root partitions, however, should be unmounted before modification in order to be properly reread by the kernel, otherwise the `partprobe` command is used to redetect partitions.
 
 Enter the `parted` shell
 
@@ -24,9 +24,11 @@ parted /dev/"DEVICE" print devices
 
 #### Viewing Existing Disks and Partitions
 
-`parted > print devices`
-parted > **select** *DEVICE*
-parted > **print**
+```
+parted > print devices
+parted > select *DEVICE*
+parted > print
+```
 
 List unpartitioned space
 
@@ -36,11 +38,11 @@ List unpartitioned space
 
 Partition flags
 
-* **boot**: indicates a MBR boot partition
-* **esp**: EFI System Partition. GPT boot partition
-* **diag**: Windows recovery partition
-* **msftres**: MS reserved partition
-* **msftdata**: GPT partition containing Microsoft filesystems like **NTFS**, **FAT**
+* `boot`: Indicates a MBR boot partition
+* `esp`: EFI System Partition. GPT boot partition
+* `diag`: Windows recovery partition
+* `msftres`: MS reserved partition
+* `msftdata`: GPT partition containing Microsoft filesystems like **NTFS**, **FAT**
 
 #### Creating GPT Partitions
 
@@ -94,9 +96,9 @@ Number  Start   End     Size    File system  Name    Flags
  2      2005MB  21.5GB  19.5GB  xfs          audio
 ```
 
-START (begging of partition) and END points must not overlap. 
-START cannot be 0 because the first 33 sectors are reserved for EFI label
-END can be an int value or percentage of the remaining space
+- START (begging of partition) and END points must not overlap. 
+- START cannot be 0 because the first 33 sectors are reserved for EFI label
+- END can be an int value or percentage of the remaining space
 
 #### Removing Partitions
 
@@ -117,15 +119,20 @@ parted /dev/DISK rm 'PART_NUMBER'
 Recovery must be performed asap or temporarily shutdown the affected disk
 The exact start and end sectors are needed 
 
-\# **parted rescue** /dev/DISK *START END*
-\# **parted /dev/sdb1 rescue** 1048kB 2004MB
+```bash
+parted rescue /dev/DISK *START END*
+parted /dev/sdb1 rescue** 1048kB 2004MB
+```
 
 #### Increasing Partition Size
 
 There has to be free space at the end of the partition you want to increase. The filesystem must also be resized to fit the new partition size.
 
 To get partition free space
-\# **parted** /dev/DISK **print free**
+
+```bash
+parted /dev/DISK print free
+```
 
 ```
 Number  Start   End     Size    File system  Name       Flags
@@ -142,19 +149,36 @@ There is 1009MB of unallocated space after partition 2, so it can be increased w
 
 Expand a partition to a new point
 
-\# **parted** /dev/DISK **resizepart** *PART_NUMBER* *END_POINT*
+```bash
+parted /dev/DISK resizepart 'PART_NUMBER' 'END_POINT'
+```
 
-EXAMPLE
-\# **parted** /dev/sdb **resizepart** 2 5015MB
+EXAMPLE:
+
+```bash
+parted /dev/sdb resizepart 2 5015MB
+```
 
 Different filesystems have their own tools.
-ext4, XFS, btrfs can be reized online
-FAT must be offline
+`ext4`, `XFS`, `btrfs` can be resized online.
+FAT must be offline.
 
-Filesystems resize commands
-ext4: \# **resize2fs** /dev/PARTITION
-xfs: \# **xfs_growfs -d** /dev/PARTITION
-btrfs: \# **btrfs filesystem resize max** /dev/PARTITION
+Filesystems resize commands:
+
+`ext4`
+```bash
+resize2fs /dev/PARTITION
+```
+
+`xfs`
+```
+xfs_growfs -d /dev/PARTITION
+```
+
+`btrfs`
+```bash
+btrfs filesystem resize max /dev/PARTITION
+```
 
 #### Shrinking a Partition
 
@@ -164,15 +188,29 @@ Partitions should be offline
 2. Resize the filesystem
 3. Resize the partition
 
-Filesystems check tools
+Filesystems check tools:
 
-**ext4**: \# e2fsck -f /dev/PARTITION
-**btrfs**: \# btrfs check /dev/PARTITION
-**fat**: \# fsck.vfat -v /dev/PARTITION
+`ext4`
+```
+e2fsck -f /dev/PARTITION
+```
+
+`btrfs`
+```
+btrfs check /dev/PARTITION
+```
+
+`fat`
+```
+fsck.vfat -v /dev/PARTITION
+```
 
 Resize the filesystem to the desired and possible size
 
 Shrink the partition to match the filesystem
-\# **parted** /dev/DISK print -> get the partition number
-\# **parted /dev/DISK resizepart** *PART_NUMBER* *END_POINT*
+
+```bash
+parted /dev/DISK print -> get the partition number
+parted /dev/DISK resizepart 'PART_NUMBER' 'END_POINT'
+```
 

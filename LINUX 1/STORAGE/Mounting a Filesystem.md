@@ -23,7 +23,7 @@ Anatomy of the /etc/fstab file:
 	* 2 for other filesystems. 
 	* Always 0 for network filesystems. Commonly set to 0. No check
 
-Entries in the /etc/fstab file are processed from top to bottom
+Entries in the `/etc/fstab` file are processed from top to bottom
 
 SWAP is mounted on a kernel interface. KIs do not start with /
 
@@ -58,7 +58,8 @@ udevadm control --reload
 [[LINUX/SERVICES/Systemd Units#Systemd Mount Units]]
 
 Systemd ultimately does the mounts. It generates files off of the fstab file in
-**/run/systemd/generator**
 
-Manual mount files are made in /etc/systemd/system/\*.mount
+`/run/systemd/generator`
+
+Manual mount files are made in `/etc/systemd/system/*.mount`
 The name of the .mount file corresponds to the directory the filesystem is mounted on
