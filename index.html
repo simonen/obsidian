@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simeon Nedkov - Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      margin: 0;
+      background-color: #f5f5f5;
+      color: #222;
+    }
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .left-panel {
+      width: 35%;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 20px;
+    }
+    .right-panel {
+      width: 65%;
+      padding: 20px;
+    }
+    .profile-pic {
+      width: 100px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .section-title {
+      font-size: 21.33px;
+      font-weight: 700; /* Montserrat Bold */
+      color: #000;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      border-bottom: 2px solid #00bfff;
+    }
+    .left-panel h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+    .left-panel h3 {
+      font-weight: 600; /* Montserrat SemiBold */
+    }
+    .left-panel p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    .info-block {
+      margin-bottom: 20px;
+    }
+    .subtext {
+      font-size: 16px;
+      font-weight: 600; /* Montserrat SemiBold */
+      color: #444;
+      margin-top: 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .contact i, .leisure i {
+      margin-right: 10px;
+    }
+    .bold-blue {
+      color: #00bfff;
+      font-weight: 700;
+    }
+    .tech-group {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <img src="profile.jpg" alt="Profile Photo" class="profile-pic">
+      <h1>Simeon Nedkov</h1>
+      <h3>System Administrator Candidate</h3>
+      <p>System Administrator with 1+ years of experience in infrastructure monitoring, server management, and virtualization seeking to deepen cloud and DevOps expertise.</p>
+      <div class="info-block">
+        <p><i class="fas fa-map-marker-alt"></i> Sofia, Bulgaria</p>
+        <p><i class="fas fa-phone"></i> +359 0883 398 679</p>
+        <p><i class="fas fa-envelope"></i> si.nedkov@gmail.com</p>
+      </div>
+      <div class="info-block">
+        <div class="section-title">Education</div>
+        <p class="bold-blue">Architecture</p>
+        <p class="subtext">06/2017 UACEG, Sofia</p>
+        <p class="bold-blue">Middle School</p>
+        <p class="subtext">SLS Geo Milev, Dobrich</p>
+      </div>
+      <div class="info-block">
+        <div class="section-title">Languages</div>
+        <p>English: <span class="bold-blue">Fluent</span></p>
+        <p>French: <span class="bold-blue">Basic</span></p>
+        <p>Bulgarian: <span class="bold-blue">Native</span></p>
+      </div>
+      <div class="info-block">
+        <div class="section-title">Soft Skills</div>
+        <p>Adaptivity</p>
+        <p>Motivated Learner</p>
+        <p>Attention to Detail</p>
+      </div>
+      <div class="info-block">
+        <div class="section-title">Leisure</div>
+        <p>Hitting the Gym</p>
+        <p>Archviz</p>
+        <p>Learning New Skills</p>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="section-title">Work Experience</div>
+      <h3>Junior System Administrator</h3>
+      <p class="subtext">Atscale, Inc (01/2022 – 06/2023)</p>
+      <ul>
+        <li>Windows Server/Desktop Administration</li>
+        <li>Linux Administration</li>
+        <li>QA / BI Teams Support</li>
+        <li>Infrastructure Monitoring</li>
+        <li>Virtual Machine Deployment</li>
+        <li>Hypervisor Administration</li>
+        <li>BI Software Deployment</li>
+        <li>Active Directory Administration</li>
+        <li>Inventory Maintenance</li>
+        <li>Hardware Maintenance</li>
+        <li>Documentation</li>
+      </ul>
+      <h3>Architect</h3>
+      <p class="subtext">ISPPD (06/2017 – 12/2021)</p>
+      <h3>Archviz Artist</h3>
+      <p class="subtext">Red Vertex (06/2014 – 11/2015)</p>
+
+      <div class="section-title">Tech Skills</div>
+      <div class="tech-group">
+        <p class="bold-blue">OS/Infrastructure</p>
+        <p>Windows Server, Proxmox PVE/PBS, Linux, TrueNAS Scale, Azure</p>
+      </div>
+      <div class="tech-group">
+        <p class="bold-blue">Monitoring/Inventory</p>
+        <p>CheckMK, phpIPAM, SnipeIT</p>
+      </div>
+      <div class="tech-group">
+        <p class="bold-blue">Network Services</p>
+        <p>OpenLDAP, OpenVPN, BIND, Postfix, Dovecot, OpenSSL, Basic Apache Web Server</p>
+      </div>
+
+      <div class="section-title">Courses & Certifications</div>
+      <p><strong>2023 SOFTUNI</strong></p>
+      <ul>
+        <li>Python Object Oriented Programming</li>
+        <li>Python Advanced</li>
+        <li>Azure Essentials</li>
+      </ul>
+      <p><strong>2022 SOFTUNI</strong></p>
+      <ul>
+        <li>Python Fundamentals</li>
+        <li>Computer Networking Advanced</li>
+        <li>Computer Networking Fundamentals</li>
+      </ul>
+      <p><strong>2021 SOFTUNI</strong></p>
+      <ul>
+        <li>Windows Administration Advanced</li>
+        <li>Windows Administration Fundamentals</li>
+        <li>Linux Administration Advanced</li>
+        <li>Linux Administration Fundamentals</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
