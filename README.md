@@ -1,2 +1,2 @@
-# obsidian
-TRez
+# obsidian notes
+
