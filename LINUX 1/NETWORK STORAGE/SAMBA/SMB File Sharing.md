@@ -5,9 +5,9 @@ tags:
   - centos
 ---
 Packages:
-* `samba`: samba daemons and conf files
+* `samba`: Samba daemons and conf files
 * `cifs-utils`: Utilities for mounting and managing CIFS mounts
-* `samba-client`: utilities required to set up SMB shares
+* `samba-client`: Utilities required to set up SMB shares
 
 V3: emulating NT4. Supports LDAP
 V4: emulating Active Directory with forest level up to Windows Server 2008. 4.19 support for higher forest level is experimental. LDAP experimental.
@@ -29,7 +29,7 @@ testparm -v
 `/etc/samba/smb.conf`:
 * `[global]`: basic samba parameters:
 	* `workgroup`: Windows workgroup the samba server is a member of or a smb domain
-	* `security`: indicates how security is handled. security=user requires a valid samba `managed` username that is mapped to a linux user account name
+	* `security`: Indicates how security is handled. `security=user` requires a valid samba `managed` username that is mapped to a Linux user account name
 	* `host allow`: comma or tab spaced list of allowed hosts. **man 5 hosts_access**
 	* `load printers`: if printers from the CUPS system are shared through SAMBA
 	* `cups options`: specifies that print driver processing is handled by CUPS
@@ -42,7 +42,7 @@ testparm -v
 
 `security = user` :  the default mode security modes that controls how authentication is handled for accessing shares.
 
-When working as a stand-alone server, Samba uses its own internal users for authentication, stored in its own db, but still needs to interact with the Linux filesystem through regular Unix users/groups.
+When working as a stand-alone server, Samba uses its own internal users for authentication, stored in its own database, but still needs to interact with the Linux filesystem through regular Unix users/groups.
 
 How `security = user` works:
 
@@ -109,6 +109,26 @@ wbinfo -a 'SAMBA_USER'
 
 #### Samba Shares
 
+##### Firewall and SELinux 
+
+Allow samba through the firewall
+
+```bash
+firewall-cmd --add-service=samba --permanent ; firewall-cmd --reload
+```
+
+Change the SELinux context of the shared directory
+
+```bash
+semanage fcontext -a -t samba_share_t "/SMB_SHARE(/.*)?"
+```
+
+or using `chcon` if `semanage` is not available
+
+```bash
+chcon -R -t samba_share_t /shares -v
+```
+
 [Setting up a Share Using POSIX ACLs](https://wiki.samba.org/index.php/Setting_up_a_Share_Using_POSIX_ACLs)
 
 Minimal samba share configuration
@@ -126,7 +146,7 @@ For more info [[gitea/LINUX 1/NETWORK STORAGE/SAMBA/Service Sections and Directi
 Common directory share options:
 * `path`: path of the shared directory on the Linux filesystem
 * `writable`: if permitted by Linux fs permissions, authenticated users have write access to the share. If set to no, a comma separated list of Linux users only are allowed write acc
-* `read only`: read only no == writable yes 
+* `read only`: `read only no` == `writable yes `
 * `write list`: comma separated list of users who have write access even if writable is set to no. `@<group>` or `+<group>` - specifies groups
 * `valid users`: limit access to the share to a list of users. All users by default are allowed
 * `comment`: 
@@ -141,8 +161,8 @@ To enable write access on a Samba share:
 * `read only = no`  == `writable = yes`
 * if `read only = yes` , users in the `write list` will have write access
 
-`force user = <unix directory owner>`
-`force group = <unix group directory owner>`
+- `force user = <unix directory owner>`
+- `force group = <unix group directory owner>`
 
 Samba users will have their effective UID/GID overridden by the Unix directory owner UID/GID. In that case the Samba users do not need to have corresponding Unix UID/GIDs.
 
@@ -163,7 +183,7 @@ ps aux | grep smbd
 ```
 
 Package: 
-`samba-client`
+- `samba-client`
 
 To list samba shares
 
@@ -174,7 +194,7 @@ smbclient -L 'HOST' [-U 'SAMBA USER']
 #### Mounting Samba Shares
 
 Package: 
-`cifs-utils`
+- `cifs-utils`
 
 man mount.cifs for all mount options
 

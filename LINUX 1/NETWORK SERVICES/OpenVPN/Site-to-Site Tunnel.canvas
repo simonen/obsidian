@@ -1,0 +1,24 @@
+{
+	"nodes":[
+		{"id":"8c6308c6562d5be9","type":"text","text":"CLIENT\n10.0.6.0/24 via 10.200.0.1 dev tun0","x":280,"y":-309,"width":260,"height":158},
+		{"id":"8e952d7b081f45bf","type":"text","text":"SERVER\nLAN: 10.0.6.2","x":-560,"y":-260,"width":247,"height":60},
+		{"id":"9986da674228ce4d","type":"text","text":"internal network 10.0.6.0","x":-563,"y":-40,"width":250,"height":50},
+		{"id":"b1029885eee638d6","type":"text","text":"ipv4.forward=1","x":-560,"y":-135,"width":247,"height":65},
+		{"id":"b86dac643623b4b3","type":"text","text":"PC2 10.0.6.11\n10.200.0.0/24 via 10.0.6.2 dev enp0s8","x":-573,"y":60,"width":270,"height":100},
+		{"id":"fcabf74ea1b6bd02","type":"text","text":"GW2","x":-212,"y":-260,"width":100,"height":60},
+		{"id":"7f3b5980d3751218","type":"text","text":"INTERNET","x":-92,"y":-260,"width":135,"height":60},
+		{"id":"86cdc00d64e284fc","type":"text","text":"GW1","x":68,"y":-260,"width":100,"height":60},
+		{"id":"9f77884e51c7ba8a","type":"text","text":"TUNNEL <- 10.200.0.1 10.200.0.2 ->","x":-189,"y":-480,"width":330,"height":60}
+	],
+	"edges":[
+		{"id":"1b7e37ec254666c9","fromNode":"fcabf74ea1b6bd02","fromSide":"right","toNode":"7f3b5980d3751218","toSide":"left"},
+		{"id":"31544ea6177a0015","fromNode":"86cdc00d64e284fc","fromSide":"left","toNode":"7f3b5980d3751218","toSide":"right"},
+		{"id":"fa221162e489080f","fromNode":"8c6308c6562d5be9","fromSide":"left","toNode":"86cdc00d64e284fc","toSide":"right"},
+		{"id":"5c023e8df6796c97","fromNode":"8e952d7b081f45bf","fromSide":"right","toNode":"fcabf74ea1b6bd02","toSide":"left"},
+		{"id":"3977651894931f62","fromNode":"8e952d7b081f45bf","fromSide":"top","toNode":"9f77884e51c7ba8a","toSide":"left"},
+		{"id":"91230568fefc6fbc","fromNode":"8c6308c6562d5be9","fromSide":"top","toNode":"9f77884e51c7ba8a","toSide":"right"},
+		{"id":"571a2d97cb439084","fromNode":"8e952d7b081f45bf","fromSide":"bottom","toNode":"b1029885eee638d6","toSide":"top"},
+		{"id":"dbb1cee31268db09","fromNode":"b1029885eee638d6","fromSide":"bottom","toNode":"9986da674228ce4d","toSide":"top"},
+		{"id":"4596b52255895747","fromNode":"b86dac643623b4b3","fromSide":"top","toNode":"9986da674228ce4d","toSide":"bottom"}
+	]
+}

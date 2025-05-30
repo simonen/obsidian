@@ -61,7 +61,8 @@ or
 openssl ecparam -genkey -name prime256v1 -out ecdsa_private.pem
 ```
 
-`pkeyopt ec_paramgen_curve`: The named curve
+- `-pkeyopt ec_paramgen_curve`: The named curve
+- `-aes-128-cbc`: Encrypt the key
 
 List available EC named curves
 
@@ -90,8 +91,9 @@ openssl pkcs8 -in privkey.pem -topk8 -v2 aes-256-cbc -out privkey.key
 Decrypt a private key
 
 ```bash
-openssl pkcs8 -in 'ECDSA_ENC.KEY' -nocrypt -out 'ECDSA.KEY'
+openssl pkcs8 -in encrypted_key.pem -topk8 -nocrypt -out unencrypted_key.pem
 ```
+
 #### Generating and Inspecting Certificate Signing Requests
 
 Generate a CSR and sign it with an existing private key
@@ -188,7 +190,7 @@ depth=2: C = BG, O = Ohio, CN = Root CA
 
 ```
 
-Parse an entire certificate chain
+Print an entire certificate chain
 
 ```bash
 openssl crl2pkcs7 -nocrl -certfile 'CHAIN.CRT' | openssl pkcs7 -print_certs -text -noout

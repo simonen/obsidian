@@ -4,9 +4,9 @@ Every Linux distribution has 3 types of software management commands:
 * dependency-resolving package manager \[ **apt, dnf, yum** ]
 * commands to manage groups of related packages \[ **tasksel, group** ]
 
-Package managers by OS
-**dnf, rpm** - Red Hat, Fedora, CentOS
-**apt, dpkg** - Debian, Ubuntu
+Package managers by OS:
+- `dnf, rpm` - Red Hat, Fedora, CentOS
+- `apt, dpkg` - Debian, Ubuntu
 
 Repositories are specific to an operating system. RHEL should only use RHEL repositories, etc
 #### Red Hat, CentOS Repositories
@@ -17,16 +17,16 @@ man dnf.conf
 https://vault.centos.org provides an archive of old repos.
 https://mirror.centos.org/ : current versions repos
 
-Repositories are specified in a file ending in **.repo** in the **/etc/yum.repos.d**
+Repositories are specified in a file ending in **.repo** in the `/etc/yum.repos.d`
 Commonly used parameters in the **.repo** file:
 
-* **\[label]** - this identifies the different repositories that might be included in the **.repo** file
-* **name=** - Mandatory option that specifies the name of the repository
-* **baseurl=** the url of the used repository - **most important!** Format is: **protocol://url**. Protocols could be **http://**, **ftp://** or **file://**. file:// needs additional / because system locations start with /
-* **mirrorlist**= - typically used for big online repositories
-* **gpgcheck=0 | 1** specifies whether GNU Privacy Guard key validity check should be used to verify files for compromises.
-* **gpgkey**=  Specifies the location of the GPG key
-* **enabled=0 | 1**
+* `[label]` - this identifies the different repositories that might be included in the **.repo** file
+* `name=` - Mandatory option that specifies the name of the repository
+* `baseurl=` the url of the used repository - **most important!** Format is: **protocol://url**. Protocols could be **http://**, **ftp://** or **file://**. file:// needs additional / because system locations start with /
+* `mirrorlist=` - typically used for big online repositories
+* `gpgcheck=0 | 1` specifies whether GNU Privacy Guard key validity check should be used to verify files for compromises.
+* `gpgkey=`  Specifies the location of the GPG key
+* `enabled=0 | 1`
 
 Minimal .repo file
 
@@ -57,7 +57,7 @@ Yum variables:
 The centos-release file is provided by 
 
 ```
-yum provides centos-relase
+yum provides centos-release
 centos-release-7-9.2009.0.el7.centos.x86_64 : CentOS Linux release file
 Repo        : base
 ```
@@ -145,10 +145,10 @@ https://wiki.debian.org/DebianRepository/Format
 https://wiki.debian.org/DebianRepository
 
 Default repo configuration information is stored in
-`/etc/apt/sources.list`
+- `/etc/apt/sources.list`
 
 Drop-in sources lists for custom repo configurations go here
-` /etc/apt/sources.list.d/`
+- ` /etc/apt/sources.list.d/`
 
 Debian repository anatomy
 

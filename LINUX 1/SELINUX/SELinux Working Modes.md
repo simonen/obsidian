@@ -21,10 +21,10 @@ Changing between on and off **SELinux** modes requires system reboot
 - `permissive mode`: SELinux-related activity is logged, nothing is blocked. Good for troubleshooting. Insecure
 
 logs are written in:
-`var/log/audit/audit.log`
+- `var/log/audit/audit.log`
 
 Conf file to change default SELinux mode while booting
-`/etc/sysconfig/selinux`
+- `/etc/sysconfig/selinux`
 
 GRUB kernel options are be used to set `SELinux` modes
 - `selinux=0`: disable `SELinux`
@@ -36,7 +36,7 @@ GRUB kernel options are be used to set `SELinux` modes
 
 #### Context Settings and Policy
 
-context: label that can be applied to different objects like files, directories, users, processes, ports
+Context: label that can be applied to different objects like files, directories, users, processes, ports
 
 Context labels define the nature of the object. Important for stuff to be labeled correctly
 
@@ -56,11 +56,8 @@ To see current context labels for processes:
 ```
 [kimchen@rhel9 ~]$ ps Zaux | head
 LABEL                           USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-system_u:system_r:init_t:s0     root           1  0.1  0.9 107264 16752 ?        Ss   21:15   0:02 /usr/lib/systemd/systemd rhgb --switched-root --system --deserialize 31
-system_u:system_r:kernel_t:s0   root           2  0.0  0.0      0     0 ?        S    21:15   0:00 [kthreadd]
-system_u:system_r:kernel_t:s0   root           3  0.0  0.0      0     0 ?        I<   21:15   0:00 [rcu_gp]
-system_u:system_r:kernel_t:s0   root           4  0.0  0.0      0     0 ?        I<   21:15   0:00 [rcu_par_gp]
-system_u:system_r:kernel_t:s0   root           5  0.0  0.0      0     0 ?        I<   21:15   0:00 [slub_flushwq]
+...
+system_u:system_r:kernel_t:s0   root
 ```
 
 Every context label consists of three parts:
@@ -72,8 +69,11 @@ Every context label consists of three parts:
 
 **man semanage-fcontext**
 
+Package: 
+- ` policycoreutils-python-utils`
+
 - `semanage`: Writes the context to the policy, from which it is applied to the system
-- `chcon`: writes the context to the filesystem, not to the policy. Should be avoided
+- `chcon`: Writes the context to the filesystem, not to the policy. Should be avoided
 
 To set the context type to any directory and everything below it:
 
@@ -90,14 +90,14 @@ restorecon -R -v "DIR/"
 #### Finding Context Type
 
 Package: 
-`selinux-policy-doc`
+-`selinux-policy-doc`
 
 `man -k _selinux`
 
-To list context types
+To list all context types (or only those related to a program)
 
 ``` bash
-semanage fcontext -l
+semanage fcontext -l [| grep openvpn]
 ```
 
 #### Restoring Default Contexts

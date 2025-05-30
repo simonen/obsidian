@@ -266,14 +266,16 @@ dnf --disablerepo=* --enablerepo="REPO" "COMMAND"
 
 The rpm Name Structure
 
-**Source**       : autofs-5.1.7-55.el9.src.rpm
+```
+Source       : autofs-5.1.7-55.el9.src.rpm
 
-- **autofs**: name of the actual package
-- **5.1.7**: version of the package
-- **-55**: sub-version
-- **el9**: Red Hat version the package was created for
-- **x86_64**: 32-bit or 64-bit platform the package was created for
-- **no_arch**: no architecture. Can be used on any platform
+- autofs: name of the actual package
+- 5.1.7: version of the package
+- -55: sub-version
+- el9: Red Hat version the package was created for
+- x86_64: 32-bit or 64-bit platform the package was created for
+- no_arch: no architecture. Can be used on any platform
+```
 
 > RPM does not handle dependencies and using it to install and remove packages should be avoided. It is good for querying.
 

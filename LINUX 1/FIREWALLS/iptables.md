@@ -28,6 +28,20 @@ The command you provided is an `iptables` rule that adds a rule to the FORWARD c
 Putting it all together, the command adds a rule to the firewall that allows forwarding packets from the `eth1` interface to the `eth2` interface if they are in the NEW, ESTABLISHED, or RELATED state. This rule is commonly used in scenarios where the Linux system acts as a router or gateway between two networks (`eth1` and `eth2` in this case), allowing established and related connections to pass through while also permitting new connections.
 ```
 
+List the FORWARD rules
+
+```bash
+iptables -L FORWARD
+```
+
+```
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+```
+
+The default FORWARD policy is set to ACCEPT which means that enabling forwarding via `net.ipv4.forward=1` is enough to forward packets.
+
+
 #### Saving and Restoring the Configuration
 
 This works for [[gitea/LINUX 1/FIREWALLS/Firewalld]] as well. Both services must not be running at the same time

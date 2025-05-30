@@ -14,13 +14,14 @@ If a routing table has multiple matching networks, the most specific entry is us
 
 Types of routes:
 * `connected` - created when an IP address is assigned to an interface that is UP
-* Static - manually created
-* Dynamic - Routes that are learned from other routers
+* `Static` - manually created
+* `Dynamic` - Routes that are learned from other routers
 
 Routers will only use routes with reachable "next hops"
 Routers will only use the best routes. More specific.
 Routers will only accept routes that match its own, active protocols
 
+When configuring static routing, every host must have a route back to the source in order to be able to return packets. 
 ##### Routing Components
 
 IGP - Interior Gateway Protocol  - meant to run only within an organization and propagate route changes to neighbors asap.
@@ -83,7 +84,7 @@ ip route get 'DESTINATION'
 ```
 
 ```
-8.8.8.8(dest) via 192.168.137.1(router) dev enp0s3 src 192.168.137.10 uid 1000
+8.8.8.8(dest) via 192.168.137.1(gw) dev enp0s3 src 192.168.137.10 uid 1000
     cache
 ```
 
@@ -98,6 +99,14 @@ Add a static route
 ``` bash
 sudo ip route add "NETWORK"/"MASK" via "GATEWAY_IP" dev "INTERFACE"
 ```
+
+In Windows
+
+```powershell
+route add [-p] <destination> MASK <subnet_mask> <gateway_ip> [METRIC <metric>] IF <interface_index>
+```
+
+`-p`: Persistent
 
 To remove a static route
 
