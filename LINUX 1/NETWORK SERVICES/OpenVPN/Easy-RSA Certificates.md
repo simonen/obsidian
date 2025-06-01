@@ -1,4 +1,5 @@
 
+`easy-rsa` is a wrapper around the `openssl` tool
 #### Installing EasyRSA to Manage PKI
 
 [[LINUX/PKI/OpenSSL]] For certificate generation using `openssl`
