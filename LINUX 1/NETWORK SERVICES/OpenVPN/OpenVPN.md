@@ -160,7 +160,7 @@ openvpn --config 'client.conf' --port 11000
 This is considered a "connection block" and cannot be overridden with `--port N`
 
 ```
-remote openvpnserver 1194
+remote 'openvpnserver' 1194
 ```
 
 #### Setting Up Encryption with Pre-shared Static Keys
@@ -176,7 +176,6 @@ openvpn --genkey secret 'SECRET.key'
 
 `/etc/openvpn/server.conf`
 ```
-# server.conf
 dev tun
 ifconfig 10.0.0.1 10.0.0.2
 secret /etc/openvpn/keys/SECRET.key
@@ -186,7 +185,6 @@ cipher AES-256-CBC # for stronger encryption
 
 `/etc/openvpn/client.conf`
 ```
-# client.conf
 dev tun
 ifconfig 10.0.0.2 10.0.0.1
 secret /etc/openvpn/keys/SECRET.key
@@ -250,80 +248,54 @@ Configuration files are read from the `WorkingDirectory` directive.
 
 #### Creating and Testing Server and Client Connections
 
-
 > [!NOTE]
 > No openvpn daemons should be running
 
-`/etc/openvpn/server.conf`
+The most Basic Server Config
+
+`server.conf`
 ```
-# Connection
-
 dev tun
-port 1194
 proto udp
+port 1194
+
+local LISTEN_ADDRESS
+server VPN_NETWORK MASK
 topology subnet
-server VPN_TUNNEL_NET 255.255.255.0
+
+push "route LOCAL_NETWORK MASK"
+
 keepalive 10 120
-tun-mtu 1500
 
-# Logging
-
-log-append /var/log/openvpn.log
-status /var/log/openvpn-status.log
-verb 5
-mute 20
-
-# Security
-
-user nobody
-group nobody
-persist-key
-persist-tun
-
-# Certificates
-
-ca /etc/openvpn/server/full-chain.crt
-cert /etc/openvpn/server/SERVER.crt
-key /etc/openvpn/server/SERVER.key
+ca /etc/openvpn/server/FULL-CHAIN.CRT
+cert /etc/openvpn/server/SERVER.CRT
+key /etc/openvpn/server/PRIVATE.KEY
 
 # TLS Auth
 tls-groups secp384r1:prime256v1:brainpoolP256r1
 dh none
+cipher AES-256-GCM
 ```
 
 `topology subnet`: Use this as the default `topology net30` is obsolete
 
-`/etc/openvpn/client.conf`
+`client.conf`
 ```
-# Connection
-client
 dev tun
 proto udp
-keepalive 10 120
-remote 'VPN_SERVER_IP' 1194
-tun-mtu 1500
+nobind
 
-# Logging
-log-append /var/log/openvpn.log
-status /var/log/openvpn-status.log
-verb 4
-mute 20
+client
+remote VPN_SERVER_IP 1194
 
-# Security
-user nobody
-group nobody
-persist-key
-persist-tun
+ca /etc/openvpn/client/certs/full-chain.crt
+cert /etc/openvpn/client/certs/branch1.crt
+key /etc/openvpn/client/certs/branch1.key
 
-# Certificates
-ca /etc/openvpn/client/full-chain.crt
-cert /etc/openvpn/client/CLIENT.crt
-key /etc/openvpn/client/certs/CLIENT.key
-
+# TLS Auth
 cipher AES-256-GCM
-
-explicit-exit-notify 1
 ```
+
 
 - `server NETWORK MASK`: Server will take the first address of the network pool and assign the rest to incoming VPN connections
 - `tls-auth <ta.key>`: 0 for the server, 1 for the client. Use `ec` instead.
@@ -331,10 +303,16 @@ explicit-exit-notify 1
 - `verb [0-11]` : verbosity level, 0 = no logging
 - `user/group [USER]`: user/group to run OpenVPN as. 
 - `persist [tun/key]`: Allow OpenVPN to retain sufficient privileges to work with the network and SSL after the privilege drop.
-
+- `explicit-exit-notify 1`
+- `log-append /var/log/openvpn.log`
+- `status /var/log/openvpn-status.log`
+- `verb 4`
+- `mute 20`
+- `tls-groups`
+- `dh none`: Disable DH key exchange. Not needed with ECDHE and TLS1.3
 #### Routing
 
-Route traffic from one internal network to another through the tunnel
+Add route to a network behind the VPN server on the clients
 
 ```
 push "route INTERNAL_NETWORK SUBNET_MASK"
@@ -373,6 +351,21 @@ Push all traffic through the tunnel. NOT TESTED
 push "redirect-gateway def1
 ```
 
+##### Masquerading
+
+To rewrite the source address of packets coming from the VPN client with that of the VPN server
+
+`server`
+```bash
+iptables -t nat -A POSTROUTING -s VPN_NET/24 -d DEST_NET/24 -o DEV -j MASQUERADE
+```
+
+- `-t nat`: Specifies the `nat` table, used for changing source/destination IP addresses.
+- `-A POSTROUTING`: Appends a rule to the POSTROUTING chain, which is used after the routing decision - just before the packet leaves the system.
+- `-s NETWORK`: Matches packets **originating from the VPN subnet**
+- `-d NETWORK`: Matches packets **going to** the destination network
+- `-o DEV`: Applies the rule if only the packets is going out via the DEV interface
+- `-j MASQUERADE`: Masks (NATs) the source IP address of the packet with the IP of the outgoing interface, so that return traffic can find its way back
 #### Distributing Client Configurations with .ovpn Files
 
 Linux clients must have the **NetworkManager-openvpn-gnome** package installed to be able to import the .**ovpn** (pro)files in the GUI
@@ -402,12 +395,6 @@ OPENVPN_SETTINGS
 ...
 -----END ENCRYPTED PRIVATE KEY-----
 </key>
-```
-
-To extract the certificate section from a certificate file
-
-``` bash
-openssl x509 -in 'CERT'
 ```
 
 #### Hardening OpenVPN Servers
@@ -557,3 +544,54 @@ AUTH-PAM: BACKGROUND: my_conv[0] query='Password: ' style=1
 10.0.2.6:59463 TLS: Username/Password authentication succeeded for username 'kimchen'
 10.0.2.6:59463 [branch1.ohio.cc] Peer Connection Initiated with [AF_INET]10.0.2.6:59463
 ```
+
+#### Client-Specific Options using client-config-dir Files
+
+`server.conf`
+```
+server 10.200.0.0 255.255.255.0
+topology subnet
+client-config-dir /etc/openvpn/clients
+```
+
+Extract the CN of the client certificate
+
+```bash
+openssl x509 -in CLIENT.CRT -noout -subject
+```
+
+```
+subject=C=BG, ST=Sofia, O=Ohio, OU=IT, CN=branch1.ohio.cc
+```
+
+In the `clients` directory, create a file named after the CN of the client certificate
+
+`/etc/openvpn/clients/branch1.ohio.cc`
+```
+ifconfig-push 10.200.0.7 255.255.255.0 (for topology subnet)
+ifconfig-push 10.200.0.7 10.200.0.7 (for legacy topology net 30)
+```
+
+`client`
+```
+TUN/TAP device tun0 opened
+net_iface_mtu_set: mtu 1500 for tun0
+net_iface_up: set tun0 up
+net_addr_v4_add: 10.200.0.7/24 dev tun0
+```
+
+If there is no matching client file in the directory, default configurations can be placed in a file called `DEFAULT` 
+
+- Specify full path to the ccd file in the server configuration
+- The directory must be accessible to `nobody` or  whatever user is running `openvpn`
+- Filenames are strict and without extensions
+
+Some other options
+
+- `push OPTION`: Used for pushing DNS, routes...
+	- `push "dhcp-option DNS 10.0.8.1"`
+	- `push "route NETWORK SUBNET`
+- `push-reset`: Overrides global `push` option
+- `iroute`: Route client subnets to the server
+- `disable`: Disable a user. Just the word `disable` in the file.
+- `config`: Include another configuration file

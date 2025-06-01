@@ -179,6 +179,7 @@ default via 192.168.1.1 dev enp0s3 proto static
 192.168.1.0/24 dev enp0s3 proto kernel scope link src 192.168.1.23
 ```
 
+Source -> Transient Host -> Destination
 #### Port Forwarding
 
 To allow incoming connection to 192.168.0.1 on port 22

@@ -107,7 +107,8 @@ logserver (192.168.137.23)                 : [0], 64 bytes, 1.14 ms (1.14 avg, 0
 
 **man arping**
 
-Package:: 
+Package:
+
 `iptuils`
 
 To scan a network duplicate IP addresses
