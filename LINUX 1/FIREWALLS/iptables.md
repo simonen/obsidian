@@ -41,7 +41,6 @@ target     prot opt source               destination
 
 The default FORWARD policy is set to ACCEPT which means that enabling forwarding via `net.ipv4.forward=1` is enough to forward packets.
 
-
 #### Saving and Restoring the Configuration
 
 This works for [[gitea/LINUX 1/FIREWALLS/Firewalld]] as well. Both services must not be running at the same time
@@ -64,5 +63,29 @@ To restore the configuration first clear the current config
 iptables -F
 iptables-restore 'firewall-backup'
 iptables -L
+```
+
+NAT (MASQUERADE) traffic from LAN out through NAT:
+
+To rewrite the source address of packets coming from the VPN client with that of the VPN server
+
+`server`
+```bash
+iptables -t nat -A POSTROUTING -s VPN_NET/24 -d DEST_NET/24 -o DEV -j MASQUERADE
+```
+
+- `-t nat`: Specifies the `nat` table, used for changing source/destination IP addresses.
+- `-A POSTROUTING`: Appends a rule to the POSTROUTING chain, which is used after the routing decision - just before the packet leaves the system.
+- `-s NETWORK`: Matches packets **originating from the VPN subnet**
+- `-d NETWORK`: Matches packets **going to** the destination network
+- `-o DEV`: Applies the rule if only the packets is going out via the DEV interface
+- `-j MASQUERADE`: Masks (NATs) the source IP address of the packet with the IP of the outgoing interface, so that return traffic can find its way back
+
+#### DNAT Rule (Destination NAT)
+
+Use `iptables` to forward traffic destined to `10.0.2.7:1194` to the VPN server `10.0.7.2:1194`:
+
+```
+iptables -t nat -A PREROUTING -i eth0 -p udp --dport 1194 -j DNAT --to-destination 10.0.7.2:1194
 ```
 

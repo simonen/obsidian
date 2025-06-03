@@ -62,6 +62,14 @@ Test local socket connectivity
 ``` bash
 nc -U '/PATH_TO_SOCKET'
 ```
+
+#### tcpdump
+
+Listen for ICMPv4 packets on an interface
+
+```bash
+tcpdump -i 'INTERFACE' -n -v icmp
+```
 #### Using lsof
 
 Lists open files in the system 

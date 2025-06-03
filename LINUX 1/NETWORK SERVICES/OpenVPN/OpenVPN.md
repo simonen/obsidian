@@ -246,7 +246,7 @@ The `.service` file shows what ciphers are passed as daemon options.
 
 Configuration files are read from the `WorkingDirectory` directive. 
 
-#### Creating and Testing Server and Client Connections
+#### Server-Client Connections
 
 > [!NOTE]
 > No openvpn daemons should be running
@@ -314,11 +314,13 @@ cipher AES-256-GCM
 
 Add route to a network behind the VPN server on the clients
 
+`server`
 ```
 push "route INTERNAL_NETWORK SUBNET_MASK"
 ```
 
-- `push "route network subnet"`: This allows clients to access private subnets behind the server.  The private subnet must also be made OpenVPN aware. The quotes are mandatory
+- `push "route network subnet"`: Send route to connecting clients. The quotes are mandatory
+- `route NETWORK SUB"`: Add route to the server's routing table.
 
 Restart the server and the clients. The clients will now have a new route in the routing table
 
@@ -493,13 +495,7 @@ Users can be disallowed from saving passwords, SELinux, chroot
 
 #### VPN Split-Tunneling
 
-To specify a subnet that should not be routed through the VPN, in the client profile.
 
-```
-route NETWORK MASK net_gateway
-```
-
-`port-share localhost 80`: allows requests coming in on port 1194 to be redirected to port 80 on the localhost. This only works with tcp
 
 #### Other Configuration Directives
 
@@ -595,3 +591,37 @@ Some other options
 - `iroute`: Route client subnets to the server
 - `disable`: Disable a user. Just the word `disable` in the file.
 - `config`: Include another configuration file
+
+#### OpenVPN Management Console
+
+The OpenVPN management console provides useful info on connections and other functionality.
+
+Start OpenVPN with 
+
+`server`
+```bash
+openvpn --config SERVER.CONF --management 'OPENVPN_SERVER' 'PORT'
+```
+
+Connect to the console
+
+`server`
+```
+nc or telnet 'OPENVPN_SERVER' 'PORT'
+```
+
+```
+Management Interface for OpenVPN 2.... 
+Commands:
+auth-retry t           : Auth failure retry mode (none,interact,nointeract).
+<...>
+status
+OpenVPN CLIENT LIST
+Updated,2025-06-03 17:09:01
+Common Name,Real Address,Bytes Received,Bytes Sent,Connected Since
+dhcp.ohio.cc,10.0.8.2:52754,6363,6387,2025-06-03 17:05:24
+ROUTING TABLE
+Virtual Address,Common Name,Real Address,Last Ref
+10.200.0.2,dhcp.ohio.cc,10.0.8.2:52754,2025-06-03 17:05:24
+10.0.6.0/24,dhcp.ohio.cc,10.0.8.2:52754,2025-06-03 17:05:24
+```

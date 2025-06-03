@@ -1,0 +1,28 @@
+{
+	"nodes":[
+		{"id":"82e67a77169fa55e","x":-40,"y":-240,"width":122,"height":60,"type":"text","text":"CLOUD"},
+		{"id":"efe3a5602c4325c8","x":-340,"y":-240,"width":121,"height":60,"color":"5","type":"text","text":"GW-A"},
+		{"id":"83c1e4c17a5a4d72","type":"text","text":"GW-B","x":240,"y":-240,"width":121,"height":60,"color":"3"},
+		{"id":"677fd2f762bd924e","x":466,"y":-240,"width":104,"height":60,"type":"text","text":"SW"},
+		{"id":"628a0682b24c0736","type":"text","text":"10.200.0.0/24 via 10.0.6.3","x":111,"y":-320,"width":250,"height":60,"color":"3"},
+		{"id":"3ce351625cf83d2d","type":"text","text":"VPN CLIENT\ndefault via 10.0.6.1","x":393,"y":-40,"width":250,"height":100},
+		{"id":"2126ad9ca34bae34","x":393,"y":-380,"width":250,"height":60,"type":"text","text":"LAN CLIENT\ndefault via 10.0.6.1"},
+		{"id":"60e09bbc0c6eea73","x":-500,"y":-480,"width":1120,"height":60,"color":"2","type":"text","text":"ROUTING SUBNETS"},
+		{"id":"fc116c934d9eb4af","x":-344,"y":-320,"width":250,"height":60,"color":"5","type":"text","text":"DNAT 10.0.2.7:1194 -> 10.0.7.2:1194"},
+		{"id":"0a73816787b6bf9b","x":-670,"y":-40,"width":250,"height":100,"type":"text","text":"VPN SERVER\n10.0.6.0/24 via 10.200.0.2"},
+		{"id":"bd7d7f2ebadb7e84","x":-602,"y":-240,"width":115,"height":60,"type":"text","text":"SW"},
+		{"id":"ee8aee1436a1e75d","x":-780,"y":-380,"width":139,"height":58,"type":"text","text":"LAN CLIENT A"},
+		{"id":"6be82de74303f695","type":"text","text":"10.200.0.0/24 via 10.0.7.2","x":-344,"y":-160,"width":250,"height":60,"color":"5"}
+	],
+	"edges":[
+		{"id":"a039e8bf52318ec9","fromNode":"83c1e4c17a5a4d72","fromSide":"left","toNode":"82e67a77169fa55e","toSide":"right","label":"10.0.2.8"},
+		{"id":"2be35153ecbea600","fromNode":"efe3a5602c4325c8","fromSide":"right","toNode":"82e67a77169fa55e","toSide":"left","label":"10.0.2.7"},
+		{"id":"d853b782fb79fb4b","fromNode":"3ce351625cf83d2d","fromSide":"top","toNode":"677fd2f762bd924e","toSide":"bottom","label":"10.0.6.3"},
+		{"id":"df12e5f2a39c3288","fromNode":"83c1e4c17a5a4d72","fromSide":"right","toNode":"677fd2f762bd924e","toSide":"left","label":"10.0.6.1"},
+		{"id":"27c39414f615dd70","fromNode":"0a73816787b6bf9b","fromSide":"right","toNode":"3ce351625cf83d2d","toSide":"left","color":"1","label":"10.200.0.1 - 10.200.0.2"},
+		{"id":"d80d5ff46183d09d","fromNode":"2126ad9ca34bae34","fromSide":"bottom","toNode":"677fd2f762bd924e","toSide":"top","label":"10.0.6.11"},
+		{"id":"e9f9de40d39063f2","fromNode":"ee8aee1436a1e75d","fromSide":"right","toNode":"bd7d7f2ebadb7e84","toSide":"top","label":"10.0.7.4"},
+		{"id":"4a2b3d0fb1197b50","fromNode":"efe3a5602c4325c8","fromSide":"left","toNode":"bd7d7f2ebadb7e84","toSide":"right","label":"10.0.7.1"},
+		{"id":"a2de3035b892f8ab","fromNode":"0a73816787b6bf9b","fromSide":"top","toNode":"bd7d7f2ebadb7e84","toSide":"bottom","label":"10.0.7.2"}
+	]
+}
