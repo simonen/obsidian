@@ -248,6 +248,8 @@ Configuration files are read from the `WorkingDirectory` directive.
 
 #### Server-Client Connections
 
+This setup allows multiple client connections to a single server.
+
 > [!NOTE]
 > No openvpn daemons should be running
 
@@ -346,13 +348,6 @@ Forward incoming connections on 22 from the tunnel to the internal network
 iptables -A FORWARD -i tun0 -s 10.0.2.0/24 -d 192.168.0.0/24 -p tcp --dport 22 -j ACCEPT
 ```
 
-Push all traffic through the tunnel. NOT TESTED
-
-`server`
-```
-push "redirect-gateway def1
-```
-
 ##### Masquerading
 
 To rewrite the source address of packets coming from the VPN client with that of the VPN server
@@ -363,7 +358,7 @@ iptables -t nat -A POSTROUTING -s VPN_NET/24 -d DEST_NET/24 -o DEV -j MASQUERADE
 ```
 
 - `-t nat`: Specifies the `nat` table, used for changing source/destination IP addresses.
-- `-A POSTROUTING`: Appends a rule to the POSTROUTING chain, which is used after the routing decision - just before the packet leaves the system.
+- `-A POSTROUTING`: Appends a rule to the POSTROUTING chain, part of `nat` table , which is used after the routing decision - just before the packet leaves the system.
 - `-s NETWORK`: Matches packets **originating from the VPN subnet**
 - `-d NETWORK`: Matches packets **going to** the destination network
 - `-o DEV`: Applies the rule if only the packets is going out via the DEV interface
@@ -588,7 +583,7 @@ Some other options
 	- `push "dhcp-option DNS 10.0.8.1"`
 	- `push "route NETWORK SUBNET`
 - `push-reset`: Overrides global `push` option
-- `iroute`: Route client subnets to the server
+- `iroute`: Route client subnets to the server through the correct tunnel
 - `disable`: Disable a user. Just the word `disable` in the file.
 - `config`: Include another configuration file
 

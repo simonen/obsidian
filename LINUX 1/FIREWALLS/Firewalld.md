@@ -10,7 +10,7 @@ tags:
 - `firewalld-config` - graphical configuration tool
 - `ebtables`: used for managing firewalling on Linux bridges
 
->!!! **iptables** and **firewalld** services must **NOT** be running together. Running iptables while `firewalld` is running messes up `firewalld` configuration
+>!!! `iptables` and `firewalld` services must **NOT** be running together. Running iptables while `firewalld` is running messes up `firewalld` configuration
 
 To make sure iptables (or any unwanted service) is not started by accident
 
@@ -55,10 +55,10 @@ port range 0-65535
 
 0 - 1023: a.k.a **well-known ports** for common services, SSH, IMAP, HTTP, etc
 1024 - 49151: registered ports for additional services. Used for custom port assignments
-49152 - 65535: ephemeral ports or private, dynamic ports. These are not listening ports. Only opened on the client machine to complete the connection
+49152 - 65535: ephemeral ports or private, dynamic ports. These are not listening ports. Only opened on the client machine to complete the connection.
 
-Add non-default service ports to /etc/services
-
+Add non-default service ports to `/etc/services
+`
 ```
 root@server15:/home/kimchen# ss -ltna
 State     Recv-Q    Send-Q          Local Address:Port           Peer Address:Port     Process
@@ -76,6 +76,56 @@ To add a port to the firewall
 firewall-cmd --add-port='port/protocol' --permanent ; firewall-cmd --reload
 ```
 
+#### Direct Rules and NAT
+
+Direct rules are stored in: `/etc/firewalld/direct.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<direct>
+  <rule ipv="ipv4" table="nat" chain="POSTROUTING" priority="0">-s 10.0.6.0/24 -d 10.0.2.0/24 -o enp0s8 -j MASQUERADE</rule>
+</direct>
+```
+
+Masquerade traffic. Rewrite local source addresses to that of the outgoing interface. For Dynamic IPs. 
+
+```bash
+firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.0.7.0/24 -d 10.0.2.0/24 -o enp0s8 -j MASQUERADE
+```
+
+If IP is static, a slightly more efficient way to do address translation.
+
+```bash
+firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.0.7.0/24 -d 10.0.2.0/24 -o enp0s8 -j SNAT --to-source 10.0.2.8
+```
+
+- `--to-source "iP"`: The source address outbound packets should have.
+- `0`: Rule priority (Insert at the top)
+
+Masquerade entire zone (no destination match)
+
+```bash
+firewall-cmd --zone='ZONE' --add-masquerade --permanent ; firewall-cmd --reload
+```
+##### Static DNAT (Destination NAT)
+
+Redirect traffic to an internal host (port forwarding)
+
+```bash
+firewall-cmd --permanent --direct --add-rule ipv4 nat PREROUTING 0 -i enp0s8 -p udp --dport 1194 -j DNAT --to-destination 10.0.7.2:1194
+```
+
+List direct rules
+
+```bash
+firewall-cmd --direct --get-all-rules
+```
+
+```
+ipv4 filter FORWARD 0 -i tun0 -o tun0 -j ACCEPT
+ipv4 nat POSTROUTING 0 -s 10.0.7.0/24 -d 10.0.2.0/24 -o enp0s8 -j MASQUERADE
+ipv4 nat PREROUTING 0 -i enp0s8 -p udp --dport 1194 -j DNAT --to-destination 10.0.7.2:1194
+```
 #### firewalld Services
 
 `Firewalld` has its own services. Not to be confused with `systemd` services
@@ -83,7 +133,6 @@ firewall-cmd --add-port='port/protocol' --permanent ; firewall-cmd --reload
 
 > `Firewalld` services are pre-defined as xml files in:
 > `/usr/lib/firewalld/services` -> should not be modified
-
 > `/etc/firewalld/services`: Custom `firewalld` services go here:
 
 To get a list of available services

@@ -76,27 +76,69 @@ routes the internal network through the remote end of the VPN tunnel.
 
 VPN Server -> GW-A <-NAT NETWORK-> GW-B <- VPN CLIENT 
 
-In this client/server setup, the server will be aware of internal networks behind the clients. 
-This will allow the OpenVPN server to route traffic to that LAN through a particular client.
+In this client/server setup, the client will be aware of internal networks behind the VPN server and be able to reach LAN Client 10.0.7.3
 
 VPN Server: IP 10.0.7.2/24, Tunnel end: 10.200.0.1
-LAN: 10.0.7.1/24 
+LAN: 10.0.7.0/24 
 
-GW-A: 10.0.2.7, LAN: 10.0.7.0/24
-GW-B: 10.0.2.8, LAN: 10.0.6.0/24
+LAN Host:  IP 10.0.7.3/24
 
-VPN Client1: IP 10.0.6.2/24. Tunnel end: 10.200.0.2
-LAN: 10.0.6.0/24
+GW-A: Public IP: 10.0.2.7, LAN: 10.0.7.1
+GW-B: Public IP: 10.0.2.8, LAN: 10.0.6.2
 
-LAN Client:  IP 10.0.6.11/24
+VPN Client1: IP 10.0.6.3. Tunnel end: 10.200.0.2
 
-Add the route to the server's system routing table. And enable `client-config-dir`
+##### Gateways
+
+Enable forwarding and Static SNAT (Source NAT). This will rewrite the source address of packets coming from `10.0.7.0/24` to `10.0.2.7`
+
+Enable forwarding on both routers
+
+```gw-a,b
+sysctl -w net.ipv4.ip_forward=1
+```
+
+Add NAT to both routers
+
+`gw-a`
+```bash
+firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -s \  10.0.7.0/24 -d 10.0.2.0/24 -o enp0s8 -j SNAT --to-source 10.0.2.7
+```
+
+`gw-b
+```bash
+firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -s \  10.0.7.0/24 -d 10.0.2.0/24 -o enp0s8 -j SNAT --to-source 10.0.2.8
+```
+
+`-j MASQUERADE`: if dynamic IP.
+
+Enable port forwarding to redirect incoming connection on the router:1194 to the VPN server:1194
+
+`gw-a`
+```bash
+firewall-cmd --permanent --direct --add-rule ipv4 nat PREROUTING 0 -i enp0s8 -p \ udp --dport 1194 -j DNAT --to-destination 10.0.7.2:1194
+```
+
+The VPN client can now connect to the VPN Server at GW-A:1194 UDP.
+
+To route VPN traffic (i.e., coming from `10.200.0.0/24`) back to the VPN server and then through the tunnel
+
+`gw-a`
+```bash
+ip route 10.200.0.0/24 via 10.0.7.2 <- VPN server
+```
+##### VPN Server Settings
+
+Push the route to the internal network to connecting clients
 
 `server.conf`
 ```
-route 10.0.6.0 255.255.255.0
-client-config-dir /etc/openvpn/server/ccd
+push "route 10.0.7.0 255.255.255.0"
 ```
+
+VPN  clients should now be able to access hosts on the `10.0.7.0/24` network behind the OpenVPN server
+
+Optionally, Use `client-config-dir` to push it only to specific clients.
 
 Filename of the client configuration must match the CN on client's certificate. 
 
@@ -106,8 +148,3 @@ iroute 10.0.6.0 255.255.255.0
 ```
 
 Thе `iroute` directive tells OpenVPN that `10.0.6.0/24` is behind `client1` client, and OpenVPN will internally handle routing via the correct VPN tunnel. In this case - `10.200.0.2`
-
-
-
-
-

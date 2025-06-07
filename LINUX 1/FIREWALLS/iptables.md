@@ -1,6 +1,15 @@
 More info in
 Apress - Pro Linux System Administration 2nd Edition
 
+Common chains in the `nat` table
+
+- PREROUTING - Before routing decisions DNAT
+- INPUT - For locally destined packets
+- OUTPUT -  Locally generated packets SNAT
+- POSTROUTING - After routing, before transmission SNAT/Masquerading 
+- FORWARD - This rule applied to packets being routed through the system - not destined for it.
+
+
 To list current rules
 
 ``` bash
@@ -41,6 +50,8 @@ target     prot opt source               destination
 
 The default FORWARD policy is set to ACCEPT which means that enabling forwarding via `net.ipv4.forward=1` is enough to forward packets.
 
+
+
 #### Saving and Restoring the Configuration
 
 This works for [[gitea/LINUX 1/FIREWALLS/Firewalld]] as well. Both services must not be running at the same time
@@ -75,7 +86,7 @@ iptables -t nat -A POSTROUTING -s VPN_NET/24 -d DEST_NET/24 -o DEV -j MASQUERADE
 ```
 
 - `-t nat`: Specifies the `nat` table, used for changing source/destination IP addresses.
-- `-A POSTROUTING`: Appends a rule to the POSTROUTING chain, which is used after the routing decision - just before the packet leaves the system.
+- `-A POSTROUTING`: Appends a rule to the `POSTROUTING` chain, which is used after the routing decision - just before the packet leaves the system.
 - `-s NETWORK`: Matches packets **originating from the VPN subnet**
 - `-d NETWORK`: Matches packets **going to** the destination network
 - `-o DEV`: Applies the rule if only the packets is going out via the DEV interface
@@ -85,7 +96,7 @@ iptables -t nat -A POSTROUTING -s VPN_NET/24 -d DEST_NET/24 -o DEV -j MASQUERADE
 
 Use `iptables` to forward traffic destined to `10.0.2.7:1194` to the VPN server `10.0.7.2:1194`:
 
-```
+```bash
 iptables -t nat -A PREROUTING -i eth0 -p udp --dport 1194 -j DNAT --to-destination 10.0.7.2:1194
 ```
 
