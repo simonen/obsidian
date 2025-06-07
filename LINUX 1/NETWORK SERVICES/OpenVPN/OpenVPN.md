@@ -538,6 +538,8 @@ AUTH-PAM: BACKGROUND: my_conv[0] query='Password: ' style=1
 
 #### Client-Specific Options using client-config-dir Files
 
+Using client-specific options provides fine-grained access.
+
 `server.conf`
 ```
 server 10.200.0.0 255.255.255.0
@@ -583,7 +585,7 @@ Some other options
 	- `push "dhcp-option DNS 10.0.8.1"`
 	- `push "route NETWORK SUBNET`
 - `push-reset`: Overrides global `push` option
-- `iroute`: Route client subnets to the server through the correct tunnel
+- `iroute CLIENT_NET SUB`: Route client subnets to the server through the correct tunnel. Uses OpenVPN's internal routing table, not the OS'
 - `disable`: Disable a user. Just the word `disable` in the file.
 - `config`: Include another configuration file
 
@@ -620,3 +622,4 @@ Virtual Address,Common Name,Real Address,Last Ref
 10.200.0.2,dhcp.ohio.cc,10.0.8.2:52754,2025-06-03 17:05:24
 10.0.6.0/24,dhcp.ohio.cc,10.0.8.2:52754,2025-06-03 17:05:24
 ```
+

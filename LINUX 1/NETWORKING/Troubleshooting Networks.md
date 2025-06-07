@@ -188,8 +188,16 @@ sudo tcpdump -n -i any udp port 1194
 
 List Open Files
 
+Show all open files and processes using port 1194, regardless of protocol
+
 ```bash
 lsof -i :1194
+```
+
+To list UDP only processes
+
+```bash
+lsof -iUDP:1194
 ```
 #### Ping
 
