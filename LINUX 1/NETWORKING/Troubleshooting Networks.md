@@ -42,14 +42,14 @@ telnet 'HOST' 'TCP PORT'
 Netcat
 
 ```bash
-nc -z -v 'REMOTE_HOST' 'TCP PORT'
+nc -z -v 'REMOTE_HOST' 'TCP_PORT'
 ```
 
-Test UDP connections with `netcat`
+Test UDP connections with `netcat`. NC is a one-shot listener. Does not re-bind for next incoming datagram packet. The listener must be restarted before the next test.
 
 `server`
 ``` bash
-nc -u -l 'UDP PORT'
+nc -u -l -p 'UDP_PORT'
 ```
 
 `client`
@@ -63,16 +63,134 @@ Test local socket connectivity
 nc -U '/PATH_TO_SOCKET'
 ```
 
+Send a datagram packet using Linux internals
+
+```bash
+echo "hello from bash" > /dev/udp/'HOST'/'UDP_PORT'
+```
+
+Set up a UDP port listener using Python
+
+```bash
+python3 -c 'import socket; s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.bind(("", 1194)); print("Listening..."); data, addr = s.recvfrom(2048); print(f"Received from {addr}: {data.decode()}")'
+```
+
+Send a datagram packet using Python
+
+```bash
+python3 -c 'import socket; sock=socket.socket(socket.AF_INET, socket.SOCK_DGRAM); sock.sendto(b"hello from Pitona", ("10.0.2.7", 1194))'
+```
+
+```
+Listening...
+Received from ('10.0.2.8', 33716): hello from bash
+```
+
+UDP Listening Server in Python3. The server is expected to send a reply back to client.
+
+```python
+import socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(('10.0.7.2', 1194))
+
+print("UDP echo server listening on 1194")
+while True:
+    data, addr = sock.recvfrom(4096)
+    print(f"Received from {addr}: {data}")
+    sock.sendto(data, addr)  # Echo back
+```
+
+UDP Client in Python
+
+```python
+import socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.settimeout(3)
+
+server_address = ('10.0.2.7', 1194)
+message = b"hello from client"
+
+sock.sendto(message, server_address)
+try:
+    data, server = sock.recvfrom(4096)
+    print(f"Received reply: {data}")
+except socket.timeout:
+    print("No reply received (timeout)")
+```
+
+`client`
+```
+Received reply: b'hello from client'
+```
+#### socat (SOcket CAT)
+
+
+Bidirectional data relay between two data channels. Persistent UDP Listener
+
+`server(listener)`
+```bash
+socat udp-recv:'UDP_PORT' stdout
+```
+
+Does the same 
+
+```bash
+socat -u UDP-RECV:'UDP_PORT' -
+```
+
+`-`: Print to `stdout`
+
+`client`
+```bash
+echo "hello from socat" | socat - udp-sendto:'SERVER':'U_PORT'
+```
+
+`-`: Read from `stdin`. In this case `echo ...`. Could be `cat FILE.txt`
+
+Set up a listener that sends a reply. The reply receiver is specified manually. Can be another host.
+
+```bash
+socat -v -d udp-recvfrom:'UDP_PORT',reuseaddr,fork udp-sendto:'HOST':'UDP_PORT'
+```
+
+```
+< 2025/06/07 19:15:06.079654  length=16 from=0 to=15
+hello from bash
+```
+
+Send a file with `socat`
+
+`server`
+```bash
+socat -u TCP-LISTEN:'T_PORT',reuseaddr - > "RECEIVED_FILE.txt"
+```
+
+`client`
+```bash
+socat -u FILE:'FILE.txt' TCP:'SERVER':'T_PORT'
+```
 #### tcpdump
 
 Listen for ICMPv4 packets on an interface
 
 ```bash
-tcpdump -i 'INTERFACE' -n -v icmp
+tcpdump -i 'INTERFACE' -n [-v] icmp
+```
+
+Listen for UDP packets on specific port
+
+```bash
+sudo tcpdump -n -i any udp port 1194
 ```
 #### Using lsof
 
-Lists open files in the system 
+List Open Files
+
+```bash
+lsof -i :1194
+```
 #### Ping
 
 Start close and work systematically outwards. Ping localhost first to check if there is a problem with the network card

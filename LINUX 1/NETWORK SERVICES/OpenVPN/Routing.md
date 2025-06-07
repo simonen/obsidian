@@ -30,7 +30,7 @@ Network Destination        Netmask          Gateway       Interface  Metric
           10.0.6.0    255.255.255.0       10.200.0.1       10.200.0.2     26
 ```
 
-The client can now ping the 10.0.6.2 address on the OpenVPN server but cannot access the 10.0.6.0/24 network yet.
+The client can now ping the `10.0.6.2` address on the OpenVPN server but cannot access the `10.0.6.0/24` network yet.
 
 Enable IPv4 forwarding on the OpenVPN server
 
@@ -128,6 +128,12 @@ To route VPN traffic (i.e., coming from `10.200.0.0/24`) back to the VPN server 
 ip route 10.200.0.0/24 via 10.0.7.2 <- VPN server
 ```
 ##### VPN Server Settings
+
+The OpenVPN host should be able to forward packets
+
+```bash
+sysctl -w net.ipv4.ip_forward=1
+```
 
 Push the route to the internal network to connecting clients
 

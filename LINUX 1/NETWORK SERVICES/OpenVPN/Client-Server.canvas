@@ -12,9 +12,9 @@
 		{"id":"fc116c934d9eb4af","type":"text","text":"DNAT 10.0.2.7:1194 -> 10.0.7.2:1194","x":-340,"y":-322,"width":250,"height":60,"color":"5"},
 		{"id":"628a0682b24c0736","type":"text","text":"default via 10.0.2.1\n10.200.0.0/24 via 10.0.6.3","x":115,"y":-160,"width":250,"height":80,"color":"3"},
 		{"id":"2126ad9ca34bae34","type":"text","text":"LAN CLIENT\ndefault via 10.0.6.1","x":414,"y":-382,"width":207,"height":60},
-		{"id":"6663b67c10cfd05a","x":-670,"y":100,"width":727,"height":91,"type":"text","text":"ping 10.0.7.3 from VPN Client -> 10.200.0.1 -> 10.0.7.3 \nreply: 10.0.7.3 -> 10.0.7.1 -> 10.0.7.2 -> 10.200.0.2 -> 10."},
-		{"id":"4f3350f7cde0b5e7","x":151,"y":100,"width":492,"height":91,"type":"text","text":"VPN Clients connected to VPN server can access clients on 10.0.7.0/24 network behind the VPN server"},
-		{"id":"60e09bbc0c6eea73","type":"text","text":"ROUTING SUBNETS","x":-340,"y":-500,"width":983,"height":60,"color":"2"}
+		{"id":"6663b67c10cfd05a","type":"text","text":"ping 10.0.7.3 from VPN Client -> 10.200.0.1 -> 10.0.7.1 -> 10.0.7.3 \nreply: 10.0.7.3 -> 10.0.7.1 -> 10.0.7.2 -> 10.200.0.2 -> 10.","x":-670,"y":100,"width":727,"height":91},
+		{"id":"60e09bbc0c6eea73","type":"text","text":"ROUTING SUBNETS","x":-340,"y":-500,"width":983,"height":60,"color":"2"},
+		{"id":"4f3350f7cde0b5e7","type":"text","text":"VPN Clients connected to VPN server can access clients on 10.0.7.0/24 network behind the VPN server","x":115,"y":100,"width":528,"height":91}
 	],
 	"edges":[
 		{"id":"a039e8bf52318ec9","fromNode":"83c1e4c17a5a4d72","fromSide":"left","toNode":"82e67a77169fa55e","toSide":"right","label":"10.0.2.8"},
